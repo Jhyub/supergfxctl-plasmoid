@@ -6,6 +6,7 @@ kcoreaddons_desktop_to_json(plasma_applet_supergfxctl package/metadata.desktop S
 
 target_link_libraries(plasma_applet_supergfxctl
                       Qt5::Gui
+                      Qt5::DBus
                       KF5::Plasma
                       KF5::I18n)
 
