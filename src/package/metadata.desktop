@@ -99,7 +99,7 @@ X-KDE-PluginInfo-Name=dev.jhyub.supergfxctl
 X-KDE-PluginInfo-Version=1.0
 X-KDE-PluginInfo-Website=https://jhyub.dev/supergfxctl-plasmoid
 X-KDE-PluginInfo-Category=Utilities
-X-KDE-PluginInfo-License=LGPL-2.1+
+X-KDE-PluginInfo-License=MPL-2.0
 X-KDE-PluginInfo-EnabledByDefault=true
 
 X-Plasma-API=declarativeappletscript
