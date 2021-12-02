@@ -1,5 +1,4 @@
-# TODO: adapt "org.kde.plasma" here & elsewhere if needed (see README)
-add_definitions(-DTRANSLATION_DOMAIN=\"plasma_applet_org.kde.plasma.supergfxctl\")
+add_definitions(-DTRANSLATION_DOMAIN=\"dev.jhyub.supergfxctl\")
 
 add_library(plasma_applet_supergfxctl MODULE supergfxctl.cpp)
 
@@ -13,4 +12,4 @@ target_link_libraries(plasma_applet_supergfxctl
 
 install(TARGETS plasma_applet_supergfxctl DESTINATION ${KDE_INSTALL_PLUGINDIR}/plasma/applets)
 
-plasma_install_package(package org.kde.plasma.supergfxctl)
+plasma_install_package(package dev.jhyub.supergfxctl)
