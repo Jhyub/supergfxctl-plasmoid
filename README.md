@@ -1,4 +1,4 @@
-#supergfxctl-plasmoid 
+# supergfxctl-plasmoid 
 KDE Plasma plasmoid for [supergfxctl](https://gitlab.com/asus-linux/supergfxctl)  
 Built as a C++/QML Plasmoid
 ## Installation 
