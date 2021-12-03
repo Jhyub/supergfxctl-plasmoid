@@ -9,19 +9,42 @@
 
 #include <Plasma/Applet>
 
-class supergfxctl : public Plasma::Applet
+enum class GfxState {
+    NVIDIA,
+    INTEGRATED,
+    COMPUTE,
+    VFIO,
+    EGPU,
+    HYBRID,
+};
+
+enum class GfxAction {
+    LOGOUT,
+    REBOOT,
+    INTEGRATED,
+    NONE,
+};
+
+class SuperGFXCtl : public Plasma::Applet
 {
     Q_OBJECT
-    Q_PROPERTY(QString nativeText READ nativeText CONSTANT)
+    Q_PROPERTY(QString stateName READ gfxStateName NOTIFY gfxStateChanged)
+    Q_PROPERTY(QString stateIconName READ gfxStateIconName NOTIFY gfxStateChanged)
 
 public:
-    supergfxctl( QObject *parent, const QVariantList &args );
-    ~supergfxctl();
+    SuperGFXCtl( QObject *parent, const QVariantList &args );
+    ~SuperGFXCtl();
+    QString gfxStateName();
+    QString gfxStateIconName();
 
-    QString nativeText() const;
+signals:
+    void gfxStateChanged();
 
 private:
-    QString m_nativeText;
+    void gfxGet();
+    GfxState state;
+    bool power;
+    GfxAction lastAction;
 };
 
 #endif

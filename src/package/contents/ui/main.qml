@@ -1,6 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2021 Janghyub Seo <jhyub06@gmail.com>
-    SPDX-License-Identifier: LGPL-2.1-or-later
+    SPDX-License-Identifier: MPL-2.0
 */
 
 import QtQuick 2.1
@@ -10,17 +10,12 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
 Item {
+    Plasmoid.icon: plasmoid.nativeInterface.stateIconName
     Plasmoid.fullRepresentation: ColumnLayout {
         anchors.fill: parent
-        Image {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            fillMode: Image.PreserveAspectFit
-            source: "../images/pairs.svgz"
-        }
         PlasmaComponents.Label {
             Layout.alignment: Qt.AlignCenter
-            text: plasmoid.nativeInterface.nativeText
+            text: plasmoid.nativeInterface.stateName
         }
     }
 }
