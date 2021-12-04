@@ -24,3 +24,5 @@ find_package(Qt5 CONFIG REQUIRED COMPONENTS
 add_subdirectory(src)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/icons/status DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable FILES_MATCHING PATTERN "*.svg")

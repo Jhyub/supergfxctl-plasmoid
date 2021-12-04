@@ -60,19 +60,24 @@ QString SuperGFXCtl::gfxStateName() {
 QString SuperGFXCtl::gfxStateIconName() {
     switch (state) {
         case GfxState::NVIDIA:
-            return {"gpu-nvidia"};
+            return {"supergfxctl-plasmoid-gpu-nvidia"};
         case GfxState::INTEGRATED:
-            return {"gpu-integrated"};
+            if(power) return {"supergfxctl-plasmoid-gpu-integrated-active"};
+            else return {"supergfxctl-plasmoid-gpu-integrated"};
         case GfxState::COMPUTE:
-            return {"gpu-compute"};
+            if(power) return {"supergfxctl-plasmoid-gpu-compute-active"};
+            else return {"supergfxctl-plasmoid-gpu-compute"};
         case GfxState::VFIO:
-            return {"gpu-vfio"};
+            if(power) return {"supergfxctl-plasmoid-gpu-vfio-active"};
+            else return {"supergfxctl-plasmoid-gpu-vfio"};
         case GfxState::EGPU:
-            return {"gpu-nvidia"}; //TODO
+            if(power) return {"supergfxctl-plasmoid-gpu-egpu-active"};
+            else return {"supergfxctl-plasmoid-gpu-egpu"};
         case GfxState::HYBRID:
-            return {"gpu-hybrid"};
+            if(power) return {"supergfxctl-plasmoid-gpu-hybrid-active"};
+            else return {"supergfxctl-plasmoid-gpu-hybrid"};
     }
-    return {"gpu-nvidia"};
+    return {"supergfxctl-plasmoid-gpu-nvidia"};
 }
 
 void SuperGFXCtl::gfxGet() {
@@ -92,7 +97,7 @@ void SuperGFXCtl::gfxGet() {
     }
     QDBusReply<quint32> reply2 = interface->call("Power");
     if(reply2.isValid()) {
-        bool newPower = (bool) reply2;
+        bool newPower = (bool) reply2.value();
         if(power != newPower) {
             power = newPower;
             emit gfxStateChanged();
