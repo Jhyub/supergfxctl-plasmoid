@@ -9,7 +9,7 @@
 
 #include <Plasma/Applet>
 
-enum class GfxState {
+enum class GfxVendor {
     NVIDIA,
     INTEGRATED,
     COMPUTE,
@@ -35,21 +35,22 @@ enum class GfxAction {
 class SuperGFXCtl : public Plasma::Applet
 {
     Q_OBJECT
-    Q_PROPERTY(QString stateName READ gfxStateName NOTIFY gfxStateChanged)
-    Q_PROPERTY(QString stateIconName READ gfxStateIconName NOTIFY gfxStateChanged)
+    Q_PROPERTY(QString vendorName READ gfxVendorName NOTIFY gfxStateChanged)
+    Q_PROPERTY(QString iconName READ gfxIconName NOTIFY gfxStateChanged)
 
 public:
     SuperGFXCtl( QObject *parent, const QVariantList &args );
     ~SuperGFXCtl();
-    QString gfxStateName();
-    QString gfxStateIconName();
+    QString gfxVendorName();
+    QString gfxPowerName();
+    QString gfxIconName();
 
 signals:
     void gfxStateChanged();
 
 private:
     void gfxGet();
-    GfxState state;
+    GfxVendor vendor;
     GfxPower power;
     GfxAction lastAction;
 };

@@ -10,22 +10,22 @@
 #include <QDBusInterface>
 #include <QDBusReply>
 
-GfxState stateFromCode(quint32 code) {
+GfxVendor vendorFromCode(quint32 code) {
     switch(code) {
         case 0:
-            return GfxState::NVIDIA;
+            return GfxVendor::NVIDIA;
         case 1:
-            return GfxState::INTEGRATED;
+            return GfxVendor::INTEGRATED;
         case 2:
-            return GfxState::COMPUTE;
+            return GfxVendor::COMPUTE;
         case 3:
-            return GfxState::VFIO;
+            return GfxVendor::VFIO;
         case 4:
-            return GfxState::EGPU;
+            return GfxVendor::EGPU;
         case 5:
-            return GfxState::HYBRID;
+            return GfxVendor::HYBRID;
         default: //whatever
-            return GfxState::NVIDIA;
+            return GfxVendor::NVIDIA;
     }
 }
 
@@ -54,41 +54,54 @@ SuperGFXCtl::~SuperGFXCtl()
 {
 }
 
-QString SuperGFXCtl::gfxStateName() {
-    switch(state) {
-        case GfxState::NVIDIA:
+QString SuperGFXCtl::gfxVendorName() {
+    switch(vendor) {
+        case GfxVendor::NVIDIA:
             return {"NVIDIA"};
-        case GfxState::INTEGRATED:
+        case GfxVendor::INTEGRATED:
             return {"integrated"};
-        case GfxState::COMPUTE:
+        case GfxVendor::COMPUTE:
             return {"compute"};
-        case GfxState::VFIO:
+        case GfxVendor::VFIO:
             return {"vfio"};
-        case GfxState::EGPU:
+        case GfxVendor::EGPU:
             return {"eGPU"};
-        case GfxState::HYBRID:
+        case GfxVendor::HYBRID:
             return {"hybrid"};
     }
     return {"NVIDIA"};
 }
 
-QString SuperGFXCtl::gfxStateIconName() {
-    switch (state) {
-        case GfxState::NVIDIA:
+QString SuperGFXCtl::gfxPowerName() {
+    switch(power) {
+        case GfxPower::ACTIVE:
+            return {"active"};
+        case GfxPower::SUSPENDED:
+            return {"suspended"};
+        case GfxPower::OFF:
+            return {"off"};
+        case GfxPower::UNKNOWN:
+            return {"unknown"};
+    }
+}
+
+QString SuperGFXCtl::gfxIconName() {
+    switch (vendor) {
+        case GfxVendor::NVIDIA:
             return {"supergfxctl-plasmoid-gpu-nvidia"};
-        case GfxState::INTEGRATED:
+        case GfxVendor::INTEGRATED:
             if(power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-integrated-active"};
             else return {"supergfxctl-plasmoid-gpu-integrated"};
-        case GfxState::COMPUTE:
+        case GfxVendor::COMPUTE:
             if(power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-compute-active"};
             else return {"supergfxctl-plasmoid-gpu-compute"};
-        case GfxState::VFIO:
+        case GfxVendor::VFIO:
             if(power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-vfio-active"};
             else return {"supergfxctl-plasmoid-gpu-vfio"};
-        case GfxState::EGPU:
+        case GfxVendor::EGPU:
             if(power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-egpu-active"};
             else return {"supergfxctl-plasmoid-gpu-egpu"};
-        case GfxState::HYBRID:
+        case GfxVendor::HYBRID:
             if(power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-hybrid-active"};
             else return {"supergfxctl-plasmoid-gpu-hybrid"};
     }
@@ -104,9 +117,9 @@ void SuperGFXCtl::gfxGet() {
                                                    this);
     QDBusReply<quint32> reply1 = interface->call("Vendor");
     if(reply1.isValid()) {
-        GfxState newState = stateFromCode(reply1.value());
-        if (state != newState) {
-            state = newState;
+        GfxVendor newVendor = vendorFromCode(reply1.value());
+        if (vendor != newVendor) {
+            vendor = newVendor;
             emit gfxStateChanged();
         }
     }

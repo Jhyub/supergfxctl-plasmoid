@@ -10,12 +10,12 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
 Item {
-    Plasmoid.icon: plasmoid.nativeInterface.stateIconName
+    Plasmoid.icon: plasmoid.nativeInterface.iconName
     Plasmoid.fullRepresentation: ColumnLayout {
         anchors.fill: parent
         PlasmaComponents.Label {
             Layout.alignment: Qt.AlignCenter
-            text: plasmoid.nativeInterface.stateName
+            text: plasmoid.nativeInterface.vendorName
         }
     }
 }
