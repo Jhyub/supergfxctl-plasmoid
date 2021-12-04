@@ -18,6 +18,13 @@ enum class GfxState {
     HYBRID,
 };
 
+enum class GfxPower {
+    ACTIVE,
+    SUSPENDED,
+    OFF,
+    UNKNOWN,
+};
+
 enum class GfxAction {
     LOGOUT,
     REBOOT,
@@ -43,7 +50,7 @@ signals:
 private:
     void gfxGet();
     GfxState state;
-    bool power;
+    GfxPower power;
     GfxAction lastAction;
 };
 

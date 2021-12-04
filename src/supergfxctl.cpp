@@ -29,6 +29,21 @@ GfxState stateFromCode(quint32 code) {
     }
 }
 
+GfxPower powerFromCode(quint32 code) {
+    switch(code) {
+        case 0:
+            return GfxPower::ACTIVE;
+        case 1:
+            return GfxPower::SUSPENDED;
+        case 2:
+            return GfxPower::OFF;
+        case 3:
+            return GfxPower::UNKNOWN;
+        default: // whatever
+            return GfxPower::UNKNOWN;
+    }
+}
+
 SuperGFXCtl::SuperGFXCtl(QObject *parent, const QVariantList &args)
     : Plasma::Applet(parent, args)
 {
@@ -62,19 +77,19 @@ QString SuperGFXCtl::gfxStateIconName() {
         case GfxState::NVIDIA:
             return {"supergfxctl-plasmoid-gpu-nvidia"};
         case GfxState::INTEGRATED:
-            if(power) return {"supergfxctl-plasmoid-gpu-integrated-active"};
+            if(power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-integrated-active"};
             else return {"supergfxctl-plasmoid-gpu-integrated"};
         case GfxState::COMPUTE:
-            if(power) return {"supergfxctl-plasmoid-gpu-compute-active"};
+            if(power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-compute-active"};
             else return {"supergfxctl-plasmoid-gpu-compute"};
         case GfxState::VFIO:
-            if(power) return {"supergfxctl-plasmoid-gpu-vfio-active"};
+            if(power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-vfio-active"};
             else return {"supergfxctl-plasmoid-gpu-vfio"};
         case GfxState::EGPU:
-            if(power) return {"supergfxctl-plasmoid-gpu-egpu-active"};
+            if(power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-egpu-active"};
             else return {"supergfxctl-plasmoid-gpu-egpu"};
         case GfxState::HYBRID:
-            if(power) return {"supergfxctl-plasmoid-gpu-hybrid-active"};
+            if(power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-hybrid-active"};
             else return {"supergfxctl-plasmoid-gpu-hybrid"};
     }
     return {"supergfxctl-plasmoid-gpu-nvidia"};
@@ -97,7 +112,7 @@ void SuperGFXCtl::gfxGet() {
     }
     QDBusReply<quint32> reply2 = interface->call("Power");
     if(reply2.isValid()) {
-        bool newPower = (bool) reply2.value();
+        auto newPower = powerFromCode(reply2.value());
         if(power != newPower) {
             power = newPower;
             emit gfxStateChanged();
