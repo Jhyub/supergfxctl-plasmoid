@@ -68,8 +68,9 @@ QString SuperGFXCtl::gfxVendorName() {
             return {"eGPU"};
         case GfxVendor::HYBRID:
             return {"hybrid"};
+        default: // whatever
+            return {"NVIDIA"};
     }
-    return {"NVIDIA"};
 }
 
 QString SuperGFXCtl::gfxPowerName() {
@@ -81,6 +82,8 @@ QString SuperGFXCtl::gfxPowerName() {
         case GfxPower::OFF:
             return {"off"};
         case GfxPower::UNKNOWN:
+            return {"unknown"};
+        default: //whatever
             return {"unknown"};
     }
 }
