@@ -9,6 +9,7 @@
 #include <QDBusConnection>
 #include <QDBusInterface>
 #include <QDBusReply>
+#include <QTimer>
 
 GfxVendor vendorFromCode(quint32 code) {
     switch(code) {
@@ -44,17 +45,20 @@ GfxPower powerFromCode(quint32 code) {
     }
 }
 
-SuperGFXCtl::SuperGFXCtl(QObject *parent, const QVariantList &args)
+SuperGfxCtl::SuperGfxCtl(QObject *parent, const QVariantList &args)
     : Plasma::Applet(parent, args)
 {
-    gfxGet();
+    auto timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &SuperGfxCtl::gfxGet);
+    timer->setInterval(1000);
+    timer->start();
 }
 
-SuperGFXCtl::~SuperGFXCtl()
+SuperGfxCtl::~SuperGfxCtl()
 {
 }
 
-QString SuperGFXCtl::gfxVendorName() {
+QString SuperGfxCtl::gfxVendorName() {
     switch(vendor) {
         case GfxVendor::NVIDIA:
             return {"NVIDIA"};
@@ -73,7 +77,7 @@ QString SuperGFXCtl::gfxVendorName() {
     }
 }
 
-QString SuperGFXCtl::gfxPowerName() {
+QString SuperGfxCtl::gfxPowerName() {
     switch(power) {
         case GfxPower::ACTIVE:
             return {"active"};
@@ -88,7 +92,7 @@ QString SuperGFXCtl::gfxPowerName() {
     }
 }
 
-QString SuperGFXCtl::gfxIconName() {
+QString SuperGfxCtl::gfxIconName() {
     switch (vendor) {
         case GfxVendor::NVIDIA:
             return {"supergfxctl-plasmoid-gpu-nvidia"};
@@ -111,7 +115,7 @@ QString SuperGFXCtl::gfxIconName() {
     return {"supergfxctl-plasmoid-gpu-nvidia"};
 }
 
-void SuperGFXCtl::gfxGet() {
+void SuperGfxCtl::gfxGet() {
     QDBusConnection bus = QDBusConnection::systemBus();
     auto *interface = new QDBusInterface("org.supergfxctl.Daemon",
                                                    "/org/supergfxctl/Gfx",
@@ -136,6 +140,6 @@ void SuperGFXCtl::gfxGet() {
     }
 }
 
-K_PLUGIN_CLASS_WITH_JSON(SuperGFXCtl, "metadata.json")
+K_PLUGIN_CLASS_WITH_JSON(SuperGfxCtl, "metadata.json")
 
 #include "supergfxctl.moc"

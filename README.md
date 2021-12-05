@@ -13,7 +13,7 @@ make
 sudo make install # or any other elevation tool
 ```
 ## Copyright Notice
-Some files under ./icons and ./src/package/contents/images are from [asusctl-gex](https://gitlab.com/asus-linux/asusctl-gex), which is distributed under the Mozilla Public License 2.0.  
+Some files under ./icons/status and ./src/package/contents/images are from [asusctl-gex](https://gitlab.com/asus-linux/asusctl-gex), which is distributed under the Mozilla Public License 2.0.  
 The following is an exhaustive list of files.  
 ```
 dgpu-active.svg
