@@ -13,12 +13,12 @@ make
 sudo make install # or any other elevation tool
 ```
 ## Copyright Notice
-Some files under ./icons/status and ./src/package/contents/images are from [asusctl-gex](https://gitlab.com/asus-linux/asusctl-gex), which is distributed under the Mozilla Public License 2.0.  
+Some files under ./icons/status are from [asusctl-gex](https://gitlab.com/asus-linux/asusctl-gex), which is distributed under the Mozilla Public License 2.0.  
 The following is an exhaustive list of files.  
 ```
-dgpu-active.svg
-dgpu-off.svg
-dgpu-suspended.svg
+supergfxctl-plasmoid-dgpu-active.svg
+supergfxctl-plasmoid-dgpu-off.svg
+supergfxctl-plasmoid-dgpu-suspended.svg
 supergfxctl-plasmoid-gpu-copute.svg
 supergfxctl-plasmoid-gpu-compute-active.svg
 supergfxctl-plasmoid-gpu-egpu.svg

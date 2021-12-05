@@ -17,15 +17,12 @@ Item {
         id: dialog
         header: PlasmaExtras.PlasmoidHeading {
             RowLayout {
-                height: label.implicitBackgroundHeight
-                Image {
-                    height: parent.height
-                    Layout.fillHeight: true
-                    fillMode: Image.PreserveAspectFit
-                    source: "../images/dgpu-" + plasmoid.nativeInterface.powerName
+                PlasmaCore.IconItem {
+                    Layout.preferredHeight: PlasmaCore.Units.iconSizes.small
+                    Layout.preferredWidth: PlasmaCore.Units.iconSizes.small
+                    source: "supergfxctl-plasmoid-dgpu-" + plasmoid.nativeInterface.powerName
                 }
                 PlasmaComponents.Label {
-                    id: label
                     text: i18n("dGPU is %1", plasmoid.nativeInterface.powerName)
                 }
             }
