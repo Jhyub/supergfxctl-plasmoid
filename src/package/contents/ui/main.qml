@@ -11,6 +11,7 @@ import org.kde.plasma.components 2.0 as PlasmaComponents
 
 Item {
     Plasmoid.icon: plasmoid.nativeInterface.iconName
+    Plasmoid.toolTipSubText: i18n("Graphics mode: ") + plasmoid.nativeInterface.vendorName + i18n(", dGPU power: ") + plasmoid.nativeInterface.powerName
     Plasmoid.fullRepresentation: ColumnLayout {
         anchors.fill: parent
         PlasmaComponents.Label {

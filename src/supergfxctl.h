@@ -36,6 +36,7 @@ class SuperGFXCtl : public Plasma::Applet
 {
     Q_OBJECT
     Q_PROPERTY(QString vendorName READ gfxVendorName NOTIFY gfxStateChanged)
+    Q_PROPERTY(QString powerName READ gfxPowerName NOTIFY gfxStateChanged)
     Q_PROPERTY(QString iconName READ gfxIconName NOTIFY gfxStateChanged)
 
 public:
