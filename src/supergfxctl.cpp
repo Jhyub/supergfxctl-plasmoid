@@ -45,20 +45,7 @@ GfxPower powerFromCode(quint32 code) {
     }
 }
 
-SuperGfxCtl::SuperGfxCtl(QObject *parent, const QVariantList &args)
-    : Plasma::Applet(parent, args)
-{
-    auto timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &SuperGfxCtl::gfxGet);
-    timer->setInterval(1000);
-    timer->start();
-}
-
-SuperGfxCtl::~SuperGfxCtl()
-{
-}
-
-QString SuperGfxCtl::gfxVendorName() {
+QString vendorToName(GfxVendor vendor) {
     switch(vendor) {
         case GfxVendor::NVIDIA:
             return {"NVIDIA"};
@@ -75,6 +62,24 @@ QString SuperGfxCtl::gfxVendorName() {
         default: // whatever
             return {"NVIDIA"};
     }
+}
+
+SuperGfxCtl::SuperGfxCtl(QObject *parent, const QVariantList &args)
+    : Plasma::Applet(parent, args)
+{
+    auto timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &SuperGfxCtl::gfxGet);
+    timer->setInterval(1000);
+    this->gfxGet();
+    timer->start();
+}
+
+SuperGfxCtl::~SuperGfxCtl()
+{
+}
+
+QString SuperGfxCtl::gfxVendorName() {
+    return vendorToName(vendor);
 }
 
 QString SuperGfxCtl::gfxPowerName() {
@@ -115,6 +120,25 @@ QString SuperGfxCtl::gfxIconName() {
     return {"supergfxctl-plasmoid-gpu-nvidia"};
 }
 
+QString SuperGfxCtl::wantedVendorName() {
+    return vendorToName(wanted);
+}
+
+void SuperGfxCtl::setVendor(GfxVendor vendor) {
+
+}
+
+void SuperGfxCtl::revertWanted() {
+    setVendor(vendor);
+}
+
+bool SuperGfxCtl::isSelectEnabled() {
+    if(!isWantedInit) return true;
+    if(vendor == GfxVendor::HYBRID)
+        return wanted != GfxVendor::INTEGRATED;
+    return wanted != GfxVendor::HYBRID;
+}
+
 void SuperGfxCtl::gfxGet() {
     QDBusConnection bus = QDBusConnection::systemBus();
     auto *interface = new QDBusInterface("org.supergfxctl.Daemon",
@@ -137,6 +161,12 @@ void SuperGfxCtl::gfxGet() {
             power = newPower;
             emit gfxStateChanged();
         }
+    }
+
+    if(!isWantedInit) {
+        isWantedInit = !isWantedInit;
+        wanted = vendor;
+        emit wantedChanged();
     }
 }
 

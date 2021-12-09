@@ -3,7 +3,8 @@
     SPDX-License-Identifier: MPL-2.0
 */
 
-import QtQuick 2.1
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.1
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.plasmoid 2.0
@@ -25,6 +26,26 @@ Item {
                 PlasmaComponents.Label {
                     text: i18n("dGPU is %1", plasmoid.nativeInterface.powerName)
                 }
+            }
+        }
+
+        PlasmaExtras.ScrollArea {
+            anchors.fill: parent
+
+            visible: false
+        }
+
+        PlasmaExtras.PlaceholderMessage {
+            anchors.centerIn: parent
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: PlasmaCore.Units.largeSpacing
+
+            text: i18n("Logout is required to switch to %1", plasmoid.nativeInterface.wantedName)
+            helpfulAction: Action {
+                id: revertAction
+                text: i18n("Revert to %1", plasmoid.nativeInterface.vendorName)
+                onTriggered: plasmoid.nativeInterface.revertWanted()
             }
         }
     }

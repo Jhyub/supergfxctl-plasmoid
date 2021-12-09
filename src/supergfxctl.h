@@ -25,19 +25,15 @@ enum class GfxPower {
     UNKNOWN,
 };
 
-enum class GfxAction {
-    LOGOUT,
-    REBOOT,
-    INTEGRATED,
-    NONE,
-};
-
 class SuperGfxCtl : public Plasma::Applet
 {
     Q_OBJECT
     Q_PROPERTY(QString vendorName READ gfxVendorName NOTIFY gfxStateChanged)
     Q_PROPERTY(QString powerName READ gfxPowerName NOTIFY gfxStateChanged)
     Q_PROPERTY(QString iconName READ gfxIconName NOTIFY gfxStateChanged)
+    Q_PROPERTY(QString wantedName READ wantedVendorName NOTIFY wantedChanged)
+    Q_PROPERTY(bool isSelectEnabled READ isSelectEnabled NOTIFY wantedChanged)
+
 
 public:
     SuperGfxCtl(QObject *parent, const QVariantList &args );
@@ -45,15 +41,21 @@ public:
     QString gfxVendorName();
     QString gfxPowerName();
     QString gfxIconName();
+    QString wantedVendorName();
+    Q_INVOKABLE void revertWanted();
+    bool isSelectEnabled();
     void gfxGet();
 
 signals:
     void gfxStateChanged();
+    void wantedChanged();
 
 private:
     GfxVendor vendor;
     GfxPower power;
-    GfxAction lastAction;
+    GfxVendor wanted;
+    void setVendor(GfxVendor vendor);
+    bool isWantedInit = false;
 };
 
 #endif
