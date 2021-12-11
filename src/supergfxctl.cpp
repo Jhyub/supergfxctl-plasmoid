@@ -86,23 +86,34 @@ QString SuperGfxCtl::gfxIconName() {
     return {"supergfxctl-plasmoid-gpu-nvidia"};
 }
 
-QString SuperGfxCtl::wantedVendorName() {
-    return vendorToName(wanted);
+QString SuperGfxCtl::gfxActionName() {
+    if(action == GfxAction::REBOOT)
+        return {"Reboot"};
+    if(action == GfxAction::LOGOUT)
+        return {"Logout"};
+    return {""};
 }
 
 void SuperGfxCtl::setVendor(GfxVendor vendor) {
+    QDBusConnection bus = QDBusConnection::systemBus();
+    auto *interface = new QDBusInterface("org.supergfxctl.Daemon",
+                                         "/org/supergfxctl/Gfx",
+                                         "org.supergfxctl.Daemon",
+                                         bus,
+                                         this);
+    QDBusReply<quint32> reply = interface->call("SetVendor", static_cast<quint32>(vendor));
+    if(reply.isValid()) {
+        auto newAction = static_cast<GfxAction>(reply.value());
+        if(action != newAction) {
+            action = newAction;
+            emit gfxActionChanged();
+        }
+    }
 
-}
-
-void SuperGfxCtl::revertWanted() {
-    setVendor(vendor);
 }
 
 bool SuperGfxCtl::isSelectEnabled() {
-    if(!isWantedInit) return true;
-    if(vendor == GfxVendor::HYBRID)
-        return wanted != GfxVendor::INTEGRATED;
-    return wanted != GfxVendor::HYBRID;
+    return action == GfxAction::REBOOT || action == GfxAction::LOGOUT;
 }
 
 void SuperGfxCtl::gfxGet() {
@@ -127,12 +138,6 @@ void SuperGfxCtl::gfxGet() {
             power = newPower;
             emit gfxStateChanged();
         }
-    }
-
-    if(!isWantedInit) {
-        isWantedInit = !isWantedInit;
-        wanted = vendor;
-        emit wantedChanged();
     }
 }
 

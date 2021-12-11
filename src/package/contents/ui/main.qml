@@ -32,7 +32,9 @@ Item {
         PlasmaExtras.ScrollArea {
             anchors.fill: parent
 
-            visible: false
+            visible: plasmoid.nativeInterface.isSelectEnabled
+
+
         }
 
         PlasmaExtras.PlaceholderMessage {
@@ -41,7 +43,7 @@ Item {
             anchors.right: parent.right
             anchors.margins: PlasmaCore.Units.largeSpacing
 
-            text: i18n("Logout is required to switch to %1", plasmoid.nativeInterface.wantedName)
+            text: i18n("%1 is required to complete the switch", plasmoid.nativeInterface.actionName)
             helpfulAction: Action {
                 id: revertAction
                 text: i18n("Revert to %1", plasmoid.nativeInterface.vendorName)
