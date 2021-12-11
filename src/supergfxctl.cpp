@@ -11,40 +11,6 @@
 #include <QDBusReply>
 #include <QTimer>
 
-GfxVendor vendorFromCode(quint32 code) {
-    switch(code) {
-        case 0:
-            return GfxVendor::NVIDIA;
-        case 1:
-            return GfxVendor::INTEGRATED;
-        case 2:
-            return GfxVendor::COMPUTE;
-        case 3:
-            return GfxVendor::VFIO;
-        case 4:
-            return GfxVendor::EGPU;
-        case 5:
-            return GfxVendor::HYBRID;
-        default: //whatever
-            return GfxVendor::NVIDIA;
-    }
-}
-
-GfxPower powerFromCode(quint32 code) {
-    switch(code) {
-        case 0:
-            return GfxPower::ACTIVE;
-        case 1:
-            return GfxPower::SUSPENDED;
-        case 2:
-            return GfxPower::OFF;
-        case 3:
-            return GfxPower::UNKNOWN;
-        default: // whatever
-            return GfxPower::UNKNOWN;
-    }
-}
-
 QString vendorToName(GfxVendor vendor) {
     switch(vendor) {
         case GfxVendor::NVIDIA:
@@ -148,7 +114,7 @@ void SuperGfxCtl::gfxGet() {
                                                    this);
     QDBusReply<quint32> reply1 = interface->call("Vendor");
     if(reply1.isValid()) {
-        GfxVendor newVendor = vendorFromCode(reply1.value());
+        auto newVendor = static_cast<GfxVendor>(reply1.value());
         if (vendor != newVendor) {
             vendor = newVendor;
             emit gfxStateChanged();
@@ -156,7 +122,7 @@ void SuperGfxCtl::gfxGet() {
     }
     QDBusReply<quint32> reply2 = interface->call("Power");
     if(reply2.isValid()) {
-        auto newPower = powerFromCode(reply2.value());
+        auto newPower = static_cast<GfxPower>(reply2.value());
         if(power != newPower) {
             power = newPower;
             emit gfxStateChanged();
