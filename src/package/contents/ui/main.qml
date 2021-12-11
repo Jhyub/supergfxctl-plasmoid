@@ -47,7 +47,7 @@ Item {
             helpfulAction: Action {
                 id: revertAction
                 text: i18n("Revert to %1", plasmoid.nativeInterface.vendorName)
-                onTriggered: plasmoid.nativeInterface.revertWanted()
+                onTriggered: plasmoid.nativeInterface.revertVendor()
             }
         }
     }

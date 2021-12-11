@@ -49,8 +49,8 @@ public:
     QString gfxPowerName();
     QString gfxIconName();
     QString gfxActionName();
+    Q_INVOKABLE void revertVendor();
     bool isSelectEnabled();
-    void gfxGet();
 
 signals:
     void gfxStateChanged();
@@ -61,6 +61,7 @@ private:
     GfxPower power;
     GfxAction action = GfxAction::NONE;
     void setVendor(GfxVendor vendor);
+    void gfxGet();
 };
 
 #endif

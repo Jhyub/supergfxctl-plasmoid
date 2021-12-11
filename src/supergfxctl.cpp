@@ -92,6 +92,10 @@ QString SuperGfxCtl::gfxActionName() {
     return {""};
 }
 
+void SuperGfxCtl::revertVendor() {
+    setVendor(vendor);
+}
+
 void SuperGfxCtl::setVendor(GfxVendor vendor) {
     QDBusConnection bus = QDBusConnection::systemBus();
     auto *interface = new QDBusInterface("org.supergfxctl.Daemon",
