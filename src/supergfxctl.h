@@ -35,33 +35,33 @@ enum class GfxAction {
 class SuperGfxCtl : public Plasma::Applet
 {
     Q_OBJECT
-    Q_PROPERTY(QString vendorName READ gfxVendorName NOTIFY gfxStateChanged)
-    Q_PROPERTY(QString powerName READ gfxPowerName NOTIFY gfxStateChanged)
-    Q_PROPERTY(QString iconName READ gfxIconName NOTIFY gfxStateChanged)
-    Q_PROPERTY(QString actionName READ gfxActionName NOTIFY gfxActionChanged)
-    Q_PROPERTY(bool isSelectEnabled READ isSelectEnabled NOTIFY gfxActionChanged)
+    Q_PROPERTY(QString vendorName READ vendorName NOTIFY stateChanged)
+    Q_PROPERTY(QString powerName READ powerName NOTIFY stateChanged)
+    Q_PROPERTY(QString iconName READ iconName NOTIFY stateChanged)
+    Q_PROPERTY(QString actionName READ actionName NOTIFY actionChanged)
+    Q_PROPERTY(bool isSelectEnabled READ isSelectEnabled NOTIFY actionChanged)
 
 
 public:
     SuperGfxCtl(QObject *parent, const QVariantList &args );
     ~SuperGfxCtl();
-    QString gfxVendorName();
-    QString gfxPowerName();
-    QString gfxIconName();
-    QString gfxActionName();
+    QString vendorName();
+    QString powerName();
+    QString iconName();
+    QString actionName();
     Q_INVOKABLE void revertVendor();
     bool isSelectEnabled();
 
 signals:
-    void gfxStateChanged();
-    void gfxActionChanged();
+    void stateChanged();
+    void actionChanged();
 
 private:
     GfxVendor vendor;
     GfxPower power;
     GfxAction action = GfxAction::NONE;
     void setVendor(GfxVendor vendor);
-    void gfxGet();
+    void getState();
 };
 
 #endif
