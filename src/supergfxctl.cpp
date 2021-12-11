@@ -12,7 +12,7 @@
 #include <QTimer>
 
 QString vendorToName(GfxVendor vendor) {
-    switch(vendor) {
+    switch (vendor) {
         case GfxVendor::NVIDIA:
             return {"NVIDIA"};
         case GfxVendor::INTEGRATED:
@@ -31,8 +31,7 @@ QString vendorToName(GfxVendor vendor) {
 }
 
 SuperGfxCtl::SuperGfxCtl(QObject *parent, const QVariantList &args)
-    : Plasma::Applet(parent, args)
-{
+        : Plasma::Applet(parent, args) {
     auto timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &SuperGfxCtl::gfxGet);
     timer->setInterval(1000);
@@ -40,8 +39,7 @@ SuperGfxCtl::SuperGfxCtl(QObject *parent, const QVariantList &args)
     timer->start();
 }
 
-SuperGfxCtl::~SuperGfxCtl()
-{
+SuperGfxCtl::~SuperGfxCtl() {
 }
 
 QString SuperGfxCtl::gfxVendorName() {
@@ -49,7 +47,7 @@ QString SuperGfxCtl::gfxVendorName() {
 }
 
 QString SuperGfxCtl::gfxPowerName() {
-    switch(power) {
+    switch (power) {
         case GfxPower::ACTIVE:
             return {"active"};
         case GfxPower::SUSPENDED:
@@ -68,28 +66,28 @@ QString SuperGfxCtl::gfxIconName() {
         case GfxVendor::NVIDIA:
             return {"supergfxctl-plasmoid-gpu-nvidia"};
         case GfxVendor::INTEGRATED:
-            if(power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-integrated-active"};
+            if (power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-integrated-active"};
             else return {"supergfxctl-plasmoid-gpu-integrated"};
         case GfxVendor::COMPUTE:
-            if(power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-compute-active"};
+            if (power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-compute-active"};
             else return {"supergfxctl-plasmoid-gpu-compute"};
         case GfxVendor::VFIO:
-            if(power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-vfio-active"};
+            if (power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-vfio-active"};
             else return {"supergfxctl-plasmoid-gpu-vfio"};
         case GfxVendor::EGPU:
-            if(power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-egpu-active"};
+            if (power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-egpu-active"};
             else return {"supergfxctl-plasmoid-gpu-egpu"};
         case GfxVendor::HYBRID:
-            if(power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-hybrid-active"};
+            if (power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-hybrid-active"};
             else return {"supergfxctl-plasmoid-gpu-hybrid"};
     }
     return {"supergfxctl-plasmoid-gpu-nvidia"};
 }
 
 QString SuperGfxCtl::gfxActionName() {
-    if(action == GfxAction::REBOOT)
+    if (action == GfxAction::REBOOT)
         return {"Reboot"};
-    if(action == GfxAction::LOGOUT)
+    if (action == GfxAction::LOGOUT)
         return {"Logout"};
     return {""};
 }
@@ -102,14 +100,13 @@ void SuperGfxCtl::setVendor(GfxVendor vendor) {
                                          bus,
                                          this);
     QDBusReply<quint32> reply = interface->call("SetVendor", static_cast<quint32>(vendor));
-    if(reply.isValid()) {
+    if (reply.isValid()) {
         auto newAction = static_cast<GfxAction>(reply.value());
-        if(action != newAction) {
+        if (action != newAction) {
             action = newAction;
             emit gfxActionChanged();
         }
     }
-
 }
 
 bool SuperGfxCtl::isSelectEnabled() {
@@ -119,12 +116,12 @@ bool SuperGfxCtl::isSelectEnabled() {
 void SuperGfxCtl::gfxGet() {
     QDBusConnection bus = QDBusConnection::systemBus();
     auto *interface = new QDBusInterface("org.supergfxctl.Daemon",
-                                                   "/org/supergfxctl/Gfx",
-                                                   "org.supergfxctl.Daemon",
-                                                   bus,
-                                                   this);
+                                         "/org/supergfxctl/Gfx",
+                                         "org.supergfxctl.Daemon",
+                                         bus,
+                                         this);
     QDBusReply<quint32> reply1 = interface->call("Vendor");
-    if(reply1.isValid()) {
+    if (reply1.isValid()) {
         auto newVendor = static_cast<GfxVendor>(reply1.value());
         if (vendor != newVendor) {
             vendor = newVendor;
@@ -132,9 +129,9 @@ void SuperGfxCtl::gfxGet() {
         }
     }
     QDBusReply<quint32> reply2 = interface->call("Power");
-    if(reply2.isValid()) {
+    if (reply2.isValid()) {
         auto newPower = static_cast<GfxPower>(reply2.value());
-        if(power != newPower) {
+        if (power != newPower) {
             power = newPower;
             emit gfxStateChanged();
         }
