@@ -213,6 +213,10 @@ void SuperGfxCtl::revertVendor() {
     setVendor(vendor);
 }
 
+void SuperGfxCtl::setVendor(int index) {
+    setVendor(static_cast<GfxVendor>(index));
+}
+
 void SuperGfxCtl::setVendor(GfxVendor vendor) {
     QDBusConnection bus = QDBusConnection::systemBus();
     auto *interface = new QDBusInterface("org.supergfxctl.Daemon",

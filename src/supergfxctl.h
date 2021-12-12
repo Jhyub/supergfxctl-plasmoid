@@ -39,8 +39,8 @@ Q_OBJECT
     Q_PROPERTY(QString powerName READ powerName NOTIFY stateChanged)
     Q_PROPERTY(QString iconName READ iconName NOTIFY stateChanged)
     Q_PROPERTY(QString actionName READ actionName NOTIFY actionChanged)
-    Q_PROPERTY(
-            VendorList *vendorList READ vendorList NOTIFY stateChanged) // expect that a supergfxd reload after config edit will reload plasmoid
+    // expect that a supergfxd reload after config edit will reload plasmoid
+    Q_PROPERTY(VendorList *vendorList READ vendorList NOTIFY stateChanged)
     Q_PROPERTY(bool isSelectEnabled READ isSelectEnabled NOTIFY actionChanged)
 
 
@@ -60,6 +60,8 @@ public:
     VendorList *vendorList();
 
     Q_INVOKABLE void revertVendor();
+
+    Q_INVOKABLE void setVendor(int index);
 
     bool isSelectEnabled();
 
