@@ -102,6 +102,7 @@ QString SuperGfxCtl::actionName() {
     return {""};
 }
 
+//TODO: this function includes a memory leak (possibly), but I have never learned c++ properly and can't handle it
 VendorList *SuperGfxCtl::vendorList() {
     auto list = new VendorList();
 
