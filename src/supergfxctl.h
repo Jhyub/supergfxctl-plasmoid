@@ -32,9 +32,8 @@ enum class GfxAction {
     NONE,
 };
 
-class SuperGfxCtl : public Plasma::Applet
-{
-    Q_OBJECT
+class SuperGfxCtl : public Plasma::Applet {
+Q_OBJECT
     Q_PROPERTY(QString vendorName READ vendorName NOTIFY stateChanged)
     Q_PROPERTY(QString powerName READ powerName NOTIFY stateChanged)
     Q_PROPERTY(QString iconName READ iconName NOTIFY stateChanged)
@@ -43,24 +42,35 @@ class SuperGfxCtl : public Plasma::Applet
 
 
 public:
-    SuperGfxCtl(QObject *parent, const QVariantList &args );
+    SuperGfxCtl(QObject *parent, const QVariantList &args);
+
     ~SuperGfxCtl();
+
     QString vendorName();
+
     QString powerName();
+
     QString iconName();
+
     QString actionName();
+
     Q_INVOKABLE void revertVendor();
+
     bool isSelectEnabled();
 
 signals:
+
     void stateChanged();
+
     void actionChanged();
 
 private:
     GfxVendor vendor;
     GfxPower power;
     GfxAction action = GfxAction::NONE;
+
     void setVendor(GfxVendor vendor);
+
     void getState();
 };
 
