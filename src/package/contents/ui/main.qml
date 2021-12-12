@@ -42,21 +42,23 @@ Item {
                 model: plasmoid.nativeInterface.vendorList
                 boundsBehavior: Flickable.StopAtBounds
                 currentIndex: -1
+                spacing: PlasmaCore.Units.smallSpacing
                 section.property: "section"
-                spacing: PlasmaCore.Units.iconSizes.large
                 section.delegate: Loader {
                     active: section != 0
-                    height: active ? PlasmaCore.Units.gridUnit : 0
+                    height: active ? source.height : 0
 
                     sourceComponent: Item {
+                        id: source
+                        height: separatorLine.height
                         width: listView.width
-                        height: PlasmaCore.Units.gridUnit
-
                         PlasmaCore.SvgItem {
+                            id: separatorLine
                             width: parent.width - 2 * PlasmaCore.Units.gridUnit
+                            height: lineSvg.elementSize("horizontal-line").height
                             anchors.centerIn: parent
-                            id: seperatorLine
                             svg: PlasmaCore.Svg {
+                                id: lineSvg
                                 imagePath: "widgets/line"
                             }
                             elementId: "horizontal-line"
@@ -67,25 +69,37 @@ Item {
                 highlightMoveDuration: 0
                 highlightResizeDuration: 0
                 delegate: PlasmaExtras.ListItem {
+                    width: listView.width
+                    height: PlasmaCore.Units.gridUnit * 2
                     required property string name
                     required property string iconName
                     required property int requirement
                     required property int index
+                    required property int section
                     RowLayout {
                         PlasmaCore.IconItem {
-                            Layout.preferredHeight: PlasmaCore.Units.iconSizes.large
-                            Layout.preferredWidth: PlasmaCore.Units.iconSizes.large
+                            Layout.preferredHeight: PlasmaCore.Units.iconSizes.medium
+                            Layout.preferredWidth: PlasmaCore.Units.iconSizes.medium
                             source: iconName
                         }
                         ColumnLayout {
                             PlasmaComponents.Label {
                                 text: name
-                                font.pixelSize: PlasmaCore.Units.gridUnit
+                                font.pixelSize: 12
                             }
                             PlasmaComponents.Label {
-                                text: requirement == 2 ? "Switch to integrated is required" : requirement == 1 ? "vfio is disabled in config" : ""
+                                text: requirement == 2 ? "Switch to integrated is required" : (requirement == 1 ? "vfio is disabled in config" : "")
                                 font.italic: true
                             }
+                        }
+                        PlasmaComponents.Button {
+                            flat: true
+                            text: i18n(section == 0 ? "Active" : (section == 1 ? "Switch" : "Unavailable"))
+                            onClicked: plasmoid.nativeInterface.setVendor(index)
+                            down: section == 0
+                            highlighted: section == 2
+                            checkable: section == 1
+                            enabled: section == 1
                         }
                     }
                 }
