@@ -8,6 +8,7 @@
 
 
 #include <Plasma/Applet>
+#include <vendorlist.h>
 
 enum class GfxVendor {
     NVIDIA,
@@ -38,6 +39,8 @@ Q_OBJECT
     Q_PROPERTY(QString powerName READ powerName NOTIFY stateChanged)
     Q_PROPERTY(QString iconName READ iconName NOTIFY stateChanged)
     Q_PROPERTY(QString actionName READ actionName NOTIFY actionChanged)
+    Q_PROPERTY(
+            VendorList *vendorList READ vendorList NOTIFY stateChanged) // expect that a supergfxd reload after config edit will reload plasmoid
     Q_PROPERTY(bool isSelectEnabled READ isSelectEnabled NOTIFY actionChanged)
 
 
@@ -54,6 +57,8 @@ public:
 
     QString actionName();
 
+    VendorList *vendorList();
+
     Q_INVOKABLE void revertVendor();
 
     bool isSelectEnabled();
@@ -69,9 +74,13 @@ private:
     GfxPower power;
     GfxAction action = GfxAction::NONE;
 
+    bool isVfioEnabled;
+
     void setVendor(GfxVendor vendor);
 
     void getState();
+
+    QObject *nvidia, *integrated, *compute, *vfio, *hybrid;
 };
 
 #endif

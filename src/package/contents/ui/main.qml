@@ -8,6 +8,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.1
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.plasmoid 2.0
+import org.kde.plasma.components 2.0 as PlasmaComponents2
 import org.kde.plasma.components 3.0 as PlasmaComponents
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 
@@ -34,7 +35,61 @@ Item {
 
             visible: plasmoid.nativeInterface.isSelectEnabled
 
+            ListView {
+                id: listView
+                anchors.fill: parent
+                clip: true
+                model: plasmoid.nativeInterface.vendorList
+                boundsBehavior: Flickable.StopAtBounds
+                currentIndex: -1
+                section.property: "section"
+                spacing: PlasmaCore.Units.iconSizes.large
+                section.delegate: Loader {
+                    active: section != 0
+                    height: active ? PlasmaCore.Units.gridUnit : 0
 
+                    sourceComponent: Item {
+                        width: listView.width
+                        height: PlasmaCore.Units.gridUnit
+
+                        PlasmaCore.SvgItem {
+                            width: parent.width - 2 * PlasmaCore.Units.gridUnit
+                            anchors.centerIn: parent
+                            id: seperatorLine
+                            svg: PlasmaCore.Svg {
+                                imagePath: "widgets/line"
+                            }
+                            elementId: "horizontal-line"
+                        }
+                    }
+                }
+                highlight: PlasmaComponents2.Highlight { }
+                highlightMoveDuration: 0
+                highlightResizeDuration: 0
+                delegate: PlasmaExtras.ListItem {
+                    required property string name
+                    required property string iconName
+                    required property int requirement
+                    required property int index
+                    RowLayout {
+                        PlasmaCore.IconItem {
+                            Layout.preferredHeight: PlasmaCore.Units.iconSizes.large
+                            Layout.preferredWidth: PlasmaCore.Units.iconSizes.large
+                            source: iconName
+                        }
+                        ColumnLayout {
+                            PlasmaComponents.Label {
+                                text: name
+                                font.pixelSize: PlasmaCore.Units.gridUnit
+                            }
+                            PlasmaComponents.Label {
+                                text: requirement == 2 ? "Switch to integrated is required" : requirement == 1 ? "vfio is disabled in config" : ""
+                                font.italic: true
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         PlasmaExtras.PlaceholderMessage {
@@ -42,6 +97,8 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.margins: PlasmaCore.Units.largeSpacing
+
+            visible: !plasmoid.nativeInterface.isSelectEnabled
 
             text: i18n("%1 is required to complete the switch", plasmoid.nativeInterface.actionName)
             helpfulAction: Action {

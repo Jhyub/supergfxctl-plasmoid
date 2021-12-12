@@ -10,6 +10,9 @@
 #include <QDBusInterface>
 #include <QDBusReply>
 #include <QTimer>
+#include <QFile>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 QString vendorToName(GfxVendor vendor) {
     switch (vendor) {
@@ -32,6 +35,13 @@ QString vendorToName(GfxVendor vendor) {
 
 SuperGfxCtl::SuperGfxCtl(QObject *parent, const QVariantList &args)
         : Plasma::Applet(parent, args) {
+    // open json
+    QFile file("/etc/supergfxd.conf");
+    file.open(QIODevice::ReadOnly);
+    QJsonObject json = QJsonDocument::fromJson(file.readAll()).object();
+    isVfioEnabled = json.value("gfx_vfio_enable").toBool();
+    file.close();
+    // run timer
     auto timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &SuperGfxCtl::getState);
     timer->setInterval(1000);
@@ -92,6 +102,112 @@ QString SuperGfxCtl::actionName() {
     return {""};
 }
 
+VendorList *SuperGfxCtl::vendorList() {
+    auto list = new VendorList();
+
+    enum class Requirement {
+        NONE,
+        VFIO,
+        INTEGRATED,
+    };
+
+    enum class Section {
+        ACTIVE,
+        AVAILABLE,
+        UNAVAILABLE,
+    };
+
+    Requirement requirement;
+    Section section;
+
+    nvidia = new QObject();
+    requirement = Requirement::NONE;
+    if (vendor == GfxVendor::NVIDIA) section = Section::ACTIVE;
+    else section = Section::AVAILABLE;
+    nvidia->setProperty("name", "NVIDIA");
+    nvidia->setProperty("iconName", "supergfxctl-plasmoid-gpu-nvidia");
+    nvidia->setProperty("requirement", static_cast<int>(requirement));
+    nvidia->setProperty("section", static_cast<int>(section));
+    nvidia->setProperty("index", 0);
+    list->append(nvidia);
+
+    integrated = new QObject();
+    requirement = Requirement::NONE;
+    if (vendor == GfxVendor::INTEGRATED) section = Section::ACTIVE;
+    else section = Section::AVAILABLE;
+    integrated->setProperty("name", "Integrated");
+    integrated->setProperty("iconName", "supergfxctl-plasmoid-gpu-integrated-active");
+    integrated->setProperty("requirement", static_cast<int>(requirement));
+    integrated->setProperty("section", static_cast<int>(section));
+    integrated->setProperty("index", 1);
+    list->append(integrated);
+
+    compute = new QObject();
+    switch (vendor) {
+        case GfxVendor::COMPUTE:
+            section = Section::ACTIVE;
+            requirement = Requirement::NONE;
+            break;
+        case GfxVendor::INTEGRATED:
+        case GfxVendor::VFIO:
+            section = Section::AVAILABLE;
+            requirement = Requirement::NONE;
+            break;
+        default:
+            section = Section::UNAVAILABLE;
+            requirement = Requirement::INTEGRATED;
+    }
+    compute->setProperty("name", "Compute");
+    compute->setProperty("iconName", "supergfxctl-plasmoid-gpu-compute-active");
+    compute->setProperty("requirement", static_cast<int>(requirement));
+    compute->setProperty("section", static_cast<int>(section));
+    compute->setProperty("index", 2);
+    list->append(compute);
+
+    vfio = new QObject();
+    switch (vendor) {
+        case GfxVendor::VFIO:
+            section = Section::ACTIVE;
+            requirement = Requirement::NONE;
+            break;
+        case GfxVendor::INTEGRATED:
+        case GfxVendor::COMPUTE:
+            if (isVfioEnabled) {
+                section = Section::AVAILABLE;
+                requirement = Requirement::NONE;
+            } else {
+                section = Section::UNAVAILABLE;
+                requirement = Requirement::VFIO;
+            }
+            break;
+        default:
+            section = Section::UNAVAILABLE;
+            if (isVfioEnabled) requirement = Requirement::INTEGRATED;
+            else requirement = Requirement::VFIO;
+    }
+    vfio->setProperty("name", "vfio");
+    vfio->setProperty("iconName", "supergfxctl-plasmoid-gpu-vfio-active");
+    vfio->setProperty("requirement", static_cast<int>(requirement));
+    vfio->setProperty("section", static_cast<int>(section));
+    vfio->setProperty("index", 3);
+    list->append(vfio);
+
+    hybrid = new QObject();
+    requirement = Requirement::NONE;
+    if (vendor == GfxVendor::HYBRID) section = Section::ACTIVE;
+    else section = Section::AVAILABLE;
+    hybrid->setProperty("name", "Hybrid");
+    hybrid->setProperty("iconName", "supergfxctl-plasmoid-gpu-hybrid-active");
+    hybrid->setProperty("requirement", static_cast<int>(requirement));
+    hybrid->setProperty("section", static_cast<int>(section));
+    hybrid->setProperty("index", 5);
+    list->append(hybrid);
+
+    list->orderSections();
+
+    return list;
+}
+
 void SuperGfxCtl::revertVendor() {
     setVendor(vendor);
 }
@@ -114,7 +230,7 @@ void SuperGfxCtl::setVendor(GfxVendor vendor) {
 }
 
 bool SuperGfxCtl::isSelectEnabled() {
-    return action == GfxAction::REBOOT || action == GfxAction::LOGOUT;
+    return action != GfxAction::REBOOT && action != GfxAction::LOGOUT;
 }
 
 void SuperGfxCtl::getState() {

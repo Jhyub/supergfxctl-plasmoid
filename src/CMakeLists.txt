@@ -1,6 +1,6 @@
 add_definitions(-DTRANSLATION_DOMAIN=\"dev.jhyub.supergfxctl\")
 
-add_library(plasma_applet_supergfxctl MODULE supergfxctl.cpp)
+add_library(plasma_applet_supergfxctl MODULE supergfxctl.cpp vendorlist.cpp vendorlist.h)
 
 kcoreaddons_desktop_to_json(plasma_applet_supergfxctl package/metadata.desktop SERVICE_TYPES plasma-applet.desktop)
 
