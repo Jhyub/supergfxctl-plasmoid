@@ -71,8 +71,6 @@ public:
 
 public slots:
 
-    void finishSetVendorCall(QDBusPendingCallWatcher *);
-
 signals:
 
     void stateChanged();
@@ -82,6 +80,10 @@ signals:
     void loadingChanged();
 
     void finishedSetVendorCall(QDBusPendingCallWatcher *);
+
+    void finishedGetVendorCall(QDBusPendingCallWatcher *);
+
+    void finishedGetPowerCall(QDBusPendingCallWatcher *);
 
 private:
     GfxVendor vendor;
@@ -99,6 +101,14 @@ private:
     void getState();
 
     QObject *nvidia, *integrated, *compute, *vfio, *hybrid;
+
+private slots:
+
+    void finishSetVendorCall(QDBusPendingCallWatcher *);
+
+    void finishGetVendorCall(QDBusPendingCallWatcher *);
+
+    void finishGetPowerCall(QDBusPendingCallWatcher *);
 };
 
 #endif

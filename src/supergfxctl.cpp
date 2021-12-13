@@ -263,17 +263,31 @@ void SuperGfxCtl::getState() {
                                          "org.supergfxctl.Daemon",
                                          bus,
                                          this);
-    QDBusReply<quint32> reply1 = interface->call("Vendor");
-    if (reply1.isValid()) {
-        auto newVendor = static_cast<GfxVendor>(reply1.value());
+    auto pcall1 = interface->asyncCall("Vendor");
+    auto *watcher1 = new QDBusPendingCallWatcher(pcall1, this);
+    auto pcall2 = interface->asyncCall("Power");
+    auto *watcher2 = new QDBusPendingCallWatcher(pcall2, this);
+    connect(watcher1, SIGNAL(finished(QDBusPendingCallWatcher * )), this,
+            SLOT(finishGetVendorCall(QDBusPendingCallWatcher * )));
+    connect(watcher2, SIGNAL(finished(QDBusPendingCallWatcher * )), this,
+            SLOT(finishGetPowerCall(QDBusPendingCallWatcher * )));
+}
+
+void SuperGfxCtl::finishGetVendorCall(QDBusPendingCallWatcher *watcher) {
+    QDBusPendingReply<quint32> reply = *watcher;
+    if (reply.isValid()) {
+        auto newVendor = static_cast<GfxVendor>(reply.value());
         if (vendor != newVendor) {
             vendor = newVendor;
             emit stateChanged();
         }
     }
-    QDBusReply<quint32> reply2 = interface->call("Power");
-    if (reply2.isValid()) {
-        auto newPower = static_cast<GfxPower>(reply2.value());
+}
+
+void SuperGfxCtl::finishGetPowerCall(QDBusPendingCallWatcher *watcher) {
+    QDBusPendingReply<quint32> reply = *watcher;
+    if (reply.isValid()) {
+        auto newPower = static_cast<GfxPower>(reply.value());
         if (power != newPower) {
             power = newPower;
             emit stateChanged();
