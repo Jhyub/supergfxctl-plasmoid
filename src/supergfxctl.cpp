@@ -129,7 +129,7 @@ VendorList *SuperGfxCtl::vendorList() {
     nvidia->setProperty("iconName", "supergfxctl-plasmoid-gpu-nvidia");
     nvidia->setProperty("requirement", static_cast<int>(requirement));
     nvidia->setProperty("section", static_cast<int>(section));
-    nvidia->setProperty("index", 0);
+    nvidia->setProperty("gfxIndex", 0);
     list->append(nvidia);
 
     integrated = new QObject();
@@ -140,7 +140,7 @@ VendorList *SuperGfxCtl::vendorList() {
     integrated->setProperty("iconName", "supergfxctl-plasmoid-gpu-integrated-active");
     integrated->setProperty("requirement", static_cast<int>(requirement));
     integrated->setProperty("section", static_cast<int>(section));
-    integrated->setProperty("index", 1);
+    integrated->setProperty("gfxIndex", 1);
     list->append(integrated);
 
     compute = new QObject();
@@ -162,7 +162,7 @@ VendorList *SuperGfxCtl::vendorList() {
     compute->setProperty("iconName", "supergfxctl-plasmoid-gpu-compute-active");
     compute->setProperty("requirement", static_cast<int>(requirement));
     compute->setProperty("section", static_cast<int>(section));
-    compute->setProperty("index", 2);
+    compute->setProperty("gfxIndex", 2);
     list->append(compute);
 
     vfio = new QObject();
@@ -190,7 +190,7 @@ VendorList *SuperGfxCtl::vendorList() {
     vfio->setProperty("iconName", "supergfxctl-plasmoid-gpu-vfio-active");
     vfio->setProperty("requirement", static_cast<int>(requirement));
     vfio->setProperty("section", static_cast<int>(section));
-    vfio->setProperty("index", 3);
+    vfio->setProperty("gfxIndex", 3);
     list->append(vfio);
 
     hybrid = new QObject();
@@ -201,7 +201,7 @@ VendorList *SuperGfxCtl::vendorList() {
     hybrid->setProperty("iconName", "supergfxctl-plasmoid-gpu-hybrid-active");
     hybrid->setProperty("requirement", static_cast<int>(requirement));
     hybrid->setProperty("section", static_cast<int>(section));
-    hybrid->setProperty("index", 5);
+    hybrid->setProperty("gfxIndex", 5);
     list->append(hybrid);
 
     list->orderSections();
@@ -213,8 +213,8 @@ void SuperGfxCtl::revertVendor() {
     setVendor(vendor);
 }
 
-void SuperGfxCtl::setVendor(int index) {
-    setVendor(static_cast<GfxVendor>(index));
+void SuperGfxCtl::setVendor(int gfxIndex) {
+    setVendor(static_cast<GfxVendor>(gfxIndex));
 }
 
 void SuperGfxCtl::setVendor(GfxVendor vendor) {

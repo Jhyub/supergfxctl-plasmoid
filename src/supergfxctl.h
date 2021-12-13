@@ -61,7 +61,7 @@ public:
 
     Q_INVOKABLE void revertVendor();
 
-    Q_INVOKABLE void setVendor(int index);
+    Q_INVOKABLE void setVendor(int gfxIndex);
 
     bool isSelectEnabled();
 
