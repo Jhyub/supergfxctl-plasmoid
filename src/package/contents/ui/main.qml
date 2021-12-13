@@ -138,8 +138,7 @@ Item {
                                 }
                                 id: button
                                 flat: true
-                                down: section == 0
-                                checkable: section == 1 && plasmoid.nativeInterface.loadingGfxIdx == -1
+                                down: section == 0 ? true : undefined
                                 enabled: section == 1 && plasmoid.nativeInterface.loadingGfxIdx == -1
                                 visible: plasmoid.nativeInterface.loadingGfxIdx != gfxIndex
                                 onClicked: plasmoid.nativeInterface.setVendor(gfxIndex)

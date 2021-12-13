@@ -211,8 +211,6 @@ VendorList *SuperGfxCtl::vendorList() {
 
 void SuperGfxCtl::revertVendor() {
     setVendor(vendor);
-    // reset button (from clicked state)
-    emit stateChanged();
 }
 
 void SuperGfxCtl::setVendor(int gfxIndex) {
