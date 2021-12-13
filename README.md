@@ -15,13 +15,21 @@ Built as a C++/QML Plasmoid
 
 ## Screenshots
 
-![filter.png](https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/filter.png)
+<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/filter.png" alt="filter.png" width="190">
 
-![switching.png](https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/switching.png)
+Default menu, on hybrid mode
 
-![error.png](https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/error.png)
+<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/switching.png" alt="switching.png" width="190">
 
-![revert.png](https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/revert.png)
+While switching
+
+<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/error.png" alt="error.png" width="190">
+
+Display dbus errors
+
+<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/revert.png" alt="revert.png" width="190">
+
+Revert menu
 
 ## Installation
 ### Arch User Repository
