@@ -208,6 +208,7 @@ Item {
             text: i18n("%1 is required to complete the switch", plasmoid.nativeInterface.actionName)
             helpfulAction: Action {
                 id: revertAction
+                visible: plasmoid.nativeInterface.vendorName == "integrated"
                 text: i18n("Revert to %1", plasmoid.nativeInterface.vendorName)
                 onTriggered: plasmoid.nativeInterface.revertVendor()
             }
