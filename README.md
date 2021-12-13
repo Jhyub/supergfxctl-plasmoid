@@ -15,19 +15,19 @@ Built as a C++/QML Plasmoid
 
 ## Screenshots
 
-<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/filter.png" alt="filter.png" width="190">
+<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/filter.png" alt="filter.png" width="300">
 
 Default menu, on hybrid mode
 
-<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/switching.png" alt="switching.png" width="190">
+<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/switching.png" alt="switching.png" width="300">
 
 While switching
 
-<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/error.png" alt="error.png" width="190">
+<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/error.png" alt="error.png" width="300">
 
 Display dbus errors
 
-<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/revert.png" alt="revert.png" width="190">
+<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/revert.png" alt="revert.png" width="300">
 
 Revert menu
 
