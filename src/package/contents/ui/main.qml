@@ -15,6 +15,30 @@ import org.kde.plasma.extras 2.0 as PlasmaExtras
 Item {
     Plasmoid.icon: plasmoid.nativeInterface.iconName
     Plasmoid.toolTipSubText: i18n("Graphics mode: %1, dGPU power: %2", plasmoid.nativeInterface.vendorName, plasmoid.nativeInterface.powerName)
+    Plasmoid.compactRepresentation: MouseArea {
+        readonly property bool inPanel: (plasmoid.location == PlasmaCore.Types.TopEdge
+            || plasmoid.location == PlasmaCore.Types.RightEdge
+            || plasmoid.location == PlasmaCore.Types.BottomEdge
+            || plasmoid.location == PlasmaCore.Types.LeftEdge)
+
+        Layout.maximumWidth: inPanel ? PlasmaCore.Units.iconSizeHints.panel : -1
+        Layout.maximumHeight: inPanel ? PlasmaCore.Units.iconSizeHints.panel : -1
+
+        onClicked: plasmoid.expanded = !plasmoid.expanded
+        hoverEnabled: true
+
+        PlasmaCore.IconItem {
+            anchors.fill: parent
+            source: plasmoid.icon
+            active: parent.containsMouse
+
+            PlasmaComponents.BusyIndicator {
+                anchors.centerIn: parent
+                running: plasmoid.nativeInterface.loadingGfxIdx != -1
+                visible: running
+            }
+        }
+    }
     Plasmoid.fullRepresentation: PlasmaComponents.Page {
         id: dialog
         header: PlasmaExtras.PlasmoidHeading {
@@ -159,6 +183,11 @@ Item {
                                 onClicked: plasmoid.nativeInterface.setVendor(gfxIndex)
                                 icon.name: section == 0 ? "supergfxctl-plasmoid-gpu-nvidia" : (section == 1 ? "supergfxctl-plasmoid-gpu-integrated-active" : "supergfxctl-plasmoid-gpu-integrated")
                                 text: i18n(section == 0 ? "Active" : (section == 1 ? "Switch" : "Unavailable"))
+                            }
+                            PlasmaComponents.BusyIndicator {
+                                 anchors.centerIn: button
+                                 running: plasmoid.nativeInterface.loadingGfxIdx == gfxIndex
+                                 visible: running
                             }
                         }
                     }
