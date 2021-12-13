@@ -206,11 +206,11 @@ Item {
             visible: !plasmoid.nativeInterface.isSelectEnabled
 
             text: i18n("%1 is required to complete the switch", plasmoid.nativeInterface.actionName)
-            helpfulAction: Action {
-                id: revertAction
-                visible: plasmoid.nativeInterface.vendorName == "integrated"
-                text: i18n("Revert to %1", plasmoid.nativeInterface.vendorName)
-                onTriggered: plasmoid.nativeInterface.revertVendor()
+            helpfulAction: (plasmoid.nativeInterface.vendorName == "integrated" || plasmoid.nativeInterface.vendorName == "compute") ? revertAction : undefined
+            Action {
+                    id: revertAction
+                    text: i18n("Revert to %1", plasmoid.nativeInterface.vendorName)
+                    onTriggered: plasmoid.nativeInterface.revertVendor()
             }
         }
     }
