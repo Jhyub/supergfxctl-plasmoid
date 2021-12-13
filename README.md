@@ -1,8 +1,32 @@
-# supergfxctl-plasmoid 
+# supergfxctl-plasmoid
+
 KDE Plasma plasmoid for [supergfxctl](https://gitlab.com/asus-linux/supergfxctl)  
 Built as a C++/QML Plasmoid
-## Installation 
-### Build yourself 
+
+## Features
+
+- [x] Graphics mode switching
+- [x] dGPU power indication
+- [x] Dynamic plasmoid logo, tooltip
+- [x] Filter available switches
+- [x] Display dbus error message
+- [x] Revert change (to compute, integrated, vfio)
+- [ ] Revert change (to hybrid, nvidia)
+
+## Screenshots
+
+![filter.png](https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/filter.png)
+
+![switching.png](https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/switching.png)
+
+![error.png](https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/error.png)
+
+![revert.png](https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/revert.png)
+
+## Installation
+
+### Build yourself
+
 ```shell
 git clone https://gitlab.com/Jhyub/supergfxctl-plasmoid
 cd supergfxctl-plasmoid
