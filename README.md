@@ -24,7 +24,8 @@ Built as a C++/QML Plasmoid
 ![revert.png](https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/revert.png)
 
 ## Installation
-
+### Arch User Repository
+[kdeplasma-applets-supergfxctl](https://aur.archlinux.org/packages/kdeplasma-applets-supergfxctl)
 ### Build yourself
 
 ```shell
