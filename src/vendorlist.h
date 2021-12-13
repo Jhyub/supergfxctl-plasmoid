@@ -16,7 +16,7 @@ public:
         IconNameRole,
         RequirementRole, // 0 -> none, 1 -> vfio config, 2  -> integrated, based on current state
         SectionRole, // 0 -> active, 1 -> available, 2 -> unavailable
-        IndexRole, // index of enum, 0 -> nvidia, 1 -> integrated, ...
+        GfxIndexRole, // index of enum, 0 -> nvidia, 1 -> integrated, ...
     };
 
     explicit VendorList(QObject *parent = nullptr);

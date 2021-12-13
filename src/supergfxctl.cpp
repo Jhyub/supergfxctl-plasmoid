@@ -218,13 +218,22 @@ void SuperGfxCtl::setVendor(int gfxIndex) {
 }
 
 void SuperGfxCtl::setVendor(GfxVendor vendor) {
+    mLoadingGfxIdx = static_cast<int>(vendor);
+    emit loadingChanged();
     QDBusConnection bus = QDBusConnection::systemBus();
     auto *interface = new QDBusInterface("org.supergfxctl.Daemon",
                                          "/org/supergfxctl/Gfx",
                                          "org.supergfxctl.Daemon",
                                          bus,
                                          this);
-    QDBusReply<quint32> reply = interface->call("SetVendor", static_cast<quint32>(vendor));
+    auto pcall = interface->asyncCall("SetVendor", static_cast<quint32>(vendor));
+    auto *watcher = new QDBusPendingCallWatcher(pcall, this);
+    connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher * )), this,
+            SLOT(finishSetVendorCall(QDBusPendingCallWatcher * )));
+}
+
+void SuperGfxCtl::finishSetVendorCall(QDBusPendingCallWatcher *watcher) {
+    QDBusPendingReply<quint32> reply = *watcher;
     if (reply.isValid()) {
         auto newAction = static_cast<GfxAction>(reply.value());
         if (action != newAction) {
@@ -232,6 +241,13 @@ void SuperGfxCtl::setVendor(GfxVendor vendor) {
             emit actionChanged();
         }
     }
+    mLoadingGfxIdx = -1;
+    emit loadingChanged();
+    watcher->deleteLater();
+}
+
+int SuperGfxCtl::loadingGfxIdx() {
+    return mLoadingGfxIdx;
 }
 
 bool SuperGfxCtl::isSelectEnabled() {

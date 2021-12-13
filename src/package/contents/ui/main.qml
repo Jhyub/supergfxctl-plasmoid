@@ -138,8 +138,8 @@ Item {
                                 id: button
                                 flat: true
                                 down: section == 0
-                                checkable: section == 1
-                                enabled: section == 1
+                                checkable: section == 1 && plasmoid.nativeInterface.loadingGfxIdx == -1
+                                enabled: section == 1 && plasmoid.nativeInterface.loadingGfxIdx == -1
                                 onClicked: plasmoid.nativeInterface.setVendor(gfxIndex)
                                 icon.name: section == 0 ? "supergfxctl-plasmoid-gpu-nvidia" : (section == 1 ? "supergfxctl-plasmoid-gpu-integrated-active" : "supergfxctl-plasmoid-gpu-integrated")
                                 text: i18n(section == 0 ? "Active" : (section == 1 ? "Switch" : "Unavailable"))

@@ -25,7 +25,7 @@ QVariant VendorList::data(const QModelIndex &index, int role) const {
             return mData[index.row()]->property("requirement");
         case SectionRole:
             return mData[index.row()]->property("section");
-        case IndexRole:
+        case GfxIndexRole:
             return mData[index.row()]->property("gfxIndex");
         default:
             break;
@@ -39,7 +39,7 @@ QHash<int, QByteArray> VendorList::roleNames() const {
     roles[IconNameRole] = "iconName";
     roles[RequirementRole] = "requirement";
     roles[SectionRole] = "section";
-    roles[IndexRole] = "gfxIndex";
+    roles[GfxIndexRole] = "gfxIndex";
     return roles;
 }
 

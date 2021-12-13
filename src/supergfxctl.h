@@ -8,6 +8,7 @@
 
 
 #include <Plasma/Applet>
+#include <QDBusInterface>
 #include <vendorlist.h>
 
 enum class GfxVendor {
@@ -41,6 +42,7 @@ Q_OBJECT
     Q_PROPERTY(QString actionName READ actionName NOTIFY actionChanged)
     // expect that a supergfxd reload after config edit will reload plasmoid
     Q_PROPERTY(VendorList *vendorList READ vendorList NOTIFY stateChanged)
+    Q_PROPERTY(int loadingGfxIdx READ loadingGfxIdx NOTIFY loadingChanged)
     Q_PROPERTY(bool isSelectEnabled READ isSelectEnabled NOTIFY actionChanged)
 
 
@@ -63,7 +65,13 @@ public:
 
     Q_INVOKABLE void setVendor(int gfxIndex);
 
+    int loadingGfxIdx();
+
     bool isSelectEnabled();
+
+public slots:
+
+    void finishSetVendorCall(QDBusPendingCallWatcher *);
 
 signals:
 
@@ -71,10 +79,18 @@ signals:
 
     void actionChanged();
 
+    void loadingChanged();
+
+    void finishedSetVendorCall(QDBusPendingCallWatcher *);
+
 private:
     GfxVendor vendor;
     GfxPower power;
     GfxAction action = GfxAction::NONE;
+
+    quint32 vendorReply;
+
+    int mLoadingGfxIdx = -1;
 
     bool isVfioEnabled;
 
