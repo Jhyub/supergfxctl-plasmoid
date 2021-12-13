@@ -53,13 +53,14 @@ Item {
 
                     sourceComponent: Item {
                         id: source
-                        height: separatorLine.height
+                        height: separatorLine.height + PlasmaCore.Units.smallSpacing
                         width: listView.width
                         PlasmaCore.SvgItem {
                             id: separatorLine
                             width: parent.width - 2 * PlasmaCore.Units.gridUnit
                             height: lineSvg.elementSize("horizontal-line").height
-                            anchors.centerIn: parent
+                            anchors.top: parent.top
+                            anchors.horizontalCenter: parent.horizontalCenter
                             svg: PlasmaCore.Svg {
                                 id: lineSvg
                                 imagePath: "widgets/line"
@@ -140,6 +141,7 @@ Item {
                                 down: section == 0
                                 checkable: section == 1 && plasmoid.nativeInterface.loadingGfxIdx == -1
                                 enabled: section == 1 && plasmoid.nativeInterface.loadingGfxIdx == -1
+                                visible: plasmoid.nativeInterface.loadingGfxIdx != gfxIndex
                                 onClicked: plasmoid.nativeInterface.setVendor(gfxIndex)
                                 icon.name: section == 0 ? "supergfxctl-plasmoid-gpu-nvidia" : (section == 1 ? "supergfxctl-plasmoid-gpu-integrated-active" : "supergfxctl-plasmoid-gpu-integrated")
                                 text: i18n(section == 0 ? "Active" : (section == 1 ? "Switch" : "Unavailable"))
