@@ -18,14 +18,29 @@ Item {
     Plasmoid.fullRepresentation: PlasmaComponents.Page {
         id: dialog
         header: PlasmaExtras.PlasmoidHeading {
-            RowLayout {
-                PlasmaCore.IconItem {
-                    Layout.preferredHeight: PlasmaCore.Units.iconSizes.small
-                    Layout.preferredWidth: PlasmaCore.Units.iconSizes.small
-                    source: "supergfxctl-plasmoid-dgpu-" + plasmoid.nativeInterface.powerName
+            ColumnLayout {
+                RowLayout {
+                    PlasmaCore.IconItem {
+                        Layout.preferredHeight: PlasmaCore.Units.iconSizes.small
+                        Layout.preferredWidth: PlasmaCore.Units.iconSizes.small
+                        source: "supergfxctl-plasmoid-dgpu-" + plasmoid.nativeInterface.powerName
+                    }
+                    PlasmaComponents.Label {
+                        text: i18n("dGPU is %1", plasmoid.nativeInterface.powerName)
+                    }
                 }
                 PlasmaComponents.Label {
-                    text: i18n("dGPU is %1", plasmoid.nativeInterface.powerName)
+                    visible: plasmoid.nativeInterface.errorMessage.length > 0
+                    text: plasmoid.nativeInterface.errorMessage
+                    color: "red"
+                    font.italic: true
+                    clip: true
+                }
+                PlasmaComponents.Label {
+                    visible: plasmoid.nativeInterface.errorMessage.length > 0
+                    text: i18n("Run journalctl -b -u supergfxd for more information")
+                    color: "red"
+                    font.italic: true
                 }
             }
         }

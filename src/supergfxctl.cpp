@@ -235,11 +235,15 @@ void SuperGfxCtl::setVendor(GfxVendor vendor) {
 void SuperGfxCtl::finishSetVendorCall(QDBusPendingCallWatcher *watcher) {
     QDBusPendingReply<quint32> reply = *watcher;
     if (reply.isValid()) {
+        mErrorMessage = "";
         auto newAction = static_cast<GfxAction>(reply.value());
         if (action != newAction) {
             action = newAction;
             emit actionChanged();
         }
+    }
+    if (reply.isError()) {
+        mErrorMessage = reply.error().message();
     }
     mLoadingGfxIdx = -1;
     emit loadingChanged();
@@ -252,6 +256,10 @@ int SuperGfxCtl::loadingGfxIdx() {
 
 bool SuperGfxCtl::isSelectEnabled() {
     return action != GfxAction::REBOOT && action != GfxAction::LOGOUT;
+}
+
+QString SuperGfxCtl::errorMessage() {
+    return mErrorMessage;
 }
 
 void SuperGfxCtl::getState() {

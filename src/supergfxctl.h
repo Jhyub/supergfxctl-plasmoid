@@ -44,6 +44,7 @@ Q_OBJECT
     Q_PROPERTY(VendorList *vendorList READ vendorList NOTIFY stateChanged)
     Q_PROPERTY(int loadingGfxIdx READ loadingGfxIdx NOTIFY loadingChanged)
     Q_PROPERTY(bool isSelectEnabled READ isSelectEnabled NOTIFY actionChanged)
+    Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY loadingChanged) // errors happen on switch attempts
 
 
 public:
@@ -68,6 +69,8 @@ public:
     int loadingGfxIdx();
 
     bool isSelectEnabled();
+
+    QString errorMessage();
 
 public slots:
 
@@ -101,6 +104,8 @@ private:
     void getState();
 
     QObject *nvidia, *integrated, *compute, *vfio, *hybrid;
+
+    QString mErrorMessage;
 
 private slots:
 
