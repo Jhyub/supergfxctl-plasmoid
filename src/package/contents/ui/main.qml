@@ -206,7 +206,7 @@ Item {
             visible: !plasmoid.nativeInterface.isSelectEnabled
 
             text: i18n("%1 is required to complete the switch", plasmoid.nativeInterface.actionName)
-            helpfulAction: (plasmoid.nativeInterface.vendorName == "integrated" || plasmoid.nativeInterface.vendorName == "compute") ? revertAction : undefined
+            helpfulAction: (plasmoid.nativeInterface.vendorName != "hybrid" && plasmoid.nativeInterface.vendorName != "nvidia") ? revertAction : undefined
             Action {
                     id: revertAction
                     text: i18n("Revert to %1", plasmoid.nativeInterface.vendorName)
