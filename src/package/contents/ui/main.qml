@@ -37,7 +37,10 @@ Item {
 
             ListView {
                 id: listView
-                anchors.fill: parent
+                anchors {
+                    fill: parent
+                    topMargin: PlasmaCore.Units.smallSpacing
+                }
                 clip: true
                 model: plasmoid.nativeInterface.vendorList
                 boundsBehavior: Flickable.StopAtBounds
@@ -76,30 +79,65 @@ Item {
                     required property int requirement
                     required property int index
                     required property int section
-                    RowLayout {
+                    Item {
+                        anchors.fill: parent
                         PlasmaCore.IconItem {
-                            Layout.preferredHeight: PlasmaCore.Units.iconSizes.medium
-                            Layout.preferredWidth: PlasmaCore.Units.iconSizes.medium
+                            anchors {
+                                verticalCenter: parent.verticalCenter
+                                left: parent.left
+                            }
+                            id: iconItem
+                            height: PlasmaCore.Units.iconSizes.medium
+                            width: PlasmaCore.Units.iconSizes.medium
                             source: iconName
+                            opacity: requirement != 0 ? 0.6 : 1
                         }
-                        ColumnLayout {
-                            PlasmaComponents.Label {
-                                text: name
-                                font.pixelSize: 12
+                        Item {
+                            anchors {
+                                verticalCenter: requirement == 0 ? parent.verticalCenter : undefined
+                                top: requirement == 0 ? undefined : parent.top
+                                bottom: requirement == 0 ? undefined : parent.bottom
+                                left: iconItem.right
+                                right: button.left
+                                leftMargin: PlasmaCore.Units.smallSpacing
                             }
                             PlasmaComponents.Label {
+                                anchors {
+                                    verticalCenter: requirement == 0 ? parent.verticalCenter : undefined
+                                    top: requirement == 0 ? undefined : parent.top
+                                    left: parent.left
+                                }
+                                id: nameLabel
+                                text: name
+                                font.bold: section == 0
+                                opacity: requirement != 0 ? 0.6 : 1
+                            }
+                            PlasmaComponents.Label {
+                                anchors {
+                                    top: requirement == 0 ? undefined : nameLabel.bottom
+                                    bottom: requirement == 0 ? undefined : parent.bottom
+                                    left: parent.left
+                                }
+                                id: descriptionLabel
+                                visible: requirement != 0
                                 text: requirement == 2 ? "Switch to integrated is required" : (requirement == 1 ? "vfio is disabled in config" : "")
-                                font.italic: true
+                                font.pixelSize: PlasmaCore.Theme.smallestFont.pixelSize
+                                opacity: 0.6
                             }
                         }
                         PlasmaComponents.Button {
+                            anchors {
+                                verticalCenter: iconItem.verticalCenter
+                                right: parent.right
+                            }
+                            id: button
                             flat: true
-                            text: i18n(section == 0 ? "Active" : (section == 1 ? "Switch" : "Unavailable"))
-                            onClicked: plasmoid.nativeInterface.setVendor(index)
                             down: section == 0
-                            highlighted: section == 2
                             checkable: section == 1
                             enabled: section == 1
+                            onClicked: plasmoid.nativeInterface.setVendor(index)
+                            icon.name: section == 0 ? "supergfxctl-plasmoid-gpu-nvidia" : (section == 1 ? "supergfxctl-plasmoid-gpu-integrated-active" : "supergfxctl-plasmoid-gpu-integrated")
+                            text: i18n(section == 0 ? "Active" : (section == 1 ? "Switch" : "Unavailable"))
                         }
                     }
                 }
@@ -107,10 +145,12 @@ Item {
         }
 
         PlasmaExtras.PlaceholderMessage {
-            anchors.centerIn: parent
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.margins: PlasmaCore.Units.largeSpacing
+            anchors {
+                centerIn: parent
+                left: parent.left
+                right: parent.right
+                margins: PlasmaCore.Units.largeSpacing
+            }
 
             visible: !plasmoid.nativeInterface.isSelectEnabled
 
