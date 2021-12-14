@@ -39,12 +39,16 @@ Revert menu
 ```shell
 git clone https://gitlab.com/Jhyub/supergfxctl-plasmoid
 cd supergfxctl-plasmoid
+git checkout [LATEST VERSION TAG HERE]
 mkdir build
 cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr ..
 make
 sudo make install # or any other elevation tool
 ```
+#### Fedora
+Build dependencies are: `git` `cmake` `gcc-c++` `extra-cmake-modules` `kf5-ki18n-devel` `kf5-plasma-devel` `qt5-qtdeclarative-devel`
+
 ## Copyright Notice
 Some files under ./icons/status are from or derived from [asusctl-gex](https://gitlab.com/asus-linux/asusctl-gex), which is distributed under the Mozilla Public License 2.0.
 The following is an exhaustive list of files.  
