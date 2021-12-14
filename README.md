@@ -46,7 +46,7 @@ make
 sudo make install # or any other elevation tool
 ```
 ## Copyright Notice
-Some files under ./icons/status are from [asusctl-gex](https://gitlab.com/asus-linux/asusctl-gex), which is distributed under the Mozilla Public License 2.0.  
+Some files under ./icons/status are from or derived from [asusctl-gex](https://gitlab.com/asus-linux/asusctl-gex), which is distributed under the Mozilla Public License 2.0.
 The following is an exhaustive list of files.  
 ```
 supergfxctl-plasmoid-dgpu-active.svg
