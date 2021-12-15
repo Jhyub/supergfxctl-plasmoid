@@ -37,6 +37,18 @@ Item {
                 running: plasmoid.nativeInterface.loadingGfxIdx != -1
                 visible: running
             }
+
+            PlasmaComponents.ProgressBar {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    bottom: parent.bottom
+                }
+                visible: plasmoid.nativeInterface.timeout > 0
+                from: -60 // small trick to make the bar not disappear so fast. please tell me if this is resolution-dependent.
+                to: 180
+                value: plasmoid.nativeInterface.timeout
+            }
         }
     }
     Plasmoid.fullRepresentation: PlasmaComponents.Page {
