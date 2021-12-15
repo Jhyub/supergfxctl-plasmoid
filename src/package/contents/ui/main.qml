@@ -217,7 +217,7 @@ Item {
 
             visible: !plasmoid.nativeInterface.isSelectEnabled
 
-            text: i18n("%1 is required to complete the switch\n%2 seconds left", plasmoid.nativeInterface.actionName, plasmoid.nativeInterface.timeout)
+            text: i18n("%1 should be done in %2 seconds to complete the switch", plasmoid.nativeInterface.actionName, plasmoid.nativeInterface.timeout)
             helpfulAction: (plasmoid.nativeInterface.vendorName != "hybrid" && plasmoid.nativeInterface.vendorName != "nvidia") ? revertAction : undefined
             Action {
                     id: revertAction
