@@ -242,12 +242,17 @@ void SuperGfxCtl::finishSetVendorCall(QDBusPendingCallWatcher *watcher) {
         mErrorMessage = "";
         auto newAction = static_cast<GfxAction>(reply.value());
         if (action != newAction) {
-            action = newAction;
-            if (action == GfxAction::LOGOUT) {
+            if (newAction == GfxAction::LOGOUT) {
                 timeoutTimer->stop();
                 mTimeout = 180;
                 timeoutTimer->start();
+                emit timeoutChanged();
+            } else if (action == GfxAction::LOGOUT) { // if current logout action disappears
+                timeoutTimer->stop();
+                mTimeout = 0;
+                emit timeoutChanged();
             }
+            action = newAction;
             emit actionChanged();
         }
     }
