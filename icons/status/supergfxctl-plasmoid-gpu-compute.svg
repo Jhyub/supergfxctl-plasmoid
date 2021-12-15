@@ -1,1 +1,20 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Generator: Gravit.io --><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="isolation:isolate" viewBox="0 0 128 128" width="128pt" height="128pt"><defs><clipPath id="_clipPath_a7xu1KfXQVrcvwhWi3nWx9BAl8PV5eFD"><rect width="128" height="128"/></clipPath></defs><g clip-path="url(#_clipPath_a7xu1KfXQVrcvwhWi3nWx9BAl8PV5eFD)"><g><path d=" M 24 0 L 24 16 L 16 16 L 16 24 L 0 24 L 0 32 L 16 32 L 16 48 L 0 48 L 0 56 L 16 56 L 16 72 L 0 72 L 0 80 L 16 80 L 16 96 L 0 96 L 0 104 L 16 104 L 16 112 L 24 112 L 24 128 L 32 128 L 32 112 L 48 112 L 48 128 L 56 128 L 56 112 L 72 112 L 72 128 L 80 128 L 80 112 L 96 112 L 96 128 L 104 128 L 104 112 L 112 112 L 112 104 L 128 104 L 128 96 L 112 96 L 112 80 L 128 80 L 128 72 L 112 72 L 112 56 L 128 56 L 128 48 L 112 48 L 112 32 L 128 32 L 128 24 L 112 24 L 112 16 L 104 16 L 104 0 L 96 0 L 96 16 L 80 16 L 80 0 L 72 0 L 72 16 L 56 16 L 56 0 L 48 0 L 48 16 L 32 16 L 32 0 L 24 0 Z " fill="rgb(239,240,241)" fill-opacity="0.5"/><path d=" M 69.553 93.372 C 75.395 93.372 81.812 91.891 86.749 89.505 L 84.363 81.853 C 80.66 83.252 76.053 84.075 72.104 84.075 C 59.598 84.075 51.782 75.847 51.782 63.013 C 51.782 50.919 58.858 44.008 70.87 44.008 C 75.395 44.008 80.578 44.913 84.28 46.394 L 87.242 38.166 C 82.388 35.863 76.793 34.628 71.117 34.628 C 53.099 34.628 40.758 46.558 40.758 64.494 C 40.758 81.771 52.441 93.372 69.553 93.372 Z " fill="rgb(239,240,241)"/></g></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Original svg from asusctl-gex: https://gitlab.com/asus-linux/asusctl-gex
+    Modified by Janghyub Seo
+-->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="isolation:isolate"
+     viewBox="0 0 128 128" width="128pt" height="128pt">
+    <defs>
+        <style id="current-color-scheme" type="text/css">
+            .ColorScheme-Text {
+            color:#232629;
+            }
+        </style>
+    </defs>
+    <rect height="128" width="128" opacity="0"/>
+    <path d=" M 24 0 L 24 16 L 16 16 L 16 24 L 0 24 L 0 32 L 16 32 L 16 48 L 0 48 L 0 56 L 16 56 L 16 72 L 0 72 L 0 80 L 16 80 L 16 96 L 0 96 L 0 104 L 16 104 L 16 112 L 24 112 L 24 128 L 32 128 L 32 112 L 48 112 L 48 128 L 56 128 L 56 112 L 72 112 L 72 128 L 80 128 L 80 112 L 96 112 L 96 128 L 104 128 L 104 112 L 112 112 L 112 104 L 128 104 L 128 96 L 112 96 L 112 80 L 128 80 L 128 72 L 112 72 L 112 56 L 128 56 L 128 48 L 112 48 L 112 32 L 128 32 L 128 24 L 112 24 L 112 16 L 104 16 L 104 0 L 96 0 L 96 16 L 80 16 L 80 0 L 72 0 L 72 16 L 56 16 L 56 0 L 48 0 L 48 16 L 32 16 L 32 0 L 24 0 Z "
+          fill="currentColor" fill-opacity="0.35" class="ColorScheme-Text"/>
+    <path d=" M 69.553 93.372 C 75.395 93.372 81.812 91.891 86.749 89.505 L 84.363 81.853 C 80.66 83.252 76.053 84.075 72.104 84.075 C 59.598 84.075 51.782 75.847 51.782 63.013 C 51.782 50.919 58.858 44.008 70.87 44.008 C 75.395 44.008 80.578 44.913 84.28 46.394 L 87.242 38.166 C 82.388 35.863 76.793 34.628 71.117 34.628 C 53.099 34.628 40.758 46.558 40.758 64.494 C 40.758 81.771 52.441 93.372 69.553 93.372 Z "
+          fill="currentColor" class="ColorScheme-Text"/>
+</svg>
