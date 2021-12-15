@@ -10,6 +10,7 @@ Built as a C++/QML Plasmoid
 - [x] Dynamic plasmoid logo, tooltip
 - [x] Filter available switches
 - [x] Display dbus error message
+- [x] Alert 180 second timeout on logout
 - [x] Revert change (to compute, integrated, vfio)
 - [ ] Revert change (to hybrid, nvidia)
 
