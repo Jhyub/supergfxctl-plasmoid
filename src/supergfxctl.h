@@ -9,6 +9,7 @@
 
 #include <Plasma/Applet>
 #include <QDBusInterface>
+#include <QTimer>
 #include <vendorlist.h>
 
 enum class GfxVendor {
@@ -44,6 +45,7 @@ Q_OBJECT
     Q_PROPERTY(VendorList *vendorList READ vendorList NOTIFY stateChanged)
     Q_PROPERTY(int loadingGfxIdx READ loadingGfxIdx NOTIFY loadingChanged)
     Q_PROPERTY(bool isSelectEnabled READ isSelectEnabled NOTIFY actionChanged)
+    Q_PROPERTY(int timeout READ timeout NOTIFY timeoutChanged)
     Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY loadingChanged) // errors happen on switch attempts
 
 
@@ -70,9 +72,9 @@ public:
 
     bool isSelectEnabled();
 
-    QString errorMessage();
+    int timeout();
 
-public slots:
+    QString errorMessage();
 
 signals:
 
@@ -81,6 +83,8 @@ signals:
     void actionChanged();
 
     void loadingChanged();
+
+    void timeoutChanged();
 
     void finishedSetVendorCall(QDBusPendingCallWatcher *);
 
@@ -106,6 +110,12 @@ private:
     QObject *nvidia, *integrated, *compute, *vfio, *hybrid;
 
     QString mErrorMessage;
+
+    int mTimeout = 0;
+
+    void reduceTimer();
+
+    QTimer *timeoutTimer = new QTimer(this);
 
 private slots:
 

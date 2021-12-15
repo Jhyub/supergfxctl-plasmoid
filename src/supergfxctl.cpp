@@ -47,6 +47,10 @@ SuperGfxCtl::SuperGfxCtl(QObject *parent, const QVariantList &args)
     timer->setInterval(1000);
     this->getState();
     timer->start();
+
+    connect(timeoutTimer, &QTimer::timeout, this, &SuperGfxCtl::reduceTimer);
+    timeoutTimer->setInterval(1000);
+    timer->start();
 }
 
 SuperGfxCtl::~SuperGfxCtl() {
@@ -239,6 +243,11 @@ void SuperGfxCtl::finishSetVendorCall(QDBusPendingCallWatcher *watcher) {
         auto newAction = static_cast<GfxAction>(reply.value());
         if (action != newAction) {
             action = newAction;
+            if (action == GfxAction::LOGOUT) {
+                timeoutTimer->stop();
+                mTimeout = 180;
+                timeoutTimer->start();
+            }
             emit actionChanged();
         }
     }
@@ -256,6 +265,21 @@ int SuperGfxCtl::loadingGfxIdx() {
 
 bool SuperGfxCtl::isSelectEnabled() {
     return action != GfxAction::REBOOT && action != GfxAction::LOGOUT;
+}
+
+int SuperGfxCtl::timeout() {
+    return mTimeout;
+}
+
+void SuperGfxCtl::reduceTimer() {
+    if (mTimeout > 0) {
+        mTimeout--;
+        if (mTimeout == 0) {
+            action = GfxAction::NONE;
+            actionChanged();
+        }
+        timeoutChanged();
+    }
 }
 
 QString SuperGfxCtl::errorMessage() {
