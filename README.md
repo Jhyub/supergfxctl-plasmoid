@@ -14,6 +14,8 @@ Built as a C++/QML Plasmoid
 - [x] Revert change (to compute, integrated, vfio)
 - [ ] Revert change (to hybrid, nvidia)
 
+_**NOTE**: supergfxctl-plasmoid only reflects current gpu mode and power from the daemon. other information might mix up and not reflect properly if you use more than two clients at once. (ex. `supergfxctl` cli tool)_
+
 ## Screenshots
 
 <img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/filter.png" alt="filter.png" width="300">
