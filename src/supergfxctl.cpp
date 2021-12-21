@@ -106,7 +106,6 @@ QString SuperGfxCtl::actionName() {
     return {""};
 }
 
-//TODO: this function includes a memory leak (possibly), but I have never learned c++ properly and can't handle it
 VendorList *SuperGfxCtl::vendorList() {
     auto list = new VendorList();
 
@@ -125,7 +124,7 @@ VendorList *SuperGfxCtl::vendorList() {
     Requirement requirement;
     Section section;
 
-    auto nvidia = new QObject();
+    auto nvidia = new QObject(list);
     requirement = Requirement::NONE;
     if (vendor == GfxVendor::NVIDIA) section = Section::ACTIVE;
     else section = Section::AVAILABLE;
@@ -136,7 +135,7 @@ VendorList *SuperGfxCtl::vendorList() {
     nvidia->setProperty("gfxIndex", 0);
     list->append(nvidia);
 
-    auto integrated = new QObject();
+    auto integrated = new QObject(list);
     requirement = Requirement::NONE;
     if (vendor == GfxVendor::INTEGRATED) section = Section::ACTIVE;
     else section = Section::AVAILABLE;
@@ -147,7 +146,7 @@ VendorList *SuperGfxCtl::vendorList() {
     integrated->setProperty("gfxIndex", 1);
     list->append(integrated);
 
-    auto compute = new QObject();
+    auto compute = new QObject(list);
     switch (vendor) {
         case GfxVendor::COMPUTE:
             section = Section::ACTIVE;
@@ -169,7 +168,7 @@ VendorList *SuperGfxCtl::vendorList() {
     compute->setProperty("gfxIndex", 2);
     list->append(compute);
 
-    auto vfio = new QObject();
+    auto vfio = new QObject(list);
     switch (vendor) {
         case GfxVendor::VFIO:
             section = Section::ACTIVE;
@@ -197,7 +196,7 @@ VendorList *SuperGfxCtl::vendorList() {
     vfio->setProperty("gfxIndex", 3);
     list->append(vfio);
 
-    auto hybrid = new QObject();
+    auto hybrid = new QObject(list);
     requirement = Requirement::NONE;
     if (vendor == GfxVendor::HYBRID) section = Section::ACTIVE;
     else section = Section::AVAILABLE;
@@ -209,6 +208,10 @@ VendorList *SuperGfxCtl::vendorList() {
     list->append(hybrid);
 
     list->orderSections();
+
+    if (currentList != nullptr) oldList = currentList;
+    currentList = list;
+    delete oldList;
 
     return list;
 }
@@ -234,6 +237,7 @@ void SuperGfxCtl::setVendor(GfxVendor vendor) {
     auto *watcher = new QDBusPendingCallWatcher(pcall, this);
     connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher * )), this,
             SLOT(finishSetVendorCall(QDBusPendingCallWatcher * )));
+    delete interface;
 }
 
 void SuperGfxCtl::finishSetVendorCall(QDBusPendingCallWatcher *watcher) {
@@ -261,7 +265,7 @@ void SuperGfxCtl::finishSetVendorCall(QDBusPendingCallWatcher *watcher) {
     }
     mLoadingGfxIdx = -1;
     emit loadingChanged();
-    watcher->deleteLater();
+    delete watcher;
 }
 
 int SuperGfxCtl::loadingGfxIdx() {
@@ -306,6 +310,7 @@ void SuperGfxCtl::getState() {
             SLOT(finishGetVendorCall(QDBusPendingCallWatcher * )));
     connect(watcher2, SIGNAL(finished(QDBusPendingCallWatcher * )), this,
             SLOT(finishGetPowerCall(QDBusPendingCallWatcher * )));
+    delete interface;
 }
 
 void SuperGfxCtl::finishGetVendorCall(QDBusPendingCallWatcher *watcher) {
@@ -317,7 +322,7 @@ void SuperGfxCtl::finishGetVendorCall(QDBusPendingCallWatcher *watcher) {
             emit stateChanged();
         }
     }
-    watcher->deleteLater();
+    delete watcher;
 }
 
 void SuperGfxCtl::finishGetPowerCall(QDBusPendingCallWatcher *watcher) {
@@ -329,7 +334,7 @@ void SuperGfxCtl::finishGetPowerCall(QDBusPendingCallWatcher *watcher) {
             emit stateChanged();
         }
     }
-    watcher->deleteLater();
+    delete watcher;
 }
 
 K_PLUGIN_CLASS_WITH_JSON(SuperGfxCtl, "metadata.json")

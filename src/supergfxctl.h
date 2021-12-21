@@ -107,6 +107,8 @@ private:
 
     void getState();
 
+    VendorList *currentList = nullptr, *oldList = nullptr;
+
     QString mErrorMessage;
 
     int mTimeout = 0;
