@@ -107,8 +107,6 @@ private:
 
     void getState();
 
-    QObject *nvidia, *integrated, *compute, *vfio, *hybrid;
-
     QString mErrorMessage;
 
     int mTimeout = 0;

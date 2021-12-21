@@ -125,7 +125,7 @@ VendorList *SuperGfxCtl::vendorList() {
     Requirement requirement;
     Section section;
 
-    nvidia = new QObject();
+    auto nvidia = new QObject();
     requirement = Requirement::NONE;
     if (vendor == GfxVendor::NVIDIA) section = Section::ACTIVE;
     else section = Section::AVAILABLE;
@@ -136,7 +136,7 @@ VendorList *SuperGfxCtl::vendorList() {
     nvidia->setProperty("gfxIndex", 0);
     list->append(nvidia);
 
-    integrated = new QObject();
+    auto integrated = new QObject();
     requirement = Requirement::NONE;
     if (vendor == GfxVendor::INTEGRATED) section = Section::ACTIVE;
     else section = Section::AVAILABLE;
@@ -147,7 +147,7 @@ VendorList *SuperGfxCtl::vendorList() {
     integrated->setProperty("gfxIndex", 1);
     list->append(integrated);
 
-    compute = new QObject();
+    auto compute = new QObject();
     switch (vendor) {
         case GfxVendor::COMPUTE:
             section = Section::ACTIVE;
@@ -169,7 +169,7 @@ VendorList *SuperGfxCtl::vendorList() {
     compute->setProperty("gfxIndex", 2);
     list->append(compute);
 
-    vfio = new QObject();
+    auto vfio = new QObject();
     switch (vendor) {
         case GfxVendor::VFIO:
             section = Section::ACTIVE;
@@ -197,7 +197,7 @@ VendorList *SuperGfxCtl::vendorList() {
     vfio->setProperty("gfxIndex", 3);
     list->append(vfio);
 
-    hybrid = new QObject();
+    auto hybrid = new QObject();
     requirement = Requirement::NONE;
     if (vendor == GfxVendor::HYBRID) section = Section::ACTIVE;
     else section = Section::AVAILABLE;
@@ -317,6 +317,7 @@ void SuperGfxCtl::finishGetVendorCall(QDBusPendingCallWatcher *watcher) {
             emit stateChanged();
         }
     }
+    watcher->deleteLater();
 }
 
 void SuperGfxCtl::finishGetPowerCall(QDBusPendingCallWatcher *watcher) {
@@ -328,6 +329,7 @@ void SuperGfxCtl::finishGetPowerCall(QDBusPendingCallWatcher *watcher) {
             emit stateChanged();
         }
     }
+    watcher->deleteLater();
 }
 
 K_PLUGIN_CLASS_WITH_JSON(SuperGfxCtl, "metadata.json")
