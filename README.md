@@ -61,14 +61,14 @@ supergfxctl-plasmoid-dgpu-off.svg
 supergfxctl-plasmoid-dgpu-suspended.svg
 supergfxctl-plasmoid-gpu-copute.svg
 supergfxctl-plasmoid-gpu-compute-active.svg
+supergfxctl-plasmoid-gpu-dedicated.svg
+supergfxctl-plasmoid-gpu-dedicated-active.svg
 supergfxctl-plasmoid-gpu-egpu.svg
 supergfxctl-plasmoid-gpu-egpu-active.svg
 supergfxctl-plasmoid-gpu-hybrid.svg
 supergfxctl-plasmoid-gpu-hybrid-active.svg
 supergfxctl-plasmoid-gpu-integrated.svg
 supergfxctl-plasmoid-gpu-integrated-active.svg
-supergfxctl-plasmoid-gpu-nvidia.svg
-supergfxctl-plasmoid-gpu-nvidia-active.svg
 supergfxctl-plasmoid-gpu-vfio.svg
 supergfxctl-plasmoid-gpu-vfio-active.svg
 ```

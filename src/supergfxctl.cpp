@@ -16,8 +16,8 @@
 
 QString vendorToName(GfxVendor vendor) {
     switch (vendor) {
-        case GfxVendor::NVIDIA:
-            return {"NVIDIA"};
+        case GfxVendor::DEDICATED:
+            return {"dedicated"};
         case GfxVendor::INTEGRATED:
             return {"integrated"};
         case GfxVendor::COMPUTE:
@@ -28,8 +28,8 @@ QString vendorToName(GfxVendor vendor) {
             return {"eGPU"};
         case GfxVendor::HYBRID:
             return {"hybrid"};
-        default: // whatever
-            return {"NVIDIA"};
+        default:
+            return {""};
     }
 }
 
@@ -77,8 +77,8 @@ QString SuperGfxCtl::powerName() {
 
 QString SuperGfxCtl::iconName() {
     switch (vendor) {
-        case GfxVendor::NVIDIA:
-            return {"supergfxctl-plasmoid-gpu-nvidia"};
+        case GfxVendor::DEDICATED:
+            return {"supergfxctl-plasmoid-gpu-dedicated"};
         case GfxVendor::INTEGRATED:
             if (power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-integrated-active"};
             else return {"supergfxctl-plasmoid-gpu-integrated"};
@@ -95,7 +95,7 @@ QString SuperGfxCtl::iconName() {
             if (power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-hybrid-active"};
             else return {"supergfxctl-plasmoid-gpu-hybrid"};
     }
-    return {"supergfxctl-plasmoid-gpu-nvidia"};
+    return {""};
 }
 
 QString SuperGfxCtl::actionName() {
@@ -124,16 +124,16 @@ VendorList *SuperGfxCtl::vendorList() {
     Requirement requirement;
     Section section;
 
-    auto nvidia = new QObject(list);
+    auto dedicated = new QObject(list);
     requirement = Requirement::NONE;
-    if (vendor == GfxVendor::NVIDIA) section = Section::ACTIVE;
+    if (vendor == GfxVendor::DEDICATED) section = Section::ACTIVE;
     else section = Section::AVAILABLE;
-    nvidia->setProperty("name", "NVIDIA");
-    nvidia->setProperty("iconName", "supergfxctl-plasmoid-gpu-nvidia");
-    nvidia->setProperty("requirement", static_cast<int>(requirement));
-    nvidia->setProperty("section", static_cast<int>(section));
-    nvidia->setProperty("gfxIndex", 0);
-    list->append(nvidia);
+    dedicated->setProperty("name", "Dedicated");
+    dedicated->setProperty("iconName", "supergfxctl-plasmoid-gpu-dedicated");
+    dedicated->setProperty("requirement", static_cast<int>(requirement));
+    dedicated->setProperty("section", static_cast<int>(section));
+    dedicated->setProperty("gfxIndex", 0);
+    list->append(dedicated);
 
     auto integrated = new QObject(list);
     requirement = Requirement::NONE;

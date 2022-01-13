@@ -13,12 +13,12 @@
 #include <vendorlist.h>
 
 enum class GfxVendor {
-    NVIDIA,
+    HYBRID,
+    DEDICATED,
     INTEGRATED,
     COMPUTE,
     VFIO,
     EGPU,
-    HYBRID,
 };
 
 enum class GfxPower {
