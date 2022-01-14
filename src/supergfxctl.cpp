@@ -132,7 +132,7 @@ VendorList *SuperGfxCtl::vendorList() {
     dedicated->setProperty("iconName", "supergfxctl-plasmoid-gpu-dedicated");
     dedicated->setProperty("requirement", static_cast<int>(requirement));
     dedicated->setProperty("section", static_cast<int>(section));
-    dedicated->setProperty("gfxIndex", 0);
+    dedicated->setProperty("gfxIndex", static_cast<int>(GfxVendor::DEDICATED));
     list->append(dedicated);
 
     auto integrated = new QObject(list);
@@ -143,7 +143,7 @@ VendorList *SuperGfxCtl::vendorList() {
     integrated->setProperty("iconName", "supergfxctl-plasmoid-gpu-integrated-active");
     integrated->setProperty("requirement", static_cast<int>(requirement));
     integrated->setProperty("section", static_cast<int>(section));
-    integrated->setProperty("gfxIndex", 1);
+    integrated->setProperty("gfxIndex", static_cast<int>(GfxVendor::INTEGRATED));
     list->append(integrated);
 
     auto compute = new QObject(list);
@@ -165,7 +165,7 @@ VendorList *SuperGfxCtl::vendorList() {
     compute->setProperty("iconName", "supergfxctl-plasmoid-gpu-compute-active");
     compute->setProperty("requirement", static_cast<int>(requirement));
     compute->setProperty("section", static_cast<int>(section));
-    compute->setProperty("gfxIndex", 2);
+    compute->setProperty("gfxIndex", static_cast<int>(GfxVendor::COMPUTE));
     list->append(compute);
 
     auto vfio = new QObject(list);
@@ -193,7 +193,7 @@ VendorList *SuperGfxCtl::vendorList() {
     vfio->setProperty("iconName", "supergfxctl-plasmoid-gpu-vfio-active");
     vfio->setProperty("requirement", static_cast<int>(requirement));
     vfio->setProperty("section", static_cast<int>(section));
-    vfio->setProperty("gfxIndex", 3);
+    vfio->setProperty("gfxIndex", static_cast<int>(GfxVendor::VFIO));
     list->append(vfio);
 
     auto hybrid = new QObject(list);
@@ -204,7 +204,7 @@ VendorList *SuperGfxCtl::vendorList() {
     hybrid->setProperty("iconName", "supergfxctl-plasmoid-gpu-hybrid-active");
     hybrid->setProperty("requirement", static_cast<int>(requirement));
     hybrid->setProperty("section", static_cast<int>(section));
-    hybrid->setProperty("gfxIndex", 5);
+    hybrid->setProperty("gfxIndex", static_cast<int>(GfxVendor::HYBRID));
     list->append(hybrid);
 
     list->orderSections();
