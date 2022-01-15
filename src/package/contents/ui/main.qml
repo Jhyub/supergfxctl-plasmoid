@@ -218,8 +218,9 @@ Item {
 
             visible: !plasmoid.nativeInterface.isSelectEnabled && plasmoid.nativeInterface.versionCheck
 
-            text: i18n("%1 should be done in %2 seconds to complete the switch", plasmoid.nativeInterface.actionName, plasmoid.nativeInterface.timeout)
-            helpfulAction: (plasmoid.nativeInterface.modeName != "hybrid" && plasmoid.nativeInterface.modeName != "dedicated") ? revertAction : undefined
+            // TODO: This could be more clean
+            text: (plasmoid.nativeInterface.actionName == "Logout") ? i18n("%1 should be done in %2 seconds to complete the switch", plasmoid.nativeInterface.actionName, plasmoid.nativeInterface.timeout) : i18n("%1 should be done to complete the switch", plasmoid.nativeInterface.actionName)
+            helpfulAction: ((plasmoid.nativeInterface.modeName != "hybrid" && plasmoid.nativeInterface.modeName != "dedicated") || plasmoid.nativeInterface.actionName == "Reboot") ? revertAction : undefined
             Action {
                     id: revertAction
                     text: i18n("Revert to %1", plasmoid.nativeInterface.modeName)
