@@ -13,6 +13,7 @@
 #include <QFile>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QVersionNumber>
 
 QString modeToName(GfxMode mode) {
     switch (mode) {
@@ -35,6 +36,7 @@ QString modeToName(GfxMode mode) {
 
 SuperGfxCtl::SuperGfxCtl(QObject *parent, const QVariantList &args)
         : Plasma::Applet(parent, args) {
+    checkVersion();
     // open json
     QFile file("/etc/supergfxd.conf");
     file.open(QIODevice::ReadOnly);
@@ -51,6 +53,7 @@ SuperGfxCtl::SuperGfxCtl(QObject *parent, const QVariantList &args)
     connect(timeoutTimer, &QTimer::timeout, this, &SuperGfxCtl::reduceTimer);
     timeoutTimer->setInterval(1000);
     timer->start();
+
 }
 
 SuperGfxCtl::~SuperGfxCtl() {
@@ -335,6 +338,43 @@ void SuperGfxCtl::finishGetPowerCall(QDBusPendingCallWatcher *watcher) {
         }
     }
     delete watcher;
+}
+
+void SuperGfxCtl::checkVersion() {
+    QDBusConnection bus = QDBusConnection::systemBus();
+    auto *interface = new QDBusInterface("org.supergfxctl.Daemon",
+                                         "/org/supergfxctl/Gfx",
+                                         "org.supergfxctl.Daemon",
+                                         bus,
+                                         this);
+    auto pcall = interface->asyncCall("Version");
+    auto *watcher = new QDBusPendingCallWatcher(pcall, this);
+    connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher * )), this,
+            SLOT(finishCheckVersionCall(QDBusPendingCallWatcher * )));
+    delete interface;
+}
+
+void SuperGfxCtl::finishCheckVersionCall(QDBusPendingCallWatcher *watcher) {
+    QDBusPendingReply<QString> reply = *watcher;
+    if (reply.isValid()) {
+        auto actualVersion = QVersionNumber::fromString(reply.value());
+        auto expectedVersion = QVersionNumber::fromString(REQUIRED_UPSTREAM_VERSION);
+        bool newVersionCheck = QVersionNumber::compare(actualVersion, expectedVersion) >= 0;
+        if (mVersionCheck != newVersionCheck) {
+            mVersionCheck = newVersionCheck;
+            emit versionCheckChanged();
+        }
+    } else {
+        if (mVersionCheck) {
+            mVersionCheck = false;
+            emit versionCheckChanged();
+        }
+    }
+    delete watcher;
+}
+
+bool SuperGfxCtl::versionCheck() {
+    return mVersionCheck;
 }
 
 K_PLUGIN_CLASS_WITH_JSON(SuperGfxCtl, "metadata.json")

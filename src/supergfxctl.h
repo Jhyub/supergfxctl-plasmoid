@@ -46,6 +46,7 @@ Q_OBJECT
     Q_PROPERTY(bool isSelectEnabled READ isSelectEnabled NOTIFY actionChanged)
     Q_PROPERTY(int timeout READ timeout NOTIFY timeoutChanged)
     Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY loadingChanged) // errors happen on switch attempts
+    Q_PROPERTY(bool versionCheck READ versionCheck NOTIFY versionCheckChanged)
 
 
 public:
@@ -75,6 +76,10 @@ public:
 
     QString errorMessage();
 
+    bool versionCheck();
+
+    Q_INVOKABLE void checkVersion();
+
 signals:
 
     void stateChanged();
@@ -85,11 +90,15 @@ signals:
 
     void timeoutChanged();
 
+    void versionCheckChanged();
+
     void finishedSetModeCall(QDBusPendingCallWatcher *);
 
     void finishedGetModeCall(QDBusPendingCallWatcher *);
 
     void finishedGetPowerCall(QDBusPendingCallWatcher *);
+
+    void finishedCheckVersionCall(QDBusPendingCallWatcher *);
 
 private:
     GfxMode mode;
@@ -115,13 +124,17 @@ private:
 
     QTimer *timeoutTimer = new QTimer(this);
 
+    bool mVersionCheck = true;
+
 private slots:
 
     void finishSetModeCall(QDBusPendingCallWatcher *watcher);
 
     void finishGetModeCall(QDBusPendingCallWatcher *watcher);
 
-    void finishGetPowerCall(QDBusPendingCallWatcher *);
+    void finishGetPowerCall(QDBusPendingCallWatcher *watcher);
+
+    void finishCheckVersionCall(QDBusPendingCallWatcher *watcher);
 };
 
 #endif

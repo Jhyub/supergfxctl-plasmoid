@@ -54,6 +54,7 @@ Item {
     Plasmoid.fullRepresentation: PlasmaComponents.Page {
         id: dialog
         header: PlasmaExtras.PlasmoidHeading {
+            visible: plasmoid.nativeInterface.versionCheck
             ColumnLayout {
                 RowLayout {
                     PlasmaCore.IconItem {
@@ -84,7 +85,7 @@ Item {
         PlasmaExtras.ScrollArea {
             anchors.fill: parent
 
-            visible: plasmoid.nativeInterface.isSelectEnabled
+            visible: plasmoid.nativeInterface.isSelectEnabled && plasmoid.nativeInterface.versionCheck
 
             ListView {
                 id: listView
@@ -215,7 +216,7 @@ Item {
                 margins: PlasmaCore.Units.largeSpacing
             }
 
-            visible: !plasmoid.nativeInterface.isSelectEnabled
+            visible: !plasmoid.nativeInterface.isSelectEnabled && plasmoid.nativeInterface.versionCheck
 
             text: i18n("%1 should be done in %2 seconds to complete the switch", plasmoid.nativeInterface.actionName, plasmoid.nativeInterface.timeout)
             helpfulAction: (plasmoid.nativeInterface.modeName != "hybrid" && plasmoid.nativeInterface.modeName != "dedicated") ? revertAction : undefined
@@ -223,6 +224,25 @@ Item {
                     id: revertAction
                     text: i18n("Revert to %1", plasmoid.nativeInterface.modeName)
                     onTriggered: plasmoid.nativeInterface.revertMode()
+            }
+        }
+
+        PlasmaExtras.PlaceholderMessage {
+            anchors {
+                centerIn: parent
+                left: parent.left
+                right: parent.right
+                margins: PlasmaCore.Units.largeSpacing
+            }
+
+            visible: !plasmoid.nativeInterface.versionCheck
+
+            text: i18n("supergfxd version is not compatible")
+            helpfulAction: recheckAction
+            Action {
+                    id: recheckAction
+                    text: i18n("Retry")
+                    onTriggered: plasmoid.nativeInterface.checkVersion()
             }
         }
     }
