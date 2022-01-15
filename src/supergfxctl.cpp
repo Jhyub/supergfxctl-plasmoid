@@ -14,19 +14,19 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 
-QString vendorToName(GfxVendor vendor) {
-    switch (vendor) {
-        case GfxVendor::DEDICATED:
+QString modeToName(GfxMode mode) {
+    switch (mode) {
+        case GfxMode::DEDICATED:
             return {"dedicated"};
-        case GfxVendor::INTEGRATED:
+        case GfxMode::INTEGRATED:
             return {"integrated"};
-        case GfxVendor::COMPUTE:
+        case GfxMode::COMPUTE:
             return {"compute"};
-        case GfxVendor::VFIO:
+        case GfxMode::VFIO:
             return {"vfio"};
-        case GfxVendor::EGPU:
+        case GfxMode::EGPU:
             return {"eGPU"};
-        case GfxVendor::HYBRID:
+        case GfxMode::HYBRID:
             return {"hybrid"};
         default:
             return {""};
@@ -56,8 +56,8 @@ SuperGfxCtl::SuperGfxCtl(QObject *parent, const QVariantList &args)
 SuperGfxCtl::~SuperGfxCtl() {
 }
 
-QString SuperGfxCtl::vendorName() {
-    return vendorToName(vendor);
+QString SuperGfxCtl::modeName() {
+    return modeToName(mode);
 }
 
 QString SuperGfxCtl::powerName() {
@@ -76,22 +76,22 @@ QString SuperGfxCtl::powerName() {
 }
 
 QString SuperGfxCtl::iconName() {
-    switch (vendor) {
-        case GfxVendor::DEDICATED:
+    switch (mode) {
+        case GfxMode::DEDICATED:
             return {"supergfxctl-plasmoid-gpu-dedicated"};
-        case GfxVendor::INTEGRATED:
+        case GfxMode::INTEGRATED:
             if (power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-integrated-active"};
             else return {"supergfxctl-plasmoid-gpu-integrated"};
-        case GfxVendor::COMPUTE:
+        case GfxMode::COMPUTE:
             if (power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-compute-active"};
             else return {"supergfxctl-plasmoid-gpu-compute"};
-        case GfxVendor::VFIO:
+        case GfxMode::VFIO:
             if (power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-vfio-active"};
             else return {"supergfxctl-plasmoid-gpu-vfio"};
-        case GfxVendor::EGPU:
+        case GfxMode::EGPU:
             if (power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-egpu-active"};
             else return {"supergfxctl-plasmoid-gpu-egpu"};
-        case GfxVendor::HYBRID:
+        case GfxMode::HYBRID:
             if (power == GfxPower::ACTIVE) return {"supergfxctl-plasmoid-gpu-hybrid-active"};
             else return {"supergfxctl-plasmoid-gpu-hybrid"};
     }
@@ -106,8 +106,8 @@ QString SuperGfxCtl::actionName() {
     return {""};
 }
 
-VendorList *SuperGfxCtl::vendorList() {
-    auto list = new VendorList();
+ModeList *SuperGfxCtl::modeList() {
+    auto list = new ModeList();
 
     enum class Requirement {
         NONE,
@@ -126,34 +126,34 @@ VendorList *SuperGfxCtl::vendorList() {
 
     auto dedicated = new QObject(list);
     requirement = Requirement::NONE;
-    if (vendor == GfxVendor::DEDICATED) section = Section::ACTIVE;
+    if (mode == GfxMode::DEDICATED) section = Section::ACTIVE;
     else section = Section::AVAILABLE;
     dedicated->setProperty("name", "Dedicated");
     dedicated->setProperty("iconName", "supergfxctl-plasmoid-gpu-dedicated");
     dedicated->setProperty("requirement", static_cast<int>(requirement));
     dedicated->setProperty("section", static_cast<int>(section));
-    dedicated->setProperty("gfxIndex", static_cast<int>(GfxVendor::DEDICATED));
+    dedicated->setProperty("gfxMode", static_cast<int>(GfxMode::DEDICATED));
     list->append(dedicated);
 
     auto integrated = new QObject(list);
     requirement = Requirement::NONE;
-    if (vendor == GfxVendor::INTEGRATED) section = Section::ACTIVE;
+    if (mode == GfxMode::INTEGRATED) section = Section::ACTIVE;
     else section = Section::AVAILABLE;
     integrated->setProperty("name", "Integrated");
     integrated->setProperty("iconName", "supergfxctl-plasmoid-gpu-integrated-active");
     integrated->setProperty("requirement", static_cast<int>(requirement));
     integrated->setProperty("section", static_cast<int>(section));
-    integrated->setProperty("gfxIndex", static_cast<int>(GfxVendor::INTEGRATED));
+    integrated->setProperty("gfxMode", static_cast<int>(GfxMode::INTEGRATED));
     list->append(integrated);
 
     auto compute = new QObject(list);
-    switch (vendor) {
-        case GfxVendor::COMPUTE:
+    switch (mode) {
+        case GfxMode::COMPUTE:
             section = Section::ACTIVE;
             requirement = Requirement::NONE;
             break;
-        case GfxVendor::INTEGRATED:
-        case GfxVendor::VFIO:
+        case GfxMode::INTEGRATED:
+        case GfxMode::VFIO:
             section = Section::AVAILABLE;
             requirement = Requirement::NONE;
             break;
@@ -165,17 +165,17 @@ VendorList *SuperGfxCtl::vendorList() {
     compute->setProperty("iconName", "supergfxctl-plasmoid-gpu-compute-active");
     compute->setProperty("requirement", static_cast<int>(requirement));
     compute->setProperty("section", static_cast<int>(section));
-    compute->setProperty("gfxIndex", static_cast<int>(GfxVendor::COMPUTE));
+    compute->setProperty("gfxMode", static_cast<int>(GfxMode::COMPUTE));
     list->append(compute);
 
     auto vfio = new QObject(list);
-    switch (vendor) {
-        case GfxVendor::VFIO:
+    switch (mode) {
+        case GfxMode::VFIO:
             section = Section::ACTIVE;
             requirement = Requirement::NONE;
             break;
-        case GfxVendor::INTEGRATED:
-        case GfxVendor::COMPUTE:
+        case GfxMode::INTEGRATED:
+        case GfxMode::COMPUTE:
             if (isVfioEnabled) {
                 section = Section::AVAILABLE;
                 requirement = Requirement::NONE;
@@ -193,18 +193,18 @@ VendorList *SuperGfxCtl::vendorList() {
     vfio->setProperty("iconName", "supergfxctl-plasmoid-gpu-vfio-active");
     vfio->setProperty("requirement", static_cast<int>(requirement));
     vfio->setProperty("section", static_cast<int>(section));
-    vfio->setProperty("gfxIndex", static_cast<int>(GfxVendor::VFIO));
+    vfio->setProperty("gfxMode", static_cast<int>(GfxMode::VFIO));
     list->append(vfio);
 
     auto hybrid = new QObject(list);
     requirement = Requirement::NONE;
-    if (vendor == GfxVendor::HYBRID) section = Section::ACTIVE;
+    if (mode == GfxMode::HYBRID) section = Section::ACTIVE;
     else section = Section::AVAILABLE;
     hybrid->setProperty("name", "Hybrid");
     hybrid->setProperty("iconName", "supergfxctl-plasmoid-gpu-hybrid-active");
     hybrid->setProperty("requirement", static_cast<int>(requirement));
     hybrid->setProperty("section", static_cast<int>(section));
-    hybrid->setProperty("gfxIndex", static_cast<int>(GfxVendor::HYBRID));
+    hybrid->setProperty("gfxMode", static_cast<int>(GfxMode::HYBRID));
     list->append(hybrid);
 
     list->orderSections();
@@ -216,16 +216,16 @@ VendorList *SuperGfxCtl::vendorList() {
     return list;
 }
 
-void SuperGfxCtl::revertVendor() {
-    setVendor(vendor);
+void SuperGfxCtl::revertMode() {
+    setMode(mode);
 }
 
-void SuperGfxCtl::setVendor(int gfxIndex) {
-    setVendor(static_cast<GfxVendor>(gfxIndex));
+void SuperGfxCtl::setMode(int modeIndex) {
+    setMode(static_cast<GfxMode>(modeIndex));
 }
 
-void SuperGfxCtl::setVendor(GfxVendor vendor) {
-    mLoadingGfxIdx = static_cast<int>(vendor);
+void SuperGfxCtl::setMode(GfxMode mode) {
+    mLoadingModeIdx = static_cast<int>(mode);
     emit loadingChanged();
     QDBusConnection bus = QDBusConnection::systemBus();
     auto *interface = new QDBusInterface("org.supergfxctl.Daemon",
@@ -233,14 +233,14 @@ void SuperGfxCtl::setVendor(GfxVendor vendor) {
                                          "org.supergfxctl.Daemon",
                                          bus,
                                          this);
-    auto pcall = interface->asyncCall("SetVendor", static_cast<quint32>(vendor));
+    auto pcall = interface->asyncCall("SetMode", static_cast<quint32>(mode));
     auto *watcher = new QDBusPendingCallWatcher(pcall, this);
     connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher * )), this,
-            SLOT(finishSetVendorCall(QDBusPendingCallWatcher * )));
+            SLOT(finishSetModeCall(QDBusPendingCallWatcher * )));
     delete interface;
 }
 
-void SuperGfxCtl::finishSetVendorCall(QDBusPendingCallWatcher *watcher) {
+void SuperGfxCtl::finishSetModeCall(QDBusPendingCallWatcher *watcher) {
     QDBusPendingReply<quint32> reply = *watcher;
     if (reply.isValid()) {
         mErrorMessage = "";
@@ -263,13 +263,13 @@ void SuperGfxCtl::finishSetVendorCall(QDBusPendingCallWatcher *watcher) {
     if (reply.isError()) {
         mErrorMessage = reply.error().message();
     }
-    mLoadingGfxIdx = -1;
+    mLoadingModeIdx = -1;
     emit loadingChanged();
     delete watcher;
 }
 
 int SuperGfxCtl::loadingGfxIdx() {
-    return mLoadingGfxIdx;
+    return mLoadingModeIdx;
 }
 
 bool SuperGfxCtl::isSelectEnabled() {
@@ -302,23 +302,23 @@ void SuperGfxCtl::getState() {
                                          "org.supergfxctl.Daemon",
                                          bus,
                                          this);
-    auto pcall1 = interface->asyncCall("Vendor");
+    auto pcall1 = interface->asyncCall("Mode");
     auto *watcher1 = new QDBusPendingCallWatcher(pcall1, this);
     auto pcall2 = interface->asyncCall("Power");
     auto *watcher2 = new QDBusPendingCallWatcher(pcall2, this);
     connect(watcher1, SIGNAL(finished(QDBusPendingCallWatcher * )), this,
-            SLOT(finishGetVendorCall(QDBusPendingCallWatcher * )));
+            SLOT(finishGetModeCall(QDBusPendingCallWatcher * )));
     connect(watcher2, SIGNAL(finished(QDBusPendingCallWatcher * )), this,
             SLOT(finishGetPowerCall(QDBusPendingCallWatcher * )));
     delete interface;
 }
 
-void SuperGfxCtl::finishGetVendorCall(QDBusPendingCallWatcher *watcher) {
+void SuperGfxCtl::finishGetModeCall(QDBusPendingCallWatcher *watcher) {
     QDBusPendingReply<quint32> reply = *watcher;
     if (reply.isValid()) {
-        auto newVendor = static_cast<GfxVendor>(reply.value());
-        if (vendor != newVendor) {
-            vendor = newVendor;
+        auto newMode = static_cast<GfxMode>(reply.value());
+        if (mode != newMode) {
+            mode = newMode;
             emit stateChanged();
         }
     }
