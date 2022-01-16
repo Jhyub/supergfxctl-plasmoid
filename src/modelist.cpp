@@ -2,20 +2,20 @@
 // Created by jhyub on 12/12/21.
 //
 
-#include "vendorlist.h"
+#include "modelist.h"
 
 #include<QAbstractListModel>
 #include<algorithm>
 
-VendorList::VendorList(QObject *parent) : QAbstractListModel(parent) {
+ModeList::ModeList(QObject *parent) : QAbstractListModel(parent) {
 
 }
 
-int VendorList::rowCount(const QModelIndex &p) const {
+int ModeList::rowCount(const QModelIndex &p) const {
     return mData.size();
 }
 
-QVariant VendorList::data(const QModelIndex &index, int role) const {
+QVariant ModeList::data(const QModelIndex &index, int role) const {
     switch (role) {
         case NameRole:
             return mData[index.row()]->property("name");
@@ -25,29 +25,29 @@ QVariant VendorList::data(const QModelIndex &index, int role) const {
             return mData[index.row()]->property("requirement");
         case SectionRole:
             return mData[index.row()]->property("section");
-        case GfxIndexRole:
-            return mData[index.row()]->property("gfxIndex");
+        case GfxModeRole:
+            return mData[index.row()]->property("gfxMode");
         default:
             break;
     }
     return {};
 }
 
-QHash<int, QByteArray> VendorList::roleNames() const {
+QHash<int, QByteArray> ModeList::roleNames() const {
     static QHash<int, QByteArray> roles;
     roles[NameRole] = "name";
     roles[IconNameRole] = "iconName";
     roles[RequirementRole] = "requirement";
     roles[SectionRole] = "section";
-    roles[GfxIndexRole] = "gfxIndex";
+    roles[GfxModeRole] = "gfxMode";
     return roles;
 }
 
-void VendorList::append(QObject *o) {
+void ModeList::append(QObject *o) {
     mData.append(o);
 }
 
-void VendorList::orderSections() {
+void ModeList::orderSections() {
     struct Sort {
         bool operator()(const QObject *a, const QObject *b) {
             return a->property("section").toInt() < b->property("section").toInt();

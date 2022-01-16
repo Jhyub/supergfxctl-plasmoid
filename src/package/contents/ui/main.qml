@@ -14,7 +14,7 @@ import org.kde.plasma.extras 2.0 as PlasmaExtras
 
 Item {
     Plasmoid.icon: plasmoid.nativeInterface.iconName
-    Plasmoid.toolTipSubText: i18n("Graphics mode: %1, dGPU power: %2", plasmoid.nativeInterface.vendorName, plasmoid.nativeInterface.powerName)
+    Plasmoid.toolTipSubText: i18n("Graphics mode: %1, dGPU power: %2", plasmoid.nativeInterface.modeName, plasmoid.nativeInterface.powerName)
     Plasmoid.compactRepresentation: MouseArea {
         readonly property bool inPanel: (plasmoid.location == PlasmaCore.Types.TopEdge
             || plasmoid.location == PlasmaCore.Types.RightEdge
@@ -54,6 +54,7 @@ Item {
     Plasmoid.fullRepresentation: PlasmaComponents.Page {
         id: dialog
         header: PlasmaExtras.PlasmoidHeading {
+            visible: plasmoid.nativeInterface.versionCheck
             ColumnLayout {
                 RowLayout {
                     PlasmaCore.IconItem {
@@ -84,7 +85,7 @@ Item {
         PlasmaExtras.ScrollArea {
             anchors.fill: parent
 
-            visible: plasmoid.nativeInterface.isSelectEnabled
+            visible: plasmoid.nativeInterface.isSelectEnabled && plasmoid.nativeInterface.versionCheck
 
             ListView {
                 id: listView
@@ -93,7 +94,7 @@ Item {
                     topMargin: PlasmaCore.Units.smallSpacing
                 }
                 clip: true
-                model: plasmoid.nativeInterface.vendorList
+                model: plasmoid.nativeInterface.modeList
                 boundsBehavior: Flickable.StopAtBounds
                 currentIndex: -1
                 spacing: PlasmaCore.Units.smallSpacing
@@ -129,7 +130,7 @@ Item {
                     required property string name
                     required property string iconName
                     required property int requirement
-                    required property int gfxIndex
+                    required property int gfxMode
                     required property int section
                     required property int index
                     MouseArea {
@@ -191,14 +192,14 @@ Item {
                                 flat: true
                                 down: section == 0 ? true : undefined
                                 enabled: section == 1 && plasmoid.nativeInterface.loadingGfxIdx == -1
-                                visible: plasmoid.nativeInterface.loadingGfxIdx != gfxIndex
-                                onClicked: plasmoid.nativeInterface.setVendor(gfxIndex)
-                                icon.name: section == 0 ? "supergfxctl-plasmoid-gpu-nvidia" : (section == 1 ? "supergfxctl-plasmoid-gpu-integrated-active" : "supergfxctl-plasmoid-gpu-integrated")
+                                visible: plasmoid.nativeInterface.loadingGfxIdx != gfxMode
+                                onClicked: plasmoid.nativeInterface.setMode(gfxMode)
+                                icon.name: section == 0 ? "supergfxctl-plasmoid-gpu-dedicated" : (section == 1 ? "supergfxctl-plasmoid-gpu-integrated-active" : "supergfxctl-plasmoid-gpu-integrated")
                                 text: i18n(section == 0 ? "Active" : (section == 1 ? "Switch" : "Unavailable"))
                             }
                             PlasmaComponents.BusyIndicator {
                                  anchors.centerIn: button
-                                 running: plasmoid.nativeInterface.loadingGfxIdx == gfxIndex
+                                 running: plasmoid.nativeInterface.loadingGfxIdx == gfxMode
                                  visible: running
                             }
                         }
@@ -215,14 +216,34 @@ Item {
                 margins: PlasmaCore.Units.largeSpacing
             }
 
-            visible: !plasmoid.nativeInterface.isSelectEnabled
+            visible: !plasmoid.nativeInterface.isSelectEnabled && plasmoid.nativeInterface.versionCheck
 
-            text: i18n("%1 should be done in %2 seconds to complete the switch", plasmoid.nativeInterface.actionName, plasmoid.nativeInterface.timeout)
-            helpfulAction: (plasmoid.nativeInterface.vendorName != "hybrid" && plasmoid.nativeInterface.vendorName != "nvidia") ? revertAction : undefined
+            // TODO: This could be more clean
+            text: (plasmoid.nativeInterface.actionName == "Logout") ? i18n("%1 should be done in %2 seconds to complete the switch", plasmoid.nativeInterface.actionName, plasmoid.nativeInterface.timeout) : i18n("%1 should be done to complete the switch", plasmoid.nativeInterface.actionName)
+            helpfulAction: ((plasmoid.nativeInterface.modeName != "hybrid" && plasmoid.nativeInterface.modeName != "dedicated") || plasmoid.nativeInterface.actionName == "Reboot") ? revertAction : undefined
             Action {
                     id: revertAction
-                    text: i18n("Revert to %1", plasmoid.nativeInterface.vendorName)
-                    onTriggered: plasmoid.nativeInterface.revertVendor()
+                    text: i18n("Revert to %1", plasmoid.nativeInterface.modeName)
+                    onTriggered: plasmoid.nativeInterface.revertMode()
+            }
+        }
+
+        PlasmaExtras.PlaceholderMessage {
+            anchors {
+                centerIn: parent
+                left: parent.left
+                right: parent.right
+                margins: PlasmaCore.Units.largeSpacing
+            }
+
+            visible: !plasmoid.nativeInterface.versionCheck
+
+            text: i18n("supergfxd version is not compatible")
+            helpfulAction: recheckAction
+            Action {
+                    id: recheckAction
+                    text: i18n("Retry")
+                    onTriggered: plasmoid.nativeInterface.checkVersion()
             }
         }
     }
