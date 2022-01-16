@@ -10,9 +10,9 @@
 #include <Plasma/Applet>
 #include <QDBusInterface>
 #include <QTimer>
-#include <vendorlist.h>
+#include <modelist.h>
 
-enum class GfxVendor {
+enum class GfxMode {
     HYBRID,
     DEDICATED,
     INTEGRATED,
@@ -37,16 +37,16 @@ enum class GfxAction {
 
 class SuperGfxCtl : public Plasma::Applet {
 Q_OBJECT
-    Q_PROPERTY(QString vendorName READ vendorName NOTIFY stateChanged)
+    Q_PROPERTY(QString modeName READ modeName NOTIFY stateChanged)
     Q_PROPERTY(QString powerName READ powerName NOTIFY stateChanged)
     Q_PROPERTY(QString iconName READ iconName NOTIFY stateChanged)
     Q_PROPERTY(QString actionName READ actionName NOTIFY actionChanged)
-    // expect that a supergfxd reload after config edit will reload plasmoid
-    Q_PROPERTY(VendorList *vendorList READ vendorList NOTIFY stateChanged)
+    Q_PROPERTY(ModeList *modeList READ modeList NOTIFY stateChanged)
     Q_PROPERTY(int loadingGfxIdx READ loadingGfxIdx NOTIFY loadingChanged)
     Q_PROPERTY(bool isSelectEnabled READ isSelectEnabled NOTIFY actionChanged)
     Q_PROPERTY(int timeout READ timeout NOTIFY timeoutChanged)
     Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY loadingChanged) // errors happen on switch attempts
+    Q_PROPERTY(bool versionCheck READ versionCheck NOTIFY versionCheckChanged)
 
 
 public:
@@ -54,7 +54,7 @@ public:
 
     ~SuperGfxCtl();
 
-    QString vendorName();
+    QString modeName();
 
     QString powerName();
 
@@ -62,11 +62,11 @@ public:
 
     QString actionName();
 
-    VendorList *vendorList();
+    ModeList *modeList();
 
-    Q_INVOKABLE void revertVendor();
+    Q_INVOKABLE void revertMode();
 
-    Q_INVOKABLE void setVendor(int gfxIndex);
+    Q_INVOKABLE void setMode(int modeIndex);
 
     int loadingGfxIdx();
 
@@ -75,6 +75,10 @@ public:
     int timeout();
 
     QString errorMessage();
+
+    bool versionCheck();
+
+    Q_INVOKABLE void checkVersion();
 
 signals:
 
@@ -86,28 +90,31 @@ signals:
 
     void timeoutChanged();
 
-    void finishedSetVendorCall(QDBusPendingCallWatcher *);
+    void versionCheckChanged();
 
-    void finishedGetVendorCall(QDBusPendingCallWatcher *);
+    void finishedSetModeCall(QDBusPendingCallWatcher *);
+
+    void finishedGetModeCall(QDBusPendingCallWatcher *);
 
     void finishedGetPowerCall(QDBusPendingCallWatcher *);
 
+    void finishedCheckVersionCall(QDBusPendingCallWatcher *);
+
 private:
-    GfxVendor vendor;
+    GfxMode mode;
     GfxPower power;
     GfxAction action = GfxAction::NONE;
 
-    quint32 vendorReply;
-
-    int mLoadingGfxIdx = -1;
+    // Future mode
+    int mLoadingModeIdx = -1;
 
     bool isVfioEnabled;
 
-    void setVendor(GfxVendor vendor);
+    void setMode(GfxMode mode);
 
     void getState();
 
-    VendorList *currentList = nullptr, *oldList = nullptr;
+    ModeList *currentList = nullptr, *oldList = nullptr;
 
     QString mErrorMessage;
 
@@ -117,13 +124,17 @@ private:
 
     QTimer *timeoutTimer = new QTimer(this);
 
+    bool mVersionCheck = true;
+
 private slots:
 
-    void finishSetVendorCall(QDBusPendingCallWatcher *);
+    void finishSetModeCall(QDBusPendingCallWatcher *watcher);
 
-    void finishGetVendorCall(QDBusPendingCallWatcher *);
+    void finishGetModeCall(QDBusPendingCallWatcher *watcher);
 
-    void finishGetPowerCall(QDBusPendingCallWatcher *);
+    void finishGetPowerCall(QDBusPendingCallWatcher *watcher);
+
+    void finishCheckVersionCall(QDBusPendingCallWatcher *watcher);
 };
 
 #endif

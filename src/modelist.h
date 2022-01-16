@@ -2,12 +2,12 @@
 // Created by jhyub on 12/12/21.
 //
 
-#ifndef PLASMA_SUPERGFXCTL_VENDORLIST_H
-#define PLASMA_SUPERGFXCTL_VENDORLIST_H
+#ifndef PLASMA_SUPERGFXCTL_MODELIST_H
+#define PLASMA_SUPERGFXCTL_MODELIST_H
 
 #include<QAbstractListModel>
 
-class VendorList : public QAbstractListModel {
+class ModeList : public QAbstractListModel {
 Q_OBJECT
 
 public:
@@ -16,10 +16,10 @@ public:
         IconNameRole,
         RequirementRole, // 0 -> none, 1 -> vfio config, 2  -> integrated, based on current state
         SectionRole, // 0 -> active, 1 -> available, 2 -> unavailable
-        GfxIndexRole, // index of enum, 0 -> nvidia, 1 -> integrated, ...
+        GfxModeRole, // index of enum, 0 -> hybrid, 1 -> dedicated, ...
     };
 
-    explicit VendorList(QObject *parent = nullptr);
+    explicit ModeList(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &p) const;
 
@@ -35,4 +35,4 @@ private:
     QList<QObject *> mData;
 };
 
-#endif //PLASMA_SUPERGFXCTL_VENDORLIST_H
+#endif //PLASMA_SUPERGFXCTL_MODELIST_H
