@@ -41,7 +41,7 @@ SuperGfxCtl::SuperGfxCtl(QObject *parent, const QVariantList &args)
     QFile file("/etc/supergfxd.conf");
     file.open(QIODevice::ReadOnly);
     QJsonObject json = QJsonDocument::fromJson(file.readAll()).object();
-    isVfioEnabled = json.value("gfx_vfio_enable").toBool();
+    isVfioEnabled = json.value("vfio_enable").toBool();
     file.close();
     // run timer
     auto timer = new QTimer(this);
