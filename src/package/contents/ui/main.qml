@@ -53,6 +53,8 @@ Item {
     }
     Plasmoid.fullRepresentation: PlasmaComponents.Page {
         id: dialog
+        implicitWidth: PlasmaCore.Units.gridUnit * 24
+        implicitHeight: PlasmaCore.Units.gridUnit * 24
         header: PlasmaExtras.PlasmoidHeading {
             visible: plasmoid.nativeInterface.versionCheck
             ColumnLayout {
