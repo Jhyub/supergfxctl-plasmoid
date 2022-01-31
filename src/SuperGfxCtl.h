@@ -19,6 +19,7 @@ Q_OBJECT
     Q_PROPERTY(GfxModeCandidateList *candidates READ candidates NOTIFY candidateChanged)
     Q_PROPERTY(GfxAction *expectedAction READ expectedAction NOTIFY expectionChanged)
     Q_PROPERTY(QString errorMsg READ errorMsg NOTIFY expectionChanged) // error happens on expecting
+    Q_PROPERTY(int realizing READ realizing NOTIFY realizingChanged)
 
 public:
     SuperGfxCtl(QObject *parent, const QVariantList &args);
@@ -43,6 +44,8 @@ public:
 
     QString errorMsg() const;
 
+    int realizing() const;
+
 signals:
 
     void daemonOutdatedChanged();
@@ -59,11 +62,15 @@ signals:
 
     void expectionChanged();
 
+    void realizingChanged();
+
 private:
 
     GfxModeCandidateList *currentList = nullptr;
 
     GfxModeCandidateList *previousList = nullptr;
+
+    int m_realizing = -1;
 
 };
 

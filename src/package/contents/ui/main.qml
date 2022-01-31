@@ -32,13 +32,13 @@ Item {
             source: plasmoid.icon
             active: parent.containsMouse
 
-            /*
             PlasmaComponents.BusyIndicator {
                 anchors.centerIn: parent
-                running: plasmoid.nativeInterface.loadingGfxIdx != -1
+                running: plasmoid.nativeInterface.realizing != -1
                 visible: running
             }
 
+            /*
             PlasmaComponents.ProgressBar {
                 anchors {
                     left: parent.left
@@ -194,20 +194,18 @@ Item {
                                 }
                                 id: button
                                 flat: true
-                                down: section == 0 ? true : undefined
-                                enabled: section == 1 // && plasmoid.nativeInterface.loadingGfxIdx == -1
-                                // visible: plasmoid.nativeInterface.loadingGfxIdx != gfxMode
+                                down: section == 0
+                                enabled: section == 1 && plasmoid.nativeInterface.realizing == -1
+                                visible: plasmoid.nativeInterface.realizing != index
                                 onClicked: plasmoid.nativeInterface.realizeCandidate(index)
                                 icon.name: buttonIcon
                                 text: buttonText
                             }
-                            /*
                             PlasmaComponents.BusyIndicator {
                                  anchors.centerIn: button
-                                 running: plasmoid.nativeInterface.loadingGfxIdx == gfxMode
+                                 running: plasmoid.nativeInterface.realizing == index
                                  visible: running
                             }
-                            */
                         }
                     }
                 }

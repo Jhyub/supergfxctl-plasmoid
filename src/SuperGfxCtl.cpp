@@ -15,6 +15,7 @@ SuperGfxCtl::SuperGfxCtl(QObject *parent, const QVariantList &args) : Plasma::Ap
     connect(&ctl, &DaemonController::powerChanged, this, &SuperGfxCtl::candidateChanged);
     connect(&ctl, &DaemonController::supportedChanged, this, &SuperGfxCtl::candidateChanged);
     connect(&ctl, &DaemonController::actionChanged, this, &SuperGfxCtl::expectionChanged);
+    connect(&ctl, &DaemonController::actionChanged, this, [this] { m_realizing = -1; emit realizingChanged(); });
 }
 
 bool SuperGfxCtl::isDaemonOutdated() const {
@@ -55,12 +56,14 @@ GfxModeCandidateList *SuperGfxCtl::candidates() {
 }
 
 void SuperGfxCtl::realizeCandidate(int index) {
+    m_realizing = index;
+    emit realizingChanged();
     currentList->realize(index);
 }
 
 // Assumption: list is sorted, so [0] points to GfxModeCandidate(current, current)
 void SuperGfxCtl::revert() {
-    currentList->realize(0);
+    realizeCandidate(0);
 }
 
 GfxAction *SuperGfxCtl::expectedAction() const {
@@ -71,6 +74,10 @@ GfxAction *SuperGfxCtl::expectedAction() const {
 
 QString SuperGfxCtl::errorMsg() const {
     return DaemonController::from().errorMsg();
+}
+
+int SuperGfxCtl::realizing() const {
+    return m_realizing;
 }
 
 K_PLUGIN_CLASS_WITH_JSON(SuperGfxCtl, "metadata.json")
