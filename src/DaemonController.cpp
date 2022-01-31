@@ -120,6 +120,7 @@ void DaemonController::setMode(quint32 mode) {
             if (m_action != action) {
                 m_action = action;
             }
+            m_errorMsg = "";
         } else {
             m_errorMsg = reply.error().message();
             m_action = 3; // GfxAction::NONE
