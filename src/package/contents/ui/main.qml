@@ -14,7 +14,7 @@ import org.kde.plasma.extras 2.0 as PlasmaExtras
 
 Item {
     Plasmoid.icon: plasmoid.nativeInterface.iconName
-    Plasmoid.toolTipSubText: i18n("Graphics mode: %1, dGPU power: %2", plasmoid.nativeInterface.modeName, plasmoid.nativeInterface.powerName)
+    Plasmoid.toolTipSubText: i18n("Graphics mode: %1, dGPU power: %2", plasmoid.nativeInterface.mode.name, plasmoid.nativeInterface.power.name)
     Plasmoid.compactRepresentation: MouseArea {
         readonly property bool inPanel: (plasmoid.location == PlasmaCore.Types.TopEdge
             || plasmoid.location == PlasmaCore.Types.RightEdge
@@ -32,6 +32,7 @@ Item {
             source: plasmoid.icon
             active: parent.containsMouse
 
+            /*
             PlasmaComponents.BusyIndicator {
                 anchors.centerIn: parent
                 running: plasmoid.nativeInterface.loadingGfxIdx != -1
@@ -49,43 +50,45 @@ Item {
                 to: 180
                 value: plasmoid.nativeInterface.timeout
             }
+            */
         }
     }
     Plasmoid.fullRepresentation: PlasmaComponents.Page {
         id: dialog
         header: PlasmaExtras.PlasmoidHeading {
-            visible: plasmoid.nativeInterface.versionCheck
+            visible: !plasmoid.nativeInterface.isDaemonFailing && !plasmoid.nativeInterface.isDaemonOutdated
             ColumnLayout {
                 RowLayout {
                     PlasmaCore.IconItem {
                         Layout.preferredHeight: PlasmaCore.Units.iconSizes.small
                         Layout.preferredWidth: PlasmaCore.Units.iconSizes.small
-                        source: "supergfxctl-plasmoid-dgpu-" + plasmoid.nativeInterface.powerName
+                        source: plasmoid.nativeInterface.power.iconName
                     }
                     PlasmaComponents.Label {
-                        text: i18n("dGPU is %1", plasmoid.nativeInterface.powerName)
+                        text: i18n("dGPU power: %1", plasmoid.nativeInterface.power.name)
                     }
                 }
                 PlasmaComponents.Label {
-                    visible: plasmoid.nativeInterface.errorMessage.length > 0
-                    text: plasmoid.nativeInterface.errorMessage
+                    visible: plasmoid.nativeInterface.errorMsg.length > 0
+                    text: plasmoid.nativeInterface.errorMsg
                     color: "red"
                     font.italic: true
                     clip: true
                 }
                 PlasmaComponents.Label {
-                    visible: plasmoid.nativeInterface.errorMessage.length > 0
+                    visible: plasmoid.nativeInterface.errorMsg.length > 0
                     text: i18n("Run journalctl -b -u supergfxd for more information")
                     color: "red"
                     font.italic: true
                 }
+
             }
         }
 
         PlasmaExtras.ScrollArea {
             anchors.fill: parent
 
-            visible: plasmoid.nativeInterface.isSelectEnabled && plasmoid.nativeInterface.versionCheck
+            visible: !plasmoid.nativeInterface.isDaemonFailing && !plasmoid.nativeInterface.isDaemonOutdated
 
             ListView {
                 id: listView
@@ -94,7 +97,7 @@ Item {
                     topMargin: PlasmaCore.Units.smallSpacing
                 }
                 clip: true
-                model: plasmoid.nativeInterface.modeList
+                model: plasmoid.nativeInterface.candidates
                 boundsBehavior: Flickable.StopAtBounds
                 currentIndex: -1
                 spacing: PlasmaCore.Units.smallSpacing
@@ -127,11 +130,12 @@ Item {
                 delegate: PlasmaExtras.ListItem {
                     width: listView.width
                     height: PlasmaCore.Units.gridUnit * 2
-                    required property string name
-                    required property string iconName
-                    required property int requirement
-                    required property int gfxMode
                     required property int section
+                    required property string reason
+                    required property string name
+                    required property string icon
+                    required property string buttonText
+                    required property string buttonIcon
                     required property int index
                     MouseArea {
                         anchors.fill: parent
@@ -147,38 +151,38 @@ Item {
                                 id: iconItem
                                 height: PlasmaCore.Units.iconSizes.medium
                                 width: PlasmaCore.Units.iconSizes.medium
-                                source: iconName
-                                opacity: requirement != 0 ? 0.6 : 1
+                                source: icon
+                                opacity: (section != 0 && section != 1) ? 0.6 : 1
                             }
                             Item {
                                 anchors {
-                                    verticalCenter: requirement == 0 ? parent.verticalCenter : undefined
-                                    top: requirement == 0 ? undefined : parent.top
-                                    bottom: requirement == 0 ? undefined : parent.bottom
+                                    verticalCenter: reason.length == 0 ? parent.verticalCenter : undefined
+                                    top: reason.length == 0 ? undefined : parent.top
+                                    bottom: reason.length == 0 ? undefined : parent.bottom
                                     left: iconItem.right
                                     right: button.left
                                     leftMargin: PlasmaCore.Units.smallSpacing
                                 }
                                 PlasmaComponents.Label {
                                     anchors {
-                                        verticalCenter: requirement == 0 ? parent.verticalCenter : undefined
-                                        top: requirement == 0 ? undefined : parent.top
+                                        verticalCenter: reason.length == 0 ? parent.verticalCenter : undefined
+                                        top: reason.length == 0 ? undefined : parent.top
                                         left: parent.left
                                     }
                                     id: nameLabel
                                     text: name
                                     font.bold: section == 0
-                                    opacity: requirement != 0 ? 0.6 : 1
+                                    opacity: (section != 0 && section != 1) ? 0.6 : 1
                                 }
                                 PlasmaComponents.Label {
                                     anchors {
-                                        top: requirement == 0 ? undefined : nameLabel.bottom
-                                        bottom: requirement == 0 ? undefined : parent.bottom
+                                        top: reason.length == 0 ? undefined : nameLabel.bottom
+                                        bottom: reason.length == 0 ? undefined : parent.bottom
                                         left: parent.left
                                     }
                                     id: descriptionLabel
-                                    visible: requirement != 0
-                                    text: requirement == 2 ? "Switch to integrated is required" : (requirement == 1 ? "vfio is disabled in config" : "")
+                                    visible: reason.length != 0
+                                    text: reason
                                     font.pixelSize: PlasmaCore.Theme.smallestFont.pixelSize
                                     opacity: 0.6
                                 }
@@ -191,17 +195,19 @@ Item {
                                 id: button
                                 flat: true
                                 down: section == 0 ? true : undefined
-                                enabled: section == 1 && plasmoid.nativeInterface.loadingGfxIdx == -1
-                                visible: plasmoid.nativeInterface.loadingGfxIdx != gfxMode
-                                onClicked: plasmoid.nativeInterface.setMode(gfxMode)
-                                icon.name: section == 0 ? "supergfxctl-plasmoid-gpu-dedicated" : (section == 1 ? "supergfxctl-plasmoid-gpu-integrated-active" : "supergfxctl-plasmoid-gpu-integrated")
-                                text: i18n(section == 0 ? "Active" : (section == 1 ? "Switch" : "Unavailable"))
+                                enabled: section == 1 // && plasmoid.nativeInterface.loadingGfxIdx == -1
+                                // visible: plasmoid.nativeInterface.loadingGfxIdx != gfxMode
+                                onClicked: plasmoid.nativeInterface.realizeCandidate(index)
+                                icon.name: buttonIcon
+                                text: buttonText
                             }
+                            /*
                             PlasmaComponents.BusyIndicator {
                                  anchors.centerIn: button
                                  running: plasmoid.nativeInterface.loadingGfxIdx == gfxMode
                                  visible: running
                             }
+                            */
                         }
                     }
                 }
@@ -216,16 +222,9 @@ Item {
                 margins: PlasmaCore.Units.largeSpacing
             }
 
-            visible: !plasmoid.nativeInterface.isSelectEnabled && plasmoid.nativeInterface.versionCheck
+            visible: plasmoid.nativeInterface.isDaemonOutdated
 
-            // TODO: This could be more clean
-            text: (plasmoid.nativeInterface.actionName == "Logout") ? i18n("%1 should be done in %2 seconds to complete the switch", plasmoid.nativeInterface.actionName, plasmoid.nativeInterface.timeout) : i18n("%1 should be done to complete the switch", plasmoid.nativeInterface.actionName)
-            helpfulAction: ((plasmoid.nativeInterface.modeName != "hybrid" && plasmoid.nativeInterface.modeName != "dedicated") || plasmoid.nativeInterface.actionName == "Reboot") ? revertAction : undefined
-            Action {
-                    id: revertAction
-                    text: i18n("Revert to %1", plasmoid.nativeInterface.modeName)
-                    onTriggered: plasmoid.nativeInterface.revertMode()
-            }
+            text: i18n("supergfxd daemon is outdated")
         }
 
         PlasmaExtras.PlaceholderMessage {
@@ -236,15 +235,9 @@ Item {
                 margins: PlasmaCore.Units.largeSpacing
             }
 
-            visible: !plasmoid.nativeInterface.versionCheck
+            visible: plasmoid.nativeInterface.isDaemonFailing
 
-            text: i18n("supergfxd version is not compatible")
-            helpfulAction: recheckAction
-            Action {
-                    id: recheckAction
-                    text: i18n("Retry")
-                    onTriggered: plasmoid.nativeInterface.checkVersion()
-            }
+            text: i18n("Can't connect to daemon")
         }
     }
 }

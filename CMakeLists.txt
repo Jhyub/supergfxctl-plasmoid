@@ -5,7 +5,7 @@ project(plasma-supergfxctl)
 find_package(ECM 1.4.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
-add_compile_definitions(REQUIRED_UPSTREAM_VERSION="4.0.0")
+add_compile_definitions(REQUIRED_UPSTREAM_VERSION="4.0.1")
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)
@@ -18,10 +18,10 @@ find_package(KF5 REQUIRED COMPONENTS
         )
 
 find_package(Qt5 CONFIG REQUIRED COMPONENTS
-    Quick
-    Core
-    DBus
-)
+        Quick
+        Core
+        DBus
+        )
 
 add_subdirectory(src)
 
