@@ -30,8 +30,6 @@ public:
                 return reboot;
             case INTEGRATED:
                 return integrated;
-            case NONE:
-                return none;
             default:
                 return none;
         }

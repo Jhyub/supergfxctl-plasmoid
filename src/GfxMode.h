@@ -14,7 +14,7 @@ Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
 public:
     enum Id {
-        HYBRID, DEDICATED, INTEGRATED, COMPUTE, VFIO, EGPU,
+        HYBRID, DEDICATED, INTEGRATED, COMPUTE, VFIO, EGPU, NONE,
     };
 
     ~GfxMode() override = default;
@@ -26,6 +26,7 @@ public:
         static GfxMode compute(COMPUTE);
         static GfxMode vfio(VFIO);
         static GfxMode egpu(EGPU);
+        static GfxMode none(NONE);
         switch (id) {
             case HYBRID:
                 return hybrid;
@@ -40,7 +41,7 @@ public:
             case EGPU:
                 return egpu;
             default:
-                return egpu;
+                return none;
         }
     }
 
@@ -61,7 +62,6 @@ public:
 private:
     explicit GfxMode(Id id) : id(id) {}
 
-    static QVector<Id> c_supported;
     Id id;
 };
 

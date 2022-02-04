@@ -107,6 +107,7 @@ void DaemonController::fetchSupported() {
                 emit supportedChanged();
             }
         }
+        watcher->deleteLater();
     });
 }
 
@@ -131,6 +132,39 @@ void DaemonController::setMode(quint32 mode) {
 
 quint32 DaemonController::action() const {
     return m_action;
+}
+
+quint32 DaemonController::pendingAction() const {
+    return m_pendingAction;
+}
+
+quint32 DaemonController::pendingMode() const {
+    return m_pendingMode;
+}
+
+void DaemonController::fetchPending() {
+    fetch("PendingAction", [this](QDBusPendingCallWatcher *watcher) {
+        QDBusPendingReply<quint32> reply = *watcher;
+        if (reply.isValid()) {
+            auto pendingAction = reply.value();
+            if (m_pendingAction != pendingAction) {
+                m_power = pendingAction;
+                emit pendingChanged();
+            }
+        }
+        watcher->deleteLater();
+    });
+    fetch("PendingMode", [this](QDBusPendingCallWatcher *watcher) {
+        QDBusPendingReply<quint32> reply = *watcher;
+        if (reply.isValid()) {
+            auto pendingMode = reply.value();
+            if (m_pendingMode != pendingMode) {
+                m_pendingMode = pendingMode;
+                emit pendingChanged();
+            }
+        }
+        watcher->deleteLater();
+    });
 }
 
 QString DaemonController::errorMsg() const {

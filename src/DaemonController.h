@@ -30,6 +30,10 @@ public:
 
     quint32 action() const;
 
+    quint32 pendingAction() const;
+
+    quint32 pendingMode() const;
+
     QString errorMsg() const;
 
 signals:
@@ -45,6 +49,8 @@ signals:
     void supportedChanged();
 
     void actionChanged();
+
+    void pendingChanged();
 
 private:
 
@@ -80,6 +86,12 @@ private:
     quint32 m_action = 3; // GfxAction::NONE
 
     QString m_errorMsg;
+
+    void fetchPending();
+
+    quint32 m_pendingAction = 3; // GfxAction::NONE
+
+    quint32 m_pendingMode = 6; // GfxMode::NONE
 };
 
 #endif //PLASMA_SUPERGFXCTL_DAEMONCONTROLLER_H

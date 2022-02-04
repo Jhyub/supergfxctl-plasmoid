@@ -10,10 +10,8 @@ QString GfxAction::name() const {
             return i18n("Reboot");
         case INTEGRATED:
             return i18n("Integrated");
-        case NONE:
-            return i18n("None");
         default:
-            return i18n("Unknown");
+            return i18n("None");
     }
 }
 
