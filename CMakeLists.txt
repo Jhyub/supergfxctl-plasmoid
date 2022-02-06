@@ -5,7 +5,7 @@ project(plasma-supergfxctl)
 find_package(ECM 1.4.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
-add_compile_definitions(REQUIRED_UPSTREAM_VERSION="4.0.1")
+add_compile_definitions(REQUIRED_UPSTREAM_VERSION="4.0.3")
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)
