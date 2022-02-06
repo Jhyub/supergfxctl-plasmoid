@@ -83,26 +83,17 @@ Item {
                     color: "red"
                     font.italic: true
                 }
-                Row {
+                RowLayout {
                     visible: plasmoid.nativeInterface.isPending
                     PlasmaComponents.Label {
-                        anchors {
-                            left: parent.left
-                            leftMargin: PlasmaCore.Units.smallSpacing
-                            top: parent.top
-                            bottom: parent.bottom
-                        }
                         text: i18n("%1 is required to switch to %2", plasmoid.nativeInterface.pendingAction.name, plasmoid.nativeInterface.pendingMode.name)
+                        id: infoLabel
                     }
                     PlasmaComponents.Button {
-                        anchors {
-                            right: parent.right
-                            rightMargin: PlasmaCore.Units.smallSpacing
-                            top: parent.top
-                            bottom: parent.bottom
-                        }
                         text: i18n("Revert to %1", plasmoid.nativeInterface.mode.name)
                         onClicked: plasmoid.nativeInterface.revert()
+                        icon.name: "edit-undo"
+                        Layout.preferredHeight: infoLabel.implicitHeight
                     }
                 }
             }
