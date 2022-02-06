@@ -118,6 +118,7 @@ void DaemonController::setMode(quint32 mode) {
     auto *watcher = new QDBusPendingCallWatcher(pendingCall);
     connect(watcher, &QDBusPendingCallWatcher::finished, this, [this](QDBusPendingCallWatcher *watcher) {
         QDBusPendingReply<quint32> reply = *watcher;
+        bool flag = false;
         if (reply.isValid()) {
             /*
              * Implement by fetching pendingMode/pendingAction every second instead
@@ -126,12 +127,13 @@ void DaemonController::setMode(quint32 mode) {
                 m_action = action;
             }
             */
-            if (!m_errorMsg.isEmpty()) emit errorMsgChanged();
+            if (!m_errorMsg.isEmpty()) flag = true;
             m_errorMsg = "";
         } else {
-            if (m_errorMsg.isEmpty()) emit errorMsgChanged();
+            if (m_errorMsg.isEmpty()) flag = true;
             m_errorMsg = reply.error().message();
         }
+        if (flag) emit errorMsgChanged();
         emit setModeFinished();
     });
 }
@@ -145,7 +147,7 @@ quint32 DaemonController::pendingMode() const {
 }
 
 void DaemonController::fetchPending() {
-    fetch("PendingAction", [this](QDBusPendingCallWatcher *watcher) {
+    fetch("PendingUserAction", [this](QDBusPendingCallWatcher *watcher) {
         QDBusPendingReply<quint32> reply = *watcher;
         if (reply.isValid()) {
             auto pendingAction = reply.value();
