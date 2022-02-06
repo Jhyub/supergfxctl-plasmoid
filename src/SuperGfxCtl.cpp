@@ -14,8 +14,9 @@ SuperGfxCtl::SuperGfxCtl(QObject *parent, const QVariantList &args) : Plasma::Ap
     connect(&ctl, &DaemonController::modeChanged, this, &SuperGfxCtl::candidateChanged);
     connect(&ctl, &DaemonController::powerChanged, this, &SuperGfxCtl::candidateChanged);
     connect(&ctl, &DaemonController::supportedChanged, this, &SuperGfxCtl::candidateChanged);
-    connect(&ctl, &DaemonController::actionChanged, this, &SuperGfxCtl::expectionChanged);
-    connect(&ctl, &DaemonController::actionChanged, this, [this] { m_realizing = -1; emit realizingChanged(); });
+    connect(&ctl, &DaemonController::pendingChanged, this, &SuperGfxCtl::pendingChanged);
+    connect(&ctl, &DaemonController::errorMsgChanged, this, &SuperGfxCtl::errorMsgChanged);
+    connect(&ctl, &DaemonController::setModeFinished, this, [this] { m_realizing = -1; emit realizingChanged(); });
 }
 
 bool SuperGfxCtl::isDaemonOutdated() const {
@@ -66,8 +67,14 @@ void SuperGfxCtl::revert() {
     realizeCandidate(0);
 }
 
-GfxAction *SuperGfxCtl::expectedAction() const {
-    auto ret = &GfxAction::current();
+GfxAction *SuperGfxCtl::pendingAction() const {
+    auto ret = &GfxAction::pending();
+    QQmlEngine::setObjectOwnership(ret, QQmlEngine::CppOwnership);
+    return ret;
+}
+
+GfxMode *SuperGfxCtl::pendingMode() const {
+    auto ret = &GfxMode::pending();
     QQmlEngine::setObjectOwnership(ret, QQmlEngine::CppOwnership);
     return ret;
 }

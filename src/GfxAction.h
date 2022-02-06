@@ -37,7 +37,7 @@ public:
 
     QString name() const;
 
-    static GfxAction &current();
+    static GfxAction &pending();
 
 private:
     explicit GfxAction(Id id) : id(id) {}

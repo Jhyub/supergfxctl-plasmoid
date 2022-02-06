@@ -51,6 +51,8 @@ public:
 
     static GfxMode &current();
 
+    static GfxMode &pending();
+
     static QVector<Id> supported();
 
     static QVector<Id> all();

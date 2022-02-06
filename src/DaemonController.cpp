@@ -8,6 +8,7 @@ DaemonController::DaemonController() {
     connect(timer, &QTimer::timeout, this, &DaemonController::fetchDaemonVersion);
     connect(timer, &QTimer::timeout, this, &DaemonController::fetchMode);
     connect(timer, &QTimer::timeout, this, &DaemonController::fetchPower);
+    connect(timer, &QTimer::timeout, this, &DaemonController::fetchPending);
     connect(this, &DaemonController::daemonFailingChanged, this, &DaemonController::fetchSupported);
     connect(this, &DaemonController::daemonOutdatedChanged, this, &DaemonController::fetchSupported);
     timer->setInterval(1000);
@@ -15,6 +16,7 @@ DaemonController::DaemonController() {
     this->fetchMode();
     this->fetchPower();
     this->fetchSupported();
+    this->fetchPending();
     timer->start();
 }
 
@@ -117,21 +119,21 @@ void DaemonController::setMode(quint32 mode) {
     connect(watcher, &QDBusPendingCallWatcher::finished, this, [this](QDBusPendingCallWatcher *watcher) {
         QDBusPendingReply<quint32> reply = *watcher;
         if (reply.isValid()) {
+            /*
+             * Implement by fetching pendingMode/pendingAction every second instead
             auto action = reply.value();
             if (m_action != action) {
                 m_action = action;
             }
+            */
+            if (!m_errorMsg.isEmpty()) emit errorMsgChanged();
             m_errorMsg = "";
         } else {
+            if (m_errorMsg.isEmpty()) emit errorMsgChanged();
             m_errorMsg = reply.error().message();
-            m_action = 3; // GfxAction::NONE
         }
-        emit actionChanged();
+        emit setModeFinished();
     });
-}
-
-quint32 DaemonController::action() const {
-    return m_action;
 }
 
 quint32 DaemonController::pendingAction() const {

@@ -17,9 +17,10 @@ Q_OBJECT
     Q_PROPERTY(GfxPower *power READ power NOTIFY powerChanged)
     Q_PROPERTY(QString iconName READ iconName NOTIFY iconNameChanged)
     Q_PROPERTY(GfxModeCandidateList *candidates READ candidates NOTIFY candidateChanged)
-    Q_PROPERTY(GfxAction *expectedAction READ expectedAction NOTIFY expectionChanged)
-    Q_PROPERTY(QString errorMsg READ errorMsg NOTIFY expectionChanged) // error happens on expecting
+    Q_PROPERTY(GfxAction *pendingAction READ pendingAction NOTIFY pendingChanged)
+    Q_PROPERTY(GfxMode *pendingMode READ pendingMode NOTIFY pendingChanged)
     Q_PROPERTY(int realizing READ realizing NOTIFY realizingChanged)
+    Q_PROPERTY(QString errorMsg READ errorMsg NOTIFY errorMsgChanged)
 
 public:
     SuperGfxCtl(QObject *parent, const QVariantList &args);
@@ -40,7 +41,9 @@ public:
 
     Q_INVOKABLE void revert();
 
-    GfxAction *expectedAction() const;
+    GfxAction *pendingAction() const;
+
+    GfxMode *pendingMode() const;
 
     QString errorMsg() const;
 
@@ -60,9 +63,11 @@ signals:
 
     void iconNameChanged();
 
-    void expectionChanged();
-
     void realizingChanged();
+
+    void pendingChanged();
+
+    void errorMsgChanged();
 
 private:
 

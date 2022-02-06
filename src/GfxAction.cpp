@@ -15,6 +15,6 @@ QString GfxAction::name() const {
     }
 }
 
-GfxAction &GfxAction::current() {
-    return GfxAction::from(static_cast<GfxAction::Id>(DaemonController::from().action()));
+GfxAction &GfxAction::pending() {
+    return GfxAction::from(static_cast<GfxAction::Id>(DaemonController::from().pendingAction()));
 }

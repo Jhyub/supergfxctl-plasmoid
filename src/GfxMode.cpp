@@ -12,7 +12,11 @@ bool GfxMode::operator==(GfxMode &other) const {
 }
 
 GfxMode &GfxMode::current() {
-    return GfxMode::from(static_cast<Id>(DaemonController::from().mode()));
+    return GfxMode::from(static_cast<GfxMode::Id>(DaemonController::from().mode()));
+}
+
+GfxMode &GfxMode::pending() {
+    return GfxMode::from(static_cast<GfxMode::Id>(DaemonController::from().pendingMode()));
 }
 
 QVector<GfxMode::Id> GfxMode::supported() {
