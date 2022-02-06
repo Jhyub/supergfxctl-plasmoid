@@ -60,11 +60,11 @@ public:
         BUTTON_TEXT,
     };
 
-    int rowCount(const QModelIndex &p) const;
+    int rowCount(const QModelIndex &p) const override;
 
-    QVariant data(const QModelIndex &index, int role) const;
+    QVariant data(const QModelIndex &index, int role) const override;
 
-    QHash<int, QByteArray> roleNames() const;
+    QHash<int, QByteArray> roleNames() const override;
 
     void append(QObject *o);
 
