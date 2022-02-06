@@ -10,29 +10,11 @@ Built as a C++/QML Plasmoid
 - [x] Dynamic plasmoid logo, tooltip
 - [x] Filter available switches
 - [x] Display dbus error message
-- [x] Alert 180 second timeout on logout
-- [x] Revert change (to compute, integrated, vfio)
-- [ ] Revert change (to hybrid, nvidia)
+- [x] Revert change
 
-_**NOTE**: supergfxctl-plasmoid only reflects current gpu mode and power from the daemon. other information might mix up and not reflect properly if you use more than two clients at once. (ex. `supergfxctl` cli tool)_
+## Screenshot
 
-## Screenshots
-
-<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/filter.png" alt="filter.png" width="300">
-
-Default menu, on hybrid mode
-
-<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/switching.png" alt="switching.png" width="300">
-
-While switching
-
-<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/error.png" alt="error.png" width="300">
-
-Display dbus errors
-
-<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/revert.png" alt="revert.png" width="300">
-
-Revert menu
+<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/v1.0.0.png" alt="v1.0.0.png" width="300">
 
 ## Installation
 ### Arch User Repository
