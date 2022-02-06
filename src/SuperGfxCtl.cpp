@@ -79,6 +79,10 @@ GfxMode *SuperGfxCtl::pendingMode() const {
     return ret;
 }
 
+bool SuperGfxCtl::isPending() const {
+    return !(GfxAction::pending() == GfxAction::from(GfxAction::NONE));
+}
+
 QString SuperGfxCtl::errorMsg() const {
     return DaemonController::from().errorMsg();
 }

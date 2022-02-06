@@ -19,6 +19,7 @@ Q_OBJECT
     Q_PROPERTY(GfxModeCandidateList *candidates READ candidates NOTIFY candidateChanged)
     Q_PROPERTY(GfxAction *pendingAction READ pendingAction NOTIFY pendingChanged)
     Q_PROPERTY(GfxMode *pendingMode READ pendingMode NOTIFY pendingChanged)
+    Q_PROPERTY(bool isPending READ isPending NOTIFY pendingChanged)
     Q_PROPERTY(int realizing READ realizing NOTIFY realizingChanged)
     Q_PROPERTY(QString errorMsg READ errorMsg NOTIFY errorMsgChanged)
 
@@ -44,6 +45,8 @@ public:
     GfxAction *pendingAction() const;
 
     GfxMode *pendingMode() const;
+
+    bool isPending() const;
 
     QString errorMsg() const;
 

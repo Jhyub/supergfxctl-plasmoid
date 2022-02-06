@@ -150,7 +150,7 @@ void DaemonController::fetchPending() {
         if (reply.isValid()) {
             auto pendingAction = reply.value();
             if (m_pendingAction != pendingAction) {
-                m_power = pendingAction;
+                m_pendingAction = pendingAction;
                 emit pendingChanged();
             }
         }

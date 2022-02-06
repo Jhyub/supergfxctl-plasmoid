@@ -35,6 +35,10 @@ public:
         }
     }
 
+    explicit operator GfxAction::Id() const;
+
+    bool operator==(GfxAction &other) const;
+
     QString name() const;
 
     static GfxAction &pending();

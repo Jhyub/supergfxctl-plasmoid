@@ -2,6 +2,14 @@
 #include <DaemonController.h>
 #include "GfxAction.h"
 
+GfxAction::operator GfxAction::Id() const {
+    return id;
+}
+
+bool GfxAction::operator==(GfxAction &other) const {
+    return id == other.id;
+}
+
 QString GfxAction::name() const {
     switch (id) {
         case LOGOUT:
