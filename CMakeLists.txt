@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(plasma-supergfxctl)
+project(supergfxctl-plasmoid)
 
 find_package(ECM 1.4.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
