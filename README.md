@@ -18,7 +18,7 @@ Built as a C++/QML Plasmoid
 
 ## Installation
 ### Arch User Repository
-[kdeplasma-applets-supergfxctl](https://aur.archlinux.org/packages/kdeplasma-applets-supergfxctl)
+[plasma5-applets-supergfxctl](https://aur.archlinux.org/packages/plasma5-applets-supergfxctl)
 ### Fedora Copr [![Copr build status](https://copr.fedorainfracloud.org/coprs/jhyub/supergfxctl-plasmoid/package/supergfxctl-plasmoid/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/jhyub/supergfxctl-plasmoid/package/supergfxctl-plasmoid/)
 ```shell
 dnf copr enable jhyub/supergfxctl-plasmoid
