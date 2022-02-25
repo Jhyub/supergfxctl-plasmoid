@@ -22,8 +22,6 @@ QString GfxPower::name() const {
             return i18n("Suspended");
         case OFF:
             return i18n("Off");
-        case UNKNOWN:
-            return i18n("Unknown");
         default:
             return i18n("Unknown");
     }

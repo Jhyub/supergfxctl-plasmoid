@@ -57,7 +57,7 @@ QString GfxMode::name() const {
         case EGPU:
             return i18n("eGPU");
         default:
-            return i18n("None");
+            return i18n("Unknown");
     }
 }
 

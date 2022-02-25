@@ -19,7 +19,7 @@ QString GfxAction::name() const {
         case INTEGRATED:
             return i18n("Integrated");
         default:
-            return i18n("None");
+            return i18n("Unknown");
     }
 }
 

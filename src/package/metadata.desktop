@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=SUPERGFX
 Comment=Switch between GPU modes via supergfxd
-Comment[ko]=supergfxd를 이용한 GPU 모드 변경
+Comment[ko]=supergfxd를 통한 GPU 모드 변경
 
 Icon=supergfxctl-plasmoid-gpu-dedicated
 Type=Service

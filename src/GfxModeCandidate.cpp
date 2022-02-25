@@ -41,7 +41,7 @@ QString GfxModeCandidate::displayIconName() const {
 QString GfxModeCandidate::buttonText() const {
     switch (section()) {
         case Section::ACTIVE:
-            return i18n("Active");
+            return i18n("Activated");
         case Section::AVAILABLE:
             return i18n("Available");
         case Section::UNAVAILABLE:
