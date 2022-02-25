@@ -3,7 +3,7 @@ Name=SUPERGFX
 Comment=Switch between GPU modes via supergfxd
 Comment[ko]=supergfxd를 이용한 GPU 모드 변경
 
-Icon=applications-system
+Icon=supergfxctl-plasmoid-gpu-dedicated
 Type=Service
 
 X-KDE-ServiceTypes=Plasma/Applet
