@@ -117,7 +117,7 @@ Item {
                 spacing: PlasmaCore.Units.smallSpacing
                 section.property: "section"
                 section.delegate: Loader {
-                    active: section != 0
+                    active: section != 0 && (section != 3 || plasmoid.configuration.showUnsupported)
                     height: active ? source.height : 0
 
                     sourceComponent: Item {
@@ -151,6 +151,7 @@ Item {
                     required property string buttonText
                     required property string buttonIcon
                     required property int index
+                    visible: section != 3 || plasmoid.configuration.showUnsupported
                     MouseArea {
                         anchors.fill: parent
                         hoverEnabled: true
