@@ -160,6 +160,8 @@ Item {
                             fill: parent
                             leftMargin: PlasmaCore.Units.smallSpacing
                             rightMargin: PlasmaCore.Units.smallSpacing
+                            topMargin: PlasmaCore.Units.smallSpacing
+                            bottomMargin: PlasmaCore.Units.smallSpacing
                         }
                         hoverEnabled: true
                         onEntered: listView.currentIndex = index
