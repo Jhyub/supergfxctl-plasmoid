@@ -99,21 +99,21 @@ Item {
             }
         }
 
-        PlasmaExtras.ScrollArea {
+        PlasmaComponents.ScrollView {
             anchors.fill: parent
 
             visible: !plasmoid.nativeInterface.isDaemonFailing && !plasmoid.nativeInterface.isDaemonOutdated
 
-            ListView {
+            contentItem: ListView {
                 id: listView
-                anchors {
-                    fill: parent
-                    topMargin: PlasmaCore.Units.smallSpacing
-                }
                 clip: true
                 model: plasmoid.nativeInterface.candidates
                 boundsBehavior: Flickable.StopAtBounds
                 currentIndex: -1
+                topMargin: PlasmaCore.Units.smallSpacing * 2
+                bottomMargin: PlasmaCore.Units.smallSpacing * 2
+                leftMargin: PlasmaCore.Units.smallSpacing * 2
+                rightMargin: PlasmaCore.Units.smallSpacing * 2
                 spacing: PlasmaCore.Units.smallSpacing
                 section.property: "section"
                 section.delegate: Loader {
@@ -123,7 +123,7 @@ Item {
                     sourceComponent: Item {
                         id: source
                         height: separatorLine.height + PlasmaCore.Units.smallSpacing
-                        width: listView.width
+                        width: listView.width - PlasmaCore.Units.smallSpacing * 4
                         PlasmaCore.SvgItem {
                             id: separatorLine
                             width: parent.width - 2 * PlasmaCore.Units.gridUnit
@@ -142,7 +142,7 @@ Item {
                 highlightMoveDuration: 0
                 highlightResizeDuration: 0
                 delegate: PlasmaExtras.ListItem {
-                    width: listView.width
+                    width: listView.width - PlasmaCore.Units.smallSpacing * 4
                     height: PlasmaCore.Units.gridUnit * 2
                     required property int section
                     required property string reason
