@@ -141,7 +141,10 @@ Item {
                 highlight: PlasmaComponents2.Highlight { }
                 highlightMoveDuration: 0
                 highlightResizeDuration: 0
-                delegate: PlasmaExtras.ListItem {
+                // Was originally PlasmaExtras.ListItem
+                // But it had a issue where its height is fixed to zero on initial load
+                // Maybe change later?
+                delegate: Item {
                     width: listView.width - PlasmaCore.Units.smallSpacing * 4
                     height: PlasmaCore.Units.gridUnit * 2
                     required property int section
@@ -153,7 +156,11 @@ Item {
                     required property int index
                     visible: section != 3 || plasmoid.configuration.showUnsupported
                     MouseArea {
-                        anchors.fill: parent
+                        anchors {
+                            fill: parent
+                            leftMargin: PlasmaCore.Units.smallSpacing
+                            rightMargin: PlasmaCore.Units.smallSpacing
+                        }
                         hoverEnabled: true
                         onEntered: listView.currentIndex = index
                         Item {
