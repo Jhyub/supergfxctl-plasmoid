@@ -1,4 +1,4 @@
-add_compile_definitions(REQUIRED_UPSTREAM_VERSION="4.0.3" TRANSLATION_DOMAIN="plasma_applet_dev.jhyub.supergfxctl")
+add_compile_definitions(REQUIRED_UPSTREAM_VERSION="5.0.1" TRANSLATION_DOMAIN="plasma_applet_dev.jhyub.supergfxctl")
 
 add_library(plasma_applet_supergfxctl MODULE SuperGfxCtl.cpp GfxMode.cpp GfxMode.h GfxAction.h GfxModeCandidate.cpp GfxModeCandidate.h GfxPower.h DaemonController.cpp DaemonController.h GfxPower.cpp GfxAction.cpp)
 

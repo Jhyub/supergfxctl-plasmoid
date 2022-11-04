@@ -72,26 +72,23 @@ msgstr "알 수 없음"
 msgid "Logout"
 msgstr "로그아웃"
 
-msgid "Reboot"
-msgstr "재시작"
+msgid "Optimus Mode (ASUS MUX)"
+msgstr "옵티머스 모드 (ASUS MUX)"
 
 msgid "Hybrid"
 msgstr "하이브리드"
 
-msgid "Dedicated"
-msgstr "외장 그래픽"
-
 msgid "Integrated"
 msgstr "내장 그래픽"
-
-msgid "Compute"
-msgstr "연산"
 
 msgid "vfio"
 msgstr "vfio"
 
 msgid "eGPU"
 msgstr "eGPU"
+
+msgid "Discrete (ASUS MUX)"
+msgstr "외장 그래픽 (ASUS MUX)"
 
 msgid "Activated"
 msgstr "활성화됨"
@@ -110,6 +107,12 @@ msgstr "활성"
 
 msgid "Suspended"
 msgstr "절전"
+
+msgid "Disabled"
+msgstr "비활성"
+
+msgid "Active (ASUS MUX)"
+msgstr "활성 (ASUS MUX)"
 
 msgid "Off"
 msgstr "꺼짐"

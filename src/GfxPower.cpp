@@ -20,6 +20,10 @@ QString GfxPower::name() const {
             return i18n("Active");
         case SUSPENDED:
             return i18n("Suspended");
+        case ASUS_DISABLED:
+            return i18n("Disabled");
+        case ASUS_MUX_DISCRETE:
+            return i18n("Active (ASUS MUX)");
         case OFF:
             return i18n("Off");
         default:
@@ -30,9 +34,11 @@ QString GfxPower::name() const {
 QString GfxPower::iconName() const {
     switch (id) {
         case ACTIVE:
+        case ASUS_MUX_DISCRETE:
             return {"supergfxctl-plasmoid-dgpu-active"};
         case SUSPENDED:
             return {"supergfxctl-plasmoid-dgpu-suspended"};
+        case ASUS_DISABLED:
         case OFF:
             return {"supergfxctl-plasmoid-dgpu-off"};
         default:

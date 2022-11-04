@@ -34,10 +34,9 @@ QVector<GfxMode::Id> GfxMode::supported() {
 QVector<GfxMode::Id> GfxMode::all() {
     return {
             GfxMode::HYBRID,
-            GfxMode::DEDICATED,
             GfxMode::INTEGRATED,
-            GfxMode::COMPUTE,
             GfxMode::VFIO,
+            GfxMode::ASUS_MUX_DISCRETE,
             GfxMode::EGPU
     };
 }
@@ -46,16 +45,14 @@ QString GfxMode::name() const {
     switch (id) {
         case HYBRID:
             return i18n("Hybrid");
-        case DEDICATED:
-            return i18n("Dedicated");
         case INTEGRATED:
             return i18n("Integrated");
-        case COMPUTE:
-            return i18n("Compute");
         case VFIO:
             return i18n("vfio");
         case EGPU:
             return i18n("eGPU");
+        case ASUS_MUX_DISCRETE:
+            return i18n("Discrete (ASUS MUX)");
         default:
             return i18n("Unknown");
     }
@@ -64,14 +61,9 @@ QString GfxMode::name() const {
 QString GfxMode::iconName(GfxPower &power) const {
     bool isActive = power == GfxPower::from(GfxPower::ACTIVE);
     switch (id) {
-        case DEDICATED:
-            return {"supergfxctl-plasmoid-gpu-dedicated"};
         case INTEGRATED:
             if (isActive) return {"supergfxctl-plasmoid-gpu-integrated-active"};
             else return {"supergfxctl-plasmoid-gpu-integrated"};
-        case COMPUTE:
-            if (isActive) return {"supergfxctl-plasmoid-gpu-compute-active"};
-            else return {"supergfxctl-plasmoid-gpu-compute"};
         case VFIO:
             if (isActive) return {"supergfxctl-plasmoid-gpu-vfio-active"};
             else return {"supergfxctl-plasmoid-gpu-vfio"};
@@ -81,6 +73,9 @@ QString GfxMode::iconName(GfxPower &power) const {
         case HYBRID:
             if (isActive) return {"supergfxctl-plasmoid-gpu-hybrid-active"};
             else return {"supergfxctl-plasmoid-gpu-hybrid"};
+        case ASUS_MUX_DISCRETE:
+            if (isActive) return {"supergfxctl-plasmoid-gpu-asusmuxdiscrete-active"};
+            else return {"supergfxctl-plasmoid-gpu-asusmuxdiscrete"};
         default:
             return {};
     }

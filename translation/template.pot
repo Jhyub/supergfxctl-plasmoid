@@ -72,25 +72,22 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-msgid "Reboot"
+msgid "Optimus Mode (ASUS MUX)"
 msgstr ""
 
 msgid "Hybrid"
 msgstr ""
 
-msgid "Dedicated"
-msgstr ""
-
 msgid "Integrated"
-msgstr ""
-
-msgid "Compute"
 msgstr ""
 
 msgid "vfio"
 msgstr ""
 
 msgid "eGPU"
+msgstr ""
+
+msgid "Discrete (ASUS MUX)"
 msgstr ""
 
 msgid "Activated"
@@ -109,6 +106,12 @@ msgid "Active"
 msgstr ""
 
 msgid "Suspended"
+msgstr ""
+
+msgid "Disabled"
+msgstr ""
+
+msgid "Active (ASUS MUX)"
 msgstr ""
 
 msgid "Off"

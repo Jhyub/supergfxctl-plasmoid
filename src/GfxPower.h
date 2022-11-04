@@ -12,7 +12,7 @@ Q_OBJECT
     Q_PROPERTY(QString iconName READ iconName CONSTANT)
 public:
     enum Id {
-        ACTIVE, SUSPENDED, OFF, UNKNOWN,
+        ACTIVE, SUSPENDED, OFF, ASUS_DISABLED, ASUS_MUX_DISCRETE, UNKNOWN,
     };
 
     ~GfxPower() override = default;
@@ -21,6 +21,8 @@ public:
         static GfxPower active(ACTIVE);
         static GfxPower suspended(SUSPENDED);
         static GfxPower off(OFF);
+        static GfxPower asusDisabled(ASUS_DISABLED);
+        static GfxPower asusMuxDiscrete(ASUS_MUX_DISCRETE);
         static GfxPower unknown(UNKNOWN);
         switch (id) {
             case ACTIVE:
@@ -29,6 +31,10 @@ public:
                 return suspended;
             case OFF:
                 return off;
+            case ASUS_DISABLED:
+                return asusDisabled;
+            case ASUS_MUX_DISCRETE:
+                return asusMuxDiscrete;
             case UNKNOWN:
                 return unknown;
             default:

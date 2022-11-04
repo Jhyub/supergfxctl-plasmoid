@@ -12,8 +12,8 @@ GfxModeCandidate::Section GfxModeCandidate::section() const {
     if (!GfxMode::supported().contains((GfxMode::Id) target)) {
         return Section::UNSUPPORTED;
     }
-    QList<GfxMode::Id> a = {GfxMode::DEDICATED, GfxMode::HYBRID, GfxMode::EGPU};
-    QList<GfxMode::Id> b = {GfxMode::COMPUTE, GfxMode::VFIO};
+    QList<GfxMode::Id> a = {GfxMode::HYBRID, GfxMode::EGPU, GfxMode::ASUS_MUX_DISCRETE};
+    QList<GfxMode::Id> b = {GfxMode::VFIO};
     if (a.contains((GfxMode::Id) current) && b.contains((GfxMode::Id) target)) {
         return Section::UNAVAILABLE;
     }
@@ -56,7 +56,7 @@ QString GfxModeCandidate::buttonText() const {
 QString GfxModeCandidate::buttonIconName() const {
     switch (section()) {
         case Section::ACTIVE:
-            return GfxMode::from(GfxMode::DEDICATED).iconName(GfxPower::from(GfxPower::ACTIVE));
+            return GfxMode::from(GfxMode::ASUS_MUX_DISCRETE).iconName(GfxPower::from(GfxPower::ACTIVE));
         case Section::AVAILABLE:
             return GfxMode::from(GfxMode::INTEGRATED).iconName(GfxPower::from(GfxPower::ACTIVE));
         default:
