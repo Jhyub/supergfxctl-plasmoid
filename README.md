@@ -14,7 +14,7 @@ Built as a C++/QML Plasmoid
 
 ## Screenshot
 
-<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/v1.0.0.png" alt="v1.0.0.png" width="300">
+<img src="https://gitlab.com/jhyub/supergfxctl-plasmoid/-/raw/master/screenshots/v1.2.0.png" alt="v1.2.0.png" width="300">
 
 ## Installation
 ### Arch User Repository
@@ -50,14 +50,15 @@ plasmashell --replace &
 ## Copyright Notice
 Some files under ./icons/status are from or derived from [asusctl-gex](https://gitlab.com/asus-linux/asusctl-gex), which is distributed under the Mozilla Public License 2.0.
 The following is an exhaustive list of files.  
+
 ```
 supergfxctl-plasmoid-dgpu-active.svg
 supergfxctl-plasmoid-dgpu-off.svg
 supergfxctl-plasmoid-dgpu-suspended.svg
+supergfxctl-plasmoid-gpu-asusmuxdiscrete.svg
+supergfxctl-plasmoid-gpu-asusmuxdiscrete-active.svg
 supergfxctl-plasmoid-gpu-copute.svg
 supergfxctl-plasmoid-gpu-compute-active.svg
-supergfxctl-plasmoid-gpu-dedicated.svg
-supergfxctl-plasmoid-gpu-dedicated-active.svg
 supergfxctl-plasmoid-gpu-egpu.svg
 supergfxctl-plasmoid-gpu-egpu-active.svg
 supergfxctl-plasmoid-gpu-hybrid.svg
