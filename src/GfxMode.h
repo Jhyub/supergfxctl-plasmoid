@@ -22,6 +22,7 @@ public:
     static GfxMode &from(Id id) {
         static GfxMode hybrid(HYBRID);
         static GfxMode integrated(INTEGRATED);
+        static GfxMode compute(COMPUTE);
         static GfxMode vfio(VFIO);
         static GfxMode egpu(EGPU);
         static GfxMode asusMuxDiscrete(ASUS_MUX_DISCRETE);
@@ -31,6 +32,8 @@ public:
                 return hybrid;
             case INTEGRATED:
                 return integrated;
+            case COMPUTE:
+                return compute;
             case VFIO:
                 return vfio;
             case EGPU:
