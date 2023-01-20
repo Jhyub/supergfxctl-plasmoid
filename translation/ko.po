@@ -81,6 +81,9 @@ msgstr "하이브리드"
 msgid "Integrated"
 msgstr "내장 그래픽"
 
+msgid "Compute"
+msgstr "연산"
+
 msgid "vfio"
 msgstr "vfio"
 

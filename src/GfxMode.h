@@ -14,7 +14,7 @@ Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
 public:
     enum Id {
-        HYBRID, INTEGRATED, VFIO, EGPU, ASUS_MUX_DISCRETE, NONE,
+        HYBRID, INTEGRATED, COMPUTE, VFIO, EGPU, ASUS_MUX_DISCRETE, NONE,
     };
 
     ~GfxMode() override = default;

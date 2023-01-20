@@ -35,6 +35,7 @@ QVector<GfxMode::Id> GfxMode::all() {
     return {
             GfxMode::HYBRID,
             GfxMode::INTEGRATED,
+            GfxMode::COMPUTE,
             GfxMode::VFIO,
             GfxMode::ASUS_MUX_DISCRETE,
             GfxMode::EGPU
@@ -47,6 +48,8 @@ QString GfxMode::name() const {
             return i18n("Hybrid");
         case INTEGRATED:
             return i18n("Integrated");
+        case COMPUTE:
+            return i18n("Compute");
         case VFIO:
             return i18n("vfio");
         case EGPU:
@@ -64,6 +67,9 @@ QString GfxMode::iconName(GfxPower &power) const {
         case INTEGRATED:
             if (isActive) return {"supergfxctl-plasmoid-gpu-integrated-active"};
             else return {"supergfxctl-plasmoid-gpu-integrated"};
+        case COMPUTE:
+            if (isActive) return {"supergfxctl-plasmoid-gpu-compute-active"};
+            else return {"supergfxctl-plasmoid-gpu-compute"};
         case VFIO:
             if (isActive) return {"supergfxctl-plasmoid-gpu-vfio-active"};
             else return {"supergfxctl-plasmoid-gpu-vfio"};

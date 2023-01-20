@@ -13,7 +13,7 @@ GfxModeCandidate::Section GfxModeCandidate::section() const {
         return Section::UNSUPPORTED;
     }
     QList<GfxMode::Id> a = {GfxMode::HYBRID, GfxMode::EGPU, GfxMode::ASUS_MUX_DISCRETE};
-    QList<GfxMode::Id> b = {GfxMode::VFIO};
+    QList<GfxMode::Id> b = {GfxMode::COMPUTE, GfxMode::VFIO};
     if (a.contains((GfxMode::Id) current) && b.contains((GfxMode::Id) target)) {
         return Section::UNAVAILABLE;
     }

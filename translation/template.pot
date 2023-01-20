@@ -81,6 +81,9 @@ msgstr ""
 msgid "Integrated"
 msgstr ""
 
+msgid "Compute"
+msgstr ""
+
 msgid "vfio"
 msgstr ""
 
