@@ -64,6 +64,12 @@ msgstr ""
 msgid "Disabled in configuration"
 msgstr ""
 
+msgid "Switch to Integrated"
+msgstr ""
+
+msgid "Switch to Integrated or Hybrid"
+msgstr ""
+
 #: Additional keywords from C++
 
 msgid "Unknown"
@@ -81,13 +87,16 @@ msgstr ""
 msgid "Integrated"
 msgstr ""
 
+msgid "NvidiaNoModeset"
+msgstr ""
+
 msgid "vfio"
 msgstr ""
 
-msgid "eGPU"
+msgid "eGPU (ASUS)"
 msgstr ""
 
-msgid "Discrete (ASUS MUX)"
+msgid "dGPU (ASUS MUX)"
 msgstr ""
 
 msgid "Activated"

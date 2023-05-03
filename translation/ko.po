@@ -64,6 +64,12 @@ msgstr "%1(으)로의 변경이 필요합니다|/|%1$[으 %1]로의 변경이 �
 msgid "Disabled in configuration"
 msgstr "설정에서 비활성화되어있습니다"
 
+msgid "Switch to Integrated"
+msgstr "내장 그래픽으로 전환"
+
+msgid "Switch to Integrated or Hybrid"
+msgstr "내장 그래픽 또는 하이브리드로 전환"
+
 #: Additional keywords from C++
 
 msgid "Unknown"
@@ -81,13 +87,16 @@ msgstr "하이브리드"
 msgid "Integrated"
 msgstr "내장 그래픽"
 
+msgid "NvidiaNoModeset"
+msgstr "NvidiaNoModeset"
+
 msgid "vfio"
 msgstr "vfio"
 
-msgid "eGPU"
-msgstr "eGPU"
+msgid "eGPU (ASUS)"
+msgstr "eGPU (ASUS)"
 
-msgid "Discrete (ASUS MUX)"
+msgid "dGPU (ASUS MUX)"
 msgstr "외장 그래픽 (ASUS MUX)"
 
 msgid "Activated"
