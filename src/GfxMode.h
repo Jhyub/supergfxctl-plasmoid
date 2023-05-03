@@ -14,7 +14,7 @@ Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
 public:
     enum Id {
-        HYBRID, INTEGRATED, VFIO, EGPU, ASUS_MUX_DISCRETE, NONE,
+        HYBRID, INTEGRATED, NVIDIA_NO_MODESET, VFIO, ASUS_EGPU, ASUS_MUX_DGPU, NONE,
     };
 
     ~GfxMode() override = default;
@@ -22,21 +22,24 @@ public:
     static GfxMode &from(Id id) {
         static GfxMode hybrid(HYBRID);
         static GfxMode integrated(INTEGRATED);
+        static GfxMode nvidiaNoModeset(NVIDIA_NO_MODESET);
         static GfxMode vfio(VFIO);
-        static GfxMode egpu(EGPU);
-        static GfxMode asusMuxDiscrete(ASUS_MUX_DISCRETE);
+        static GfxMode asusEgpu(ASUS_EGPU);
+        static GfxMode asusMuxDgpu(ASUS_MUX_DGPU);
         static GfxMode none(NONE);
         switch (id) {
             case HYBRID:
                 return hybrid;
             case INTEGRATED:
                 return integrated;
+            case NVIDIA_NO_MODESET:
+                return nvidiaNoModeset;
             case VFIO:
                 return vfio;
-            case EGPU:
-                return egpu;
-            case ASUS_MUX_DISCRETE:
-                return asusMuxDiscrete;
+            case ASUS_EGPU:
+                return asusEgpu;
+            case ASUS_MUX_DGPU:
+                return asusMuxDgpu;
             default:
                 return none;
         }

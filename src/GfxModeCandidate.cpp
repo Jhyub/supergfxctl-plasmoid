@@ -12,7 +12,7 @@ GfxModeCandidate::Section GfxModeCandidate::section() const {
     if (!GfxMode::supported().contains((GfxMode::Id) target)) {
         return Section::UNSUPPORTED;
     }
-    QList<GfxMode::Id> a = {GfxMode::HYBRID, GfxMode::EGPU, GfxMode::ASUS_MUX_DISCRETE};
+    QList<GfxMode::Id> a = {GfxMode::HYBRID, GfxMode::ASUS_EGPU};
     QList<GfxMode::Id> b = {GfxMode::VFIO};
     if (a.contains((GfxMode::Id) current) && b.contains((GfxMode::Id) target)) {
         return Section::UNAVAILABLE;
@@ -22,6 +22,7 @@ GfxModeCandidate::Section GfxModeCandidate::section() const {
 
 QString GfxModeCandidate::reason() const {
     // Assumption: UNAVAILABLE is for integrated-only candidates only
+    // This assumption might be broken if GfxAction::ASUS_EGPU_DISABLE comes into use someday. Safe as of 5.1.0
     if (section() == Section::UNAVAILABLE)
         return i18n("Switch to %1 is required", GfxMode::from(GfxMode::INTEGRATED).name());
     if (section() == Section::UNSUPPORTED && target == GfxMode::from(GfxMode::VFIO)) {
@@ -56,7 +57,7 @@ QString GfxModeCandidate::buttonText() const {
 QString GfxModeCandidate::buttonIconName() const {
     switch (section()) {
         case Section::ACTIVE:
-            return GfxMode::from(GfxMode::ASUS_MUX_DISCRETE).iconName(GfxPower::from(GfxPower::ACTIVE));
+            return GfxMode::from(GfxMode::ASUS_MUX_DGPU).iconName(GfxPower::from(GfxPower::ACTIVE));
         case Section::AVAILABLE:
             return GfxMode::from(GfxMode::INTEGRATED).iconName(GfxPower::from(GfxPower::ACTIVE));
         default:

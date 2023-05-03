@@ -14,12 +14,14 @@ QString GfxAction::name() const {
     switch (id) {
         case LOGOUT:
             return i18n("Logout");
-        case INTEGRATED:
-            return i18n("Integrated");
-        case ASUS_GPU_MUX_DISABLE:
-            return i18n("Optimus Mode (ASUS MUX)");
+        case REBOOT:
+            return i18n("Reboot");
+        case SWITCH_TO_INTEGRATED:
+            return i18n("Switch to Integrated");
+        case ASUS_EGPU_DISABLE:
+            return i18n("Switch to Integrated or Hybrid");
         default:
-            return i18n("Unknown");
+            return i18n("Nothing");
     }
 }
 

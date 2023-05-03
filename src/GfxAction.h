@@ -11,7 +11,7 @@ Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
 public:
     enum Id {
-        LOGOUT, INTEGRATED, ASUS_GPU_MUX_DISABLE, NONE,
+        LOGOUT, REBOOT, SWITCH_TO_INTEGRATED, ASUS_EGPU_DISABLE, NOTHING,
     };
 
     Q_ENUM(Id)
@@ -20,18 +20,21 @@ public:
 
     static GfxAction &from(Id id) {
         static GfxAction logout(GfxAction::LOGOUT);
-        static GfxAction integrated(GfxAction::INTEGRATED);
-        static GfxAction asusGpuMuxDisable(GfxAction::ASUS_GPU_MUX_DISABLE);
-        static GfxAction none(GfxAction::NONE);
+        static GfxAction reboot(GfxAction::REBOOT);
+        static GfxAction switchToIntegrated(GfxAction::SWITCH_TO_INTEGRATED);
+        static GfxAction asusEgpuDisable(GfxAction::ASUS_EGPU_DISABLE);
+        static GfxAction nothing(GfxAction::NOTHING);
         switch (id) {
             case LOGOUT:
                 return logout;
-            case INTEGRATED:
-                return integrated;
-            case ASUS_GPU_MUX_DISABLE:
-                return asusGpuMuxDisable;
+            case REBOOT:
+                return reboot;
+            case SWITCH_TO_INTEGRATED:
+                return switchToIntegrated;
+            case ASUS_EGPU_DISABLE:
+                return asusEgpuDisable;
             default:
-                return none;
+                return nothing;
         }
     }
 

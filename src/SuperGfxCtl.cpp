@@ -80,7 +80,7 @@ GfxMode *SuperGfxCtl::pendingMode() const {
 }
 
 bool SuperGfxCtl::isPending() const {
-    return !(GfxAction::pending() == GfxAction::from(GfxAction::NONE));
+    return !(GfxAction::pending() == GfxAction::from(GfxAction::NOTHING));
 }
 
 QString SuperGfxCtl::errorMsg() const {

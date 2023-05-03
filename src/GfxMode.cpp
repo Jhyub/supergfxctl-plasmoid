@@ -35,9 +35,10 @@ QVector<GfxMode::Id> GfxMode::all() {
     return {
             GfxMode::HYBRID,
             GfxMode::INTEGRATED,
+            GfxMode::NVIDIA_NO_MODESET,
             GfxMode::VFIO,
-            GfxMode::ASUS_MUX_DISCRETE,
-            GfxMode::EGPU
+            GfxMode::ASUS_EGPU,
+            GfxMode::ASUS_MUX_DGPU,
     };
 }
 
@@ -47,12 +48,14 @@ QString GfxMode::name() const {
             return i18n("Hybrid");
         case INTEGRATED:
             return i18n("Integrated");
+        case NVIDIA_NO_MODESET:
+            return i18n("NvidiaNoModeset");
         case VFIO:
             return i18n("vfio");
-        case EGPU:
-            return i18n("eGPU");
-        case ASUS_MUX_DISCRETE:
-            return i18n("Discrete (ASUS MUX)");
+        case ASUS_EGPU:
+            return i18n("eGPU (ASUS)");
+        case ASUS_MUX_DGPU:
+            return i18n("dGPU (ASUS MUX)");
         default:
             return i18n("Unknown");
     }
@@ -67,15 +70,16 @@ QString GfxMode::iconName(GfxPower &power) const {
         case VFIO:
             if (isActive) return {"supergfxctl-plasmoid-gpu-vfio-active"};
             else return {"supergfxctl-plasmoid-gpu-vfio"};
-        case EGPU:
+        case ASUS_EGPU:
             if (isActive) return {"supergfxctl-plasmoid-gpu-egpu-active"};
             else return {"supergfxctl-plasmoid-gpu-egpu"};
         case HYBRID:
             if (isActive) return {"supergfxctl-plasmoid-gpu-hybrid-active"};
             else return {"supergfxctl-plasmoid-gpu-hybrid"};
-        case ASUS_MUX_DISCRETE:
-            if (isActive) return {"supergfxctl-plasmoid-gpu-asusmuxdiscrete-active"};
-            else return {"supergfxctl-plasmoid-gpu-asusmuxdiscrete"};
+        case ASUS_MUX_DGPU:
+        case NVIDIA_NO_MODESET:
+            if (isActive) return {"supergfxctl-plasmoid-gpu-dedicated-active"};
+            else return {"supergfxctl-plasmoid-gpu-dedicated"};
         default:
             return {};
     }
