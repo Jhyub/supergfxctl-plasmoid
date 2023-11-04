@@ -1,0 +1,125 @@
+# Translation of supergfxctl-plasmoid in LANGUAGE
+# Copyright (C)
+# This file is distributed under the Mozilla Public License, Version 2.0.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: supergfxctl-plasmoid\n"
+"Report-Msgid-Bugs-To: https://gitlab.com/Jhyub/supergfxctl-plasmoid\n"
+"POT-Creation-Date: 2022-02-25 15:50+0900\n"
+"PO-Revision-Date: 2023-11-04 08:33+0100\n"
+"Last-Translator: Marcin Mikołajczak <git@mkljczk.pl>\n"
+"Language-Team: \n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.3.2\n"
+
+#: ../contents/config/config.qml
+msgid "General"
+msgstr "Ogólne"
+
+#: ../contents/ui/configGeneral.qml
+msgid "Modes:"
+msgstr "Tryby:"
+
+#: ../contents/ui/configGeneral.qml
+msgid "Show unsupported modes"
+msgstr "Pokazuj nieobsługiwane tryby"
+
+#: ../contents/ui/main.qml
+msgid "Graphics mode: %1, dGPU power: %2"
+msgstr ""
+
+#: ../contents/ui/main.qml
+msgid "dGPU power: %1"
+msgstr ""
+
+#: ../contents/ui/main.qml
+msgid "Run journalctl -b -u supergfxd for more information"
+msgstr "Wykonaj journalctl -b -u supergfxd, aby uzyskać więcej informacji"
+
+#: ../contents/ui/main.qml
+msgid "%1 is required to switch to %2"
+msgstr "Wymagane jest %1, aby przełączyć na %2"
+
+#: ../contents/ui/main.qml
+msgid "Revert to %1"
+msgstr "Przywróć do %1"
+
+#: ../contents/ui/main.qml
+msgid "supergfxd daemon is outdated"
+msgstr "Demon supergfxd jest nieaktualny"
+
+#: ../contents/ui/main.qml
+msgid "Can't connect to daemon"
+msgstr "Nie można połączyć się z demonem"
+
+#: Sentences from C++
+msgid "Switch to %1 is required"
+msgstr "Wymagane jest przełączenie na %1"
+
+msgid "Disabled in configuration"
+msgstr "Wyłączono w konfiguracji"
+
+msgid "Switch to Integrated"
+msgstr "Przełącz na zintegrowaną"
+
+msgid "Switch to Integrated or Hybrid"
+msgstr "Przełącz na zintegrowaną lub hybrydową"
+
+#: Additional keywords from C++
+msgid "Unknown"
+msgstr "Nieznane"
+
+msgid "Logout"
+msgstr "Wyloguj"
+
+msgid "Optimus Mode (ASUS MUX)"
+msgstr "Tryb Optimus (ASUS MUX)"
+
+msgid "Hybrid"
+msgstr "Hybrydowa"
+
+msgid "Integrated"
+msgstr "Zintegrowana"
+
+msgid "NvidiaNoModeset"
+msgstr "NvidiaNoModeset"
+
+msgid "vfio"
+msgstr "vfio"
+
+msgid "eGPU (ASUS)"
+msgstr "eGPU (ASUS)"
+
+msgid "dGPU (ASUS MUX)"
+msgstr "dGPU (ASUS MUX)"
+
+msgid "Activated"
+msgstr "Aktywowana"
+
+msgid "Available"
+msgstr "Dostępna"
+
+msgid "Unavailable"
+msgstr "Niedostępna"
+
+msgid "Unsupported"
+msgstr "Nieobsługiwana"
+
+msgid "Active"
+msgstr "Aktywna"
+
+msgid "Suspended"
+msgstr "Zawieszona"
+
+msgid "Disabled"
+msgstr "Wyłączona"
+
+msgid "Active (ASUS MUX)"
+msgstr "Aktywna (ASUS MUX)"
+
+msgid "Off"
+msgstr "Wyłączono"
