@@ -3,19 +3,19 @@
     SPDX-License-Identifier: MPL-2.0
 */
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.1
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.components 2.0 as PlasmaComponents2
-import org.kde.plasma.components 3.0 as PlasmaComponents
-import org.kde.plasma.extras 2.0 as PlasmaExtras
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.plasmoid
+import org.kde.plasma.components as PlasmaComponents2
+import org.kde.plasma.components as PlasmaComponents
+import org.kde.plasma.extras as PlasmaExtras
 
-Item {
-    Plasmoid.icon: plasmoid.nativeInterface.iconName
-    Plasmoid.toolTipSubText: i18n("Graphics mode: %1, dGPU power: %2", plasmoid.nativeInterface.mode.name, plasmoid.nativeInterface.power.name)
-    Plasmoid.compactRepresentation: MouseArea {
+PlasmoidItem {
+    Plasmoid.icon: plasmoid.iconName
+    toolTipSubText: i18n("Graphics mode: %1, dGPU power: %2", plasmoid.mode.name, plasmoid.power.name)
+    compactRepresentation: MouseArea {
         readonly property bool inPanel: (plasmoid.location == PlasmaCore.Types.TopEdge
             || plasmoid.location == PlasmaCore.Types.RightEdge
             || plasmoid.location == PlasmaCore.Types.BottomEdge
@@ -34,7 +34,7 @@ Item {
 
             PlasmaComponents.BusyIndicator {
                 anchors.centerIn: parent
-                running: plasmoid.nativeInterface.realizing != -1
+                running: plasmoid.realizing != -1
                 visible: running
             }
 
@@ -53,45 +53,46 @@ Item {
             */
         }
     }
-    Plasmoid.fullRepresentation: PlasmaComponents.Page {
+    fullRepresentation: PlasmaComponents.Page
+    {
         id: dialog
         implicitWidth: PlasmaCore.Units.gridUnit * 24
         implicitHeight: PlasmaCore.Units.gridUnit * 24
         header: PlasmaExtras.PlasmoidHeading {
-            visible: !plasmoid.nativeInterface.isDaemonFailing && !plasmoid.nativeInterface.isDaemonOutdated
+        visible: !plasmoid.isDaemonFailing && !plasmoid.isDaemonOutdated
             ColumnLayout {
                 RowLayout {
                     PlasmaCore.IconItem {
                         Layout.preferredHeight: PlasmaCore.Units.iconSizes.small
                         Layout.preferredWidth: PlasmaCore.Units.iconSizes.small
-                        source: plasmoid.nativeInterface.power.iconName
+                        source: plasmoid.power.iconName
                     }
                     PlasmaComponents.Label {
-                        text: i18n("dGPU power: %1", plasmoid.nativeInterface.power.name)
+                        text: i18n("dGPU power: %1", plasmoid.power.name)
                     }
                 }
                 PlasmaComponents.Label {
-                    visible: plasmoid.nativeInterface.errorMsg.length > 0
-                    text: plasmoid.nativeInterface.errorMsg
+                    visible: plasmoid.errorMsg.length > 0
+                    text: plasmoid.errorMsg
                     color: "red"
                     font.italic: true
                     clip: true
                 }
                 PlasmaComponents.Label {
-                    visible: plasmoid.nativeInterface.errorMsg.length > 0
+                    visible: plasmoid.errorMsg.length > 0
                     text: i18n("Run journalctl -b -u supergfxd for more information")
                     color: "red"
                     font.italic: true
                 }
                 RowLayout {
-                    visible: plasmoid.nativeInterface.isPending
+                    visible: plasmoid.isPending
                     PlasmaComponents.Label {
-                        text: i18n("%1 is required to switch to %2", plasmoid.nativeInterface.pendingAction.name, plasmoid.nativeInterface.pendingMode.name)
+                        text: i18n("%1 is required to switch to %2", plasmoid.pendingAction.name, plasmoid.pendingMode.name)
                         id: infoLabel
                     }
                     PlasmaComponents.Button {
-                        text: i18n("Revert to %1", plasmoid.nativeInterface.mode.name)
-                        onClicked: plasmoid.nativeInterface.revert()
+                        text: i18n("Revert to %1", plasmoid.mode.name)
+                        onClicked: plasmoid.revert()
                         icon.name: "edit-undo"
                         Layout.preferredHeight: infoLabel.implicitHeight
                     }
@@ -102,12 +103,12 @@ Item {
         PlasmaComponents.ScrollView {
             anchors.fill: parent
 
-            visible: !plasmoid.nativeInterface.isDaemonFailing && !plasmoid.nativeInterface.isDaemonOutdated
+            visible: !plasmoid.isDaemonFailing && !plasmoid.isDaemonOutdated
 
             contentItem: ListView {
                 id: listView
                 clip: true
-                model: plasmoid.nativeInterface.candidates
+                model: plasmoid.candidates
                 boundsBehavior: Flickable.StopAtBounds
                 currentIndex: -1
                 topMargin: PlasmaCore.Units.smallSpacing * 2
@@ -219,15 +220,15 @@ Item {
                                 id: button
                                 flat: true
                                 down: section == 0
-                                enabled: section == 1 && plasmoid.nativeInterface.realizing == -1
-                                visible: plasmoid.nativeInterface.realizing != index
-                                onClicked: plasmoid.nativeInterface.realizeCandidate(index)
+                                enabled: section == 1 && plasmoid.realizing == -1
+                                visible: plasmoid.realizing != index
+                                onClicked: plasmoid.realizeCandidate(index)
                                 icon.name: buttonIcon
                                 text: buttonText
                             }
                             PlasmaComponents.BusyIndicator {
                                  anchors.centerIn: button
-                                 running: plasmoid.nativeInterface.realizing == index
+                                running: plasmoid.realizing == index
                                  visible: running
                             }
                         }
@@ -244,7 +245,7 @@ Item {
                 margins: PlasmaCore.Units.largeSpacing
             }
 
-            visible: plasmoid.nativeInterface.isDaemonOutdated
+            visible: plasmoid.isDaemonOutdated
 
             text: i18n("supergfxd daemon is outdated")
         }
@@ -257,7 +258,7 @@ Item {
                 margins: PlasmaCore.Units.largeSpacing
             }
 
-            visible: plasmoid.nativeInterface.isDaemonFailing
+            visible: plasmoid.isDaemonFailing
 
             text: i18n("Can't connect to daemon")
         }
