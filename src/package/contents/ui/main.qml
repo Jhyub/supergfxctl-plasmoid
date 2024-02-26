@@ -54,7 +54,7 @@ PlasmoidItem {
             */
         }
     }
-    fullRepresentation: PlasmaComponents.Page
+    fullRepresentation: PlasmaExtras.Representation
     {
         id: dialog
         implicitWidth: Kirigami.Units.gridUnit * 24
