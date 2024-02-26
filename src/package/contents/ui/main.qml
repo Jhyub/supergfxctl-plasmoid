@@ -14,12 +14,15 @@ import org.kde.kirigami as Kirigami
 import org.kde.ksvg as KSvg
 
 PlasmoidItem {
+    id: mainWindow
     Plasmoid.icon: plasmoid.iconName
     switchWidth: Kirigami.Units.gridUnit * 10
     switchHeight: Kirigami.Units.gridUnit * 10
     toolTipSubText: i18n("Graphics mode: %1, dGPU power: %2", plasmoid.mode.name, plasmoid.power.name)
     compactRepresentation: MouseArea {
-        onClicked: plasmoid.expanded = !plasmoid.expanded
+        property bool wasExpanded
+        onPressed: wasExpanded = mainWindow.expanded
+        onClicked: mainWindow.expanded = !wasExpanded
         hoverEnabled: true
 
         Kirigami.Icon {
