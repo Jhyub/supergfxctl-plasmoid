@@ -102,6 +102,10 @@ PlasmoidItem {
         PlasmaComponents.ScrollView {
             anchors.fill: parent
 
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            contentWidth: availableWidth - contentItem.leftMargin - contentItem.rightMargin
+
             visible: !plasmoid.isDaemonFailing && !plasmoid.isDaemonOutdated
 
             contentItem: ListView {
@@ -137,6 +141,7 @@ PlasmoidItem {
                         }
                     }
                 }
+                highlight: PlasmaExtras.Highlight { }
                 highlightMoveDuration: 0
                 highlightResizeDuration: 0
                 // Was originally PlasmaExtras.ListItem
