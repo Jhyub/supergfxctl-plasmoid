@@ -1,8 +1,9 @@
 # Translation
 
-| Language | 🌐 | Status |
-|-------|---|---|
-| ko | 🇰🇷 | ✅ |
+| Language | Status |
+|-------|---|
+| ko | ✅ |
+| po | ✅ |
 
 ## Contributing
 
