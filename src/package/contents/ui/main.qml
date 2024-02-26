@@ -17,14 +17,6 @@ PlasmoidItem {
     Plasmoid.icon: plasmoid.iconName
     toolTipSubText: i18n("Graphics mode: %1, dGPU power: %2", plasmoid.mode.name, plasmoid.power.name)
     compactRepresentation: MouseArea {
-        readonly property bool inPanel: (plasmoid.location == PlasmaCore.Types.TopEdge
-            || plasmoid.location == PlasmaCore.Types.RightEdge
-            || plasmoid.location == PlasmaCore.Types.BottomEdge
-            || plasmoid.location == PlasmaCore.Types.LeftEdge)
-
-        Layout.maximumWidth: inPanel ? Kirigami.Units.iconSizeHints.panel : -1
-        Layout.maximumHeight: inPanel ? Kirigami.Units.iconSizeHints.panel : -1
-
         onClicked: plasmoid.expanded = !plasmoid.expanded
         hoverEnabled: true
 
