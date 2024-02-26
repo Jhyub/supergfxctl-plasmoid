@@ -24,7 +24,7 @@ Q_OBJECT
     Q_PROPERTY(QString errorMsg READ errorMsg NOTIFY errorMsgChanged)
 
 public:
-    SuperGfxCtl(QObject *parent, const QVariantList &args);
+    SuperGfxCtl(QObject *parent, const KPluginMetaData &data, const QVariantList &args);
 
     bool isDaemonOutdated() const;
 
