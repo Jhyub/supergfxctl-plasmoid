@@ -3,7 +3,7 @@
 #include "GfxModeCandidate.h"
 #include <QtQml/QQmlEngine>
 
-SuperGfxCtl::SuperGfxCtl(QObject *parent, const QVariantList &args) : Plasma::Applet(parent, args) {
+SuperGfxCtl::SuperGfxCtl(QObject *parent, const KPluginMetaData &data, const QVariantList &args) : Plasma::Applet(parent, data, args) {
     auto &ctl = DaemonController::from();
     connect(&ctl, &DaemonController::daemonOutdatedChanged, this, &SuperGfxCtl::daemonOutdatedChanged);
     connect(&ctl, &DaemonController::daemonFailingChanged, this, &SuperGfxCtl::daemonFailingChanged);
@@ -91,6 +91,6 @@ int SuperGfxCtl::realizing() const {
     return m_realizing;
 }
 
-K_PLUGIN_CLASS_WITH_JSON(SuperGfxCtl, "metadata.json")
+K_PLUGIN_CLASS(SuperGfxCtl)
 
 #include "SuperGfxCtl.moc"

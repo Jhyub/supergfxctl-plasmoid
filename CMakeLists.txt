@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.16)
 
 project(supergfxctl-plasmoid)
 
+set(QT_MIN_VERSION "6.4.0")
+set(KF6_MIN_VERSION "5.93.0")
+
 find_package(ECM 1.4.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
@@ -11,8 +14,9 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 include(FeatureSummary)
 include(FindGettext)
 
-find_package(KF5 REQUIRED COMPONENTS Plasma I18n)
-find_package(Qt5 CONFIG REQUIRED COMPONENTS Quick Core DBus)
+find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS Config I18n)
+find_package(Plasma ${KF6_MIN_VERSION} REQUIRED COMPONENTS)
+find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Qml Gui Core DBus)
 
 add_subdirectory(src)
 

@@ -1,0 +1,25 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "jhyub06@gmail.com",
+                "Name": "Janghyub Seo"
+            }
+        ],
+        "Category": "Utilities",
+        "Description": "Switch between GPU modes via supergfxd",
+        "Description[ko]": "supergfxd를 통한 GPU 모드 변경",
+        "EnabledByDefault": true,
+        "Icon": "supergfxctl-plasmoid-gpu-dedicated",
+        "Id": "dev.jhyub.supergfxctl",
+        "License": "MPL-2.0",
+        "Name": "SUPERGFX",
+        "Version": "1.3.0",
+        "Website": "https://gitlab.com/Jhyub/supergfxctl-plasmoid"
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-DBusActivationService": "org.supergfxctl.Daemon",
+    "X-Plasma-NotificationArea": "true",
+    "X-Plasma-NotificationAreaCategory": "Hardware"
+}
