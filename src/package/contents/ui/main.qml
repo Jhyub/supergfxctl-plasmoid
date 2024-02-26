@@ -12,7 +12,7 @@ import org.kde.plasma.components as PlasmaComponents2
 import org.kde.plasma.components as PlasmaComponents
 import org.kde.plasma.extras as PlasmaExtras
 import org.kde.kirigami as Kirigami
-import org.kde.KSvg as KSvg
+import org.kde.ksvg as KSvg
 
 PlasmoidItem {
     Plasmoid.icon: plasmoid.iconName
