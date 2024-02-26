@@ -15,6 +15,8 @@ import org.kde.ksvg as KSvg
 
 PlasmoidItem {
     Plasmoid.icon: plasmoid.iconName
+    switchWidth: Kirigami.Units.gridUnit * 10
+    switchHeight: Kirigam.Units.gridUnit * 10
     toolTipSubText: i18n("Graphics mode: %1, dGPU power: %2", plasmoid.mode.name, plasmoid.power.name)
     compactRepresentation: MouseArea {
         onClicked: plasmoid.expanded = !plasmoid.expanded
@@ -49,12 +51,11 @@ PlasmoidItem {
     fullRepresentation: PlasmaExtras.Representation
     {
         id: dialog
-        implicitWidth: Kirigami.Units.gridUnit * 24
-        implicitHeight: Kirigami.Units.gridUnit * 24
+        anchors.fill: parent
         Layout.minimumWidth: Kirigami.Units.iconSizes.medium * 10
         Layout.minimumHeight: Kirigami.Units.gridUnit * 20
         header: PlasmaExtras.PlasmoidHeading {
-        visible: !plasmoid.isDaemonFailing && !plasmoid.isDaemonOutdated
+            visible: !plasmoid.isDaemonFailing && !plasmoid.isDaemonOutdated
             ColumnLayout {
                 RowLayout {
                     Kirigami.Icon {
