@@ -59,6 +59,8 @@ PlasmoidItem {
         id: dialog
         implicitWidth: Kirigami.Units.gridUnit * 24
         implicitHeight: Kirigami.Units.gridUnit * 24
+        Layout.minimumWidth: Kirigami.Units.iconSizes.medium * 10
+        Layout.minimumHeight: Kirigami.Units.gridUnit * 20
         header: PlasmaExtras.PlasmoidHeading {
         visible: !plasmoid.isDaemonFailing && !plasmoid.isDaemonOutdated
             ColumnLayout {
