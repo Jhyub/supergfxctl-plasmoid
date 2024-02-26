@@ -14,8 +14,9 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 include(FeatureSummary)
 include(FindGettext)
 
+find_package(KF6 REQUIRED COMPONENTS I18n)
+find_package(Plasma REQUIRED COMPONENTS)
 find_package(Qt6 CONFIG REQUIRED COMPONENTS Qml Gui Core DBus)
-find_package(KF6 REQUIRED COMPONENTS Plasma I18n)
 
 add_subdirectory(src)
 
