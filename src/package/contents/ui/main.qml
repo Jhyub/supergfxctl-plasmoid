@@ -241,7 +241,7 @@ PlasmoidItem {
                 centerIn: parent
                 left: parent.left
                 right: parent.right
-                margins: Kirigami.Units.largeSpacing
+                margins: Kirigami.Units.gridUnit
             }
 
             visible: plasmoid.isDaemonOutdated
@@ -254,7 +254,7 @@ PlasmoidItem {
                 centerIn: parent
                 left: parent.left
                 right: parent.right
-                margins: Kirigami.Units.largeSpacing
+                margins: Kirigami.Units.gridUnit
             }
 
             visible: plasmoid.isDaemonFailing
