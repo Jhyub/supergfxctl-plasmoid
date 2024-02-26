@@ -3,38 +3,36 @@
     SPDX-License-Identifier: MPL-2.0
 */
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.1
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.components 2.0 as PlasmaComponents2
-import org.kde.plasma.components 3.0 as PlasmaComponents
-import org.kde.plasma.extras 2.0 as PlasmaExtras
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.plasmoid
+import org.kde.plasma.components as PlasmaComponents
+import org.kde.plasma.extras as PlasmaExtras
+import org.kde.kirigami as Kirigami
+import org.kde.ksvg as KSvg
 
-Item {
-    Plasmoid.icon: plasmoid.nativeInterface.iconName
-    Plasmoid.toolTipSubText: i18n("Graphics mode: %1, dGPU power: %2", plasmoid.nativeInterface.mode.name, plasmoid.nativeInterface.power.name)
-    Plasmoid.compactRepresentation: MouseArea {
-        readonly property bool inPanel: (plasmoid.location == PlasmaCore.Types.TopEdge
-            || plasmoid.location == PlasmaCore.Types.RightEdge
-            || plasmoid.location == PlasmaCore.Types.BottomEdge
-            || plasmoid.location == PlasmaCore.Types.LeftEdge)
-
-        Layout.maximumWidth: inPanel ? PlasmaCore.Units.iconSizeHints.panel : -1
-        Layout.maximumHeight: inPanel ? PlasmaCore.Units.iconSizeHints.panel : -1
-
-        onClicked: plasmoid.expanded = !plasmoid.expanded
+PlasmoidItem {
+    id: mainWindow
+    Plasmoid.icon: plasmoid.iconName
+    switchWidth: Kirigami.Units.gridUnit * 10
+    switchHeight: Kirigami.Units.gridUnit * 10
+    toolTipSubText: i18n("Graphics mode: %1, dGPU power: %2", plasmoid.mode.name, plasmoid.power.name)
+    compactRepresentation: MouseArea {
+        property bool wasExpanded
+        onPressed: wasExpanded = mainWindow.expanded
+        onClicked: mainWindow.expanded = !wasExpanded
         hoverEnabled: true
 
-        PlasmaCore.IconItem {
+        Kirigami.Icon {
             anchors.fill: parent
             source: plasmoid.icon
             active: parent.containsMouse
 
             PlasmaComponents.BusyIndicator {
                 anchors.centerIn: parent
-                running: plasmoid.nativeInterface.realizing != -1
+                running: plasmoid.realizing != -1
                 visible: running
             }
 
@@ -53,45 +51,47 @@ Item {
             */
         }
     }
-    Plasmoid.fullRepresentation: PlasmaComponents.Page {
+    fullRepresentation: PlasmaExtras.Representation
+    {
         id: dialog
-        implicitWidth: PlasmaCore.Units.gridUnit * 24
-        implicitHeight: PlasmaCore.Units.gridUnit * 24
+        anchors.fill: parent
+        Layout.minimumWidth: Kirigami.Units.iconSizes.medium * 10
+        Layout.minimumHeight: Kirigami.Units.gridUnit * 20
         header: PlasmaExtras.PlasmoidHeading {
-            visible: !plasmoid.nativeInterface.isDaemonFailing && !plasmoid.nativeInterface.isDaemonOutdated
+            visible: !plasmoid.isDaemonFailing && !plasmoid.isDaemonOutdated
             ColumnLayout {
                 RowLayout {
-                    PlasmaCore.IconItem {
-                        Layout.preferredHeight: PlasmaCore.Units.iconSizes.small
-                        Layout.preferredWidth: PlasmaCore.Units.iconSizes.small
-                        source: plasmoid.nativeInterface.power.iconName
+                    Kirigami.Icon {
+                        Layout.preferredHeight: Kirigami.Units.iconSizes.small
+                        Layout.preferredWidth: Kirigami.Units.iconSizes.small
+                        source: plasmoid.power.iconName
                     }
                     PlasmaComponents.Label {
-                        text: i18n("dGPU power: %1", plasmoid.nativeInterface.power.name)
+                        text: i18n("dGPU power: %1", plasmoid.power.name)
                     }
                 }
                 PlasmaComponents.Label {
-                    visible: plasmoid.nativeInterface.errorMsg.length > 0
-                    text: plasmoid.nativeInterface.errorMsg
+                    visible: plasmoid.errorMsg.length > 0
+                    text: plasmoid.errorMsg
                     color: "red"
                     font.italic: true
                     clip: true
                 }
                 PlasmaComponents.Label {
-                    visible: plasmoid.nativeInterface.errorMsg.length > 0
+                    visible: plasmoid.errorMsg.length > 0
                     text: i18n("Run journalctl -b -u supergfxd for more information")
                     color: "red"
                     font.italic: true
                 }
                 RowLayout {
-                    visible: plasmoid.nativeInterface.isPending
+                    visible: plasmoid.isPending
                     PlasmaComponents.Label {
-                        text: i18n("%1 is required to switch to %2", plasmoid.nativeInterface.pendingAction.name, plasmoid.nativeInterface.pendingMode.name)
+                        text: i18n("%1 is required to switch to %2", plasmoid.pendingAction.name, plasmoid.pendingMode.name)
                         id: infoLabel
                     }
                     PlasmaComponents.Button {
-                        text: i18n("Revert to %1", plasmoid.nativeInterface.mode.name)
-                        onClicked: plasmoid.nativeInterface.revert()
+                        text: i18n("Revert to %1", plasmoid.mode.name)
+                        onClicked: plasmoid.revert()
                         icon.name: "edit-undo"
                         Layout.preferredHeight: infoLabel.implicitHeight
                     }
@@ -102,19 +102,23 @@ Item {
         PlasmaComponents.ScrollView {
             anchors.fill: parent
 
-            visible: !plasmoid.nativeInterface.isDaemonFailing && !plasmoid.nativeInterface.isDaemonOutdated
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            contentWidth: availableWidth - contentItem.leftMargin - contentItem.rightMargin
+
+            visible: !plasmoid.isDaemonFailing && !plasmoid.isDaemonOutdated
 
             contentItem: ListView {
                 id: listView
                 clip: true
-                model: plasmoid.nativeInterface.candidates
+                model: plasmoid.candidates
                 boundsBehavior: Flickable.StopAtBounds
                 currentIndex: -1
-                topMargin: PlasmaCore.Units.smallSpacing * 2
-                bottomMargin: PlasmaCore.Units.smallSpacing * 2
-                leftMargin: PlasmaCore.Units.smallSpacing * 2
-                rightMargin: PlasmaCore.Units.smallSpacing * 2
-                spacing: PlasmaCore.Units.smallSpacing
+                topMargin: Kirigami.Units.smallSpacing * 2
+                bottomMargin: Kirigami.Units.smallSpacing * 2
+                leftMargin: Kirigami.Units.smallSpacing * 2
+                rightMargin: Kirigami.Units.smallSpacing * 2
+                spacing: Kirigami.Units.smallSpacing
                 section.property: "section"
                 section.delegate: Loader {
                     active: section != 0 && (section != 3 || plasmoid.configuration.showUnsupported)
@@ -122,31 +126,30 @@ Item {
 
                     sourceComponent: Item {
                         id: source
-                        height: separatorLine.height + PlasmaCore.Units.smallSpacing
-                        width: listView.width - PlasmaCore.Units.smallSpacing * 4
-                        PlasmaCore.SvgItem {
+                        height: separatorLine.height + Kirigami.Units.smallSpacing
+                        width: listView.width - Kirigami.Units.smallSpacing * 4
+                        KSvg.SvgItem {
                             id: separatorLine
-                            width: parent.width - 2 * PlasmaCore.Units.gridUnit
+                            width: parent.width - 2 * Kirigami.Units.gridUnit
                             height: lineSvg.elementSize("horizontal-line").height
                             anchors.top: parent.top
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            svg: PlasmaCore.Svg {
-                                id: lineSvg
-                                imagePath: "widgets/line"
-                            }
+							svg: KSvg.Svg {
+								id: lineSvg
+								imagePath: "widgets/line"
+							}
                             elementId: "horizontal-line"
                         }
                     }
                 }
-                highlight: PlasmaComponents2.Highlight { }
+                highlight: PlasmaExtras.Highlight { }
                 highlightMoveDuration: 0
                 highlightResizeDuration: 0
                 // Was originally PlasmaExtras.ListItem
                 // But it had a issue where its height is fixed to zero on initial load
                 // Maybe change later?
                 delegate: Item {
-                    width: listView.width - PlasmaCore.Units.smallSpacing * 4
-                    height: PlasmaCore.Units.gridUnit * 2
+                    width: listView.width - Kirigami.Units.smallSpacing * 4
+                    height: Kirigami.Units.gridUnit * 2
                     required property int section
                     required property string reason
                     required property string name
@@ -158,23 +161,23 @@ Item {
                     MouseArea {
                         anchors {
                             fill: parent
-                            leftMargin: PlasmaCore.Units.smallSpacing
-                            rightMargin: PlasmaCore.Units.smallSpacing
-                            topMargin: PlasmaCore.Units.smallSpacing
-                            bottomMargin: PlasmaCore.Units.smallSpacing
+                            leftMargin: Kirigami.Units.smallSpacing
+                            rightMargin: Kirigami.Units.smallSpacing
+                            topMargin: Kirigami.Units.smallSpacing
+                            bottomMargin: Kirigami.Units.smallSpacing
                         }
                         hoverEnabled: true
                         onEntered: listView.currentIndex = index
                         Item {
                             anchors.fill: parent
-                            PlasmaCore.IconItem {
+                            Kirigami.Icon {
                                 anchors {
                                     verticalCenter: parent.verticalCenter
                                     left: parent.left
                                 }
                                 id: iconItem
-                                height: PlasmaCore.Units.iconSizes.medium
-                                width: PlasmaCore.Units.iconSizes.medium
+                                height: Kirigami.Units.iconSizes.medium
+                                width: Kirigami.Units.iconSizes.medium
                                 source: icon
                                 opacity: (section != 0 && section != 1) ? 0.6 : 1
                             }
@@ -185,7 +188,7 @@ Item {
                                     bottom: reason.length == 0 ? undefined : parent.bottom
                                     left: iconItem.right
                                     right: button.left
-                                    leftMargin: PlasmaCore.Units.smallSpacing
+                                    leftMargin: Kirigami.Units.smallSpacing
                                 }
                                 PlasmaComponents.Label {
                                     anchors {
@@ -207,7 +210,7 @@ Item {
                                     id: descriptionLabel
                                     visible: reason.length != 0
                                     text: reason
-                                    font.pixelSize: PlasmaCore.Theme.smallestFont.pixelSize
+                                    font.pixelSize: Kirigami.Theme.smallFont.pixelSize
                                     opacity: 0.6
                                 }
                             }
@@ -219,15 +222,15 @@ Item {
                                 id: button
                                 flat: true
                                 down: section == 0
-                                enabled: section == 1 && plasmoid.nativeInterface.realizing == -1
-                                visible: plasmoid.nativeInterface.realizing != index
-                                onClicked: plasmoid.nativeInterface.realizeCandidate(index)
+                                enabled: section == 1 && plasmoid.realizing == -1
+                                visible: plasmoid.realizing != index
+                                onClicked: plasmoid.realizeCandidate(index)
                                 icon.name: buttonIcon
                                 text: buttonText
                             }
                             PlasmaComponents.BusyIndicator {
                                  anchors.centerIn: button
-                                 running: plasmoid.nativeInterface.realizing == index
+                                running: plasmoid.realizing == index
                                  visible: running
                             }
                         }
@@ -241,10 +244,10 @@ Item {
                 centerIn: parent
                 left: parent.left
                 right: parent.right
-                margins: PlasmaCore.Units.largeSpacing
+                margins: Kirigami.Units.gridUnit
             }
 
-            visible: plasmoid.nativeInterface.isDaemonOutdated
+            visible: plasmoid.isDaemonOutdated
 
             text: i18n("supergfxd daemon is outdated")
         }
@@ -254,10 +257,10 @@ Item {
                 centerIn: parent
                 left: parent.left
                 right: parent.right
-                margins: PlasmaCore.Units.largeSpacing
+                margins: Kirigami.Units.gridUnit
             }
 
-            visible: plasmoid.nativeInterface.isDaemonFailing
+            visible: plasmoid.isDaemonFailing
 
             text: i18n("Can't connect to daemon")
         }
