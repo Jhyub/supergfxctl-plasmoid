@@ -91,6 +91,6 @@ int SuperGfxCtl::realizing() const {
     return m_realizing;
 }
 
-K_PLUGIN_CLASS_WITH_JSON(SuperGfxCtl, "metadata.json")
+K_PLUGIN_CLASS(SuperGfxCtl)
 
 #include "SuperGfxCtl.moc"
