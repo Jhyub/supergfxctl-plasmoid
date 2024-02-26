@@ -14,7 +14,7 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 include(FeatureSummary)
 include(FindGettext)
 
-find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS I18n)
+find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS ConfigCore I18n)
 find_package(Plasma ${KF6_MIN_VERSION} REQUIRED COMPONENTS)
 find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Qml Gui Core DBus)
 
