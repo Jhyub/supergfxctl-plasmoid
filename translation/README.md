@@ -3,7 +3,7 @@
 | Language | Status |
 |-------|---|
 | ko | ✅ |
-| po | ✅ |
+| pl | ✅ |
 
 ## Contributing
 
