@@ -8,7 +8,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasmoid
-import org.kde.plasma.components as PlasmaComponents2
 import org.kde.plasma.components as PlasmaComponents
 import org.kde.plasma.extras as PlasmaExtras
 import org.kde.kirigami as Kirigami
@@ -132,13 +131,14 @@ PlasmoidItem {
                             width: parent.width - 2 * Kirigami.Units.gridUnit
                             height: lineSvg.elementSize("horizontal-line").height
                             anchors.top: parent.top
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            imagePath: "widgets/line"
+							svg: KSvg.Svg {
+								id: lineSvg
+								imagePath: "widgets/line"
+							}
                             elementId: "horizontal-line"
                         }
                     }
                 }
-                highlight: PlasmaComponents2.Highlight { }
                 highlightMoveDuration: 0
                 highlightResizeDuration: 0
                 // Was originally PlasmaExtras.ListItem
@@ -207,7 +207,7 @@ PlasmoidItem {
                                     id: descriptionLabel
                                     visible: reason.length != 0
                                     text: reason
-                                    font.pixelSize: Kirigami.Theme.smallestFont.pixelSize
+                                    font.pixelSize: Kirigami.Theme.smallFont.pixelSize
                                     opacity: 0.6
                                 }
                             }
