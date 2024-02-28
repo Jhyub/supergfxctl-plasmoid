@@ -28,18 +28,18 @@ dnf install supergfxctl-plasmoid
 
 ```shell
 # Arch
-sudo pacman -Syu plasma-framework hicolor-icon-theme cmake extra-cmake-modules
+sudo pacman -Syu cmake extra-cmake-modules gcc hicolor-icon-theme kconfig ki18n plasma-framework qt6-base qt6-declarative 
 # Fedora
-sudo dnf install cmake gcc-c++ extra-cmake-modules kf5-ki8n-devel kf5-plasma-devel qt5-qtdeclarative-devel
+sudo dnf install cmake extra-cmake-modules gcc-c++ kf6-kconfig-devel kf6-ki8n-devel libplasma-devel qt6-qtbase-devel qt6-qtdeclarative-devel
 # Ubuntu (unsupported)
-sudo apt install -y cmake extra-cmake-modules g++ libkf5i18n-dev libkf5plasma-dev qtdeclarative5-dev
+sudo apt install -y cmake extra-cmake-modules g++ kf6-kconfig-dev kf6-ki18n-dev kf6-plasma-framework-dev qt6-base-dev qt6-declarative-dev
 
 git clone https://gitlab.com/Jhyub/supergfxctl-plasmoid
 cd supergfxctl-plasmoid
 git checkout [LATEST VERSION TAG HERE]
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_WITH_QT6=ON ..
 make
 sudo make install # or any other elevation tool
 
