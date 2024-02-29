@@ -28,11 +28,11 @@ dnf install supergfxctl-plasmoid
 
 ```shell
 # Arch
-sudo pacman -Syu cmake extra-cmake-modules gcc hicolor-icon-theme kconfig ki18n plasma-framework qt6-base qt6-declarative 
+sudo pacman -Syu cmake extra-cmake-modules gcc hicolor-icon-theme kconfig ki18n libplasma qt6-base qt6-declarative 
 # Fedora
 sudo dnf install cmake extra-cmake-modules gcc-c++ kf6-kconfig-devel kf6-ki8n-devel libplasma-devel qt6-qtbase-devel qt6-qtdeclarative-devel
 # Ubuntu (unsupported)
-sudo apt install -y cmake extra-cmake-modules g++ kf6-kconfig-dev kf6-ki18n-dev kf6-plasma-framework-dev qt6-base-dev qt6-declarative-dev
+sudo apt install -y cmake extra-cmake-modules g++ kf6-kconfig-dev kf6-ki18n-dev libplasma-dev qt6-base-dev qt6-declarative-dev
 
 git clone https://gitlab.com/Jhyub/supergfxctl-plasmoid
 cd supergfxctl-plasmoid
