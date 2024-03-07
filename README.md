@@ -18,7 +18,7 @@ Built as a C++/QML Plasmoid
 
 ## Installation
 ### Arch User Repository
-[plasma5-applets-supergfxctl](https://aur.archlinux.org/packages/plasma5-applets-supergfxctl)
+[plasma6-applets-supergfxctl](https://aur.archlinux.org/packages/plasma6-applets-supergfxctl)
 ### Fedora Copr [![Copr build status](https://copr.fedorainfracloud.org/coprs/jhyub/supergfxctl-plasmoid/package/supergfxctl-plasmoid/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/jhyub/supergfxctl-plasmoid/package/supergfxctl-plasmoid/)
 ```shell
 dnf copr enable jhyub/supergfxctl-plasmoid
@@ -28,11 +28,11 @@ dnf install supergfxctl-plasmoid
 
 ```shell
 # Arch
-sudo pacman -Syu cmake extra-cmake-modules gcc hicolor-icon-theme kconfig ki18n libplasma qt6-base qt6-declarative 
+sudo pacman -Syu cmake extra-cmake-modules gcc hicolor-icon-theme kcoreaddons kconfig ki18n kirigami ksvg libplasma qt6-base qt6-declarative 
 # Fedora
-sudo dnf install cmake extra-cmake-modules gcc-c++ kf6-kconfig-devel kf6-ki18n-devel libplasma-devel qt6-qtbase-devel qt6-qtdeclarative-devel
+sudo dnf install cmake extra-cmake-modules gcc-c++ kf6-kconfig-devel kf6-ki18n-devel kf6-kirigami-devel kf6-ksvg-devel libplasma-devel qt6-qtbase-devel qt6-qtdeclarative-devel
 # Ubuntu (unsupported)
-sudo apt install -y cmake extra-cmake-modules g++ kf6-kconfig-dev kf6-ki18n-dev libplasma-dev qt6-base-dev qt6-declarative-dev
+sudo apt install -y cmake extra-cmake-modules g++ kf6-kconfig-dev kf6-ki18n-dev kf6-kirigami-dev kf6-ksvg-dev libplasma-dev qt6-base-dev qt6-declarative-dev
 
 git clone https://gitlab.com/Jhyub/supergfxctl-plasmoid
 cd supergfxctl-plasmoid
