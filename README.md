@@ -24,6 +24,8 @@ Built as a C++/QML Plasmoid
 dnf copr enable jhyub/supergfxctl-plasmoid
 dnf install supergfxctl-plasmoid
 ```
+### NixOS
+[supergfxctl-plasmoid](https://search.nixos.org/packages?channel=unstable&show=supergfxctl-plasmoid)
 ### Build yourself
 
 ```shell
