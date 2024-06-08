@@ -10,6 +10,9 @@
         "Description": "Switch between GPU modes via supergfxd",
         "Description[ko]": "supergfxd를 통한 GPU 모드 변경",
         "EnabledByDefault": true,
+        "FormFactors": [
+            "desktop"
+        ],
         "Icon": "supergfxctl-plasmoid-gpu-dedicated",
         "Id": "dev.jhyub.supergfxctl",
         "License": "MPL-2.0",
@@ -20,6 +23,5 @@
     "KPackageStructure": "Plasma/Applet",
     "X-Plasma-API-Minimum-Version": "6.0",
     "X-Plasma-DBusActivationService": "org.supergfxctl.Daemon",
-    "X-Plasma-NotificationArea": "true",
     "X-Plasma-NotificationAreaCategory": "Hardware"
 }
