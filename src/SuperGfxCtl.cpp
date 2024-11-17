@@ -91,6 +91,10 @@ int SuperGfxCtl::realizing() const {
     return m_realizing;
 }
 
+bool SuperGfxCtl::isPlasmoidActive() const {
+    return true;
+}
+
 K_PLUGIN_CLASS(SuperGfxCtl)
 
 #include "SuperGfxCtl.moc"

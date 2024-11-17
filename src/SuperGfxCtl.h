@@ -22,6 +22,7 @@ Q_OBJECT
     Q_PROPERTY(bool isPending READ isPending NOTIFY pendingChanged)
     Q_PROPERTY(int realizing READ realizing NOTIFY realizingChanged)
     Q_PROPERTY(QString errorMsg READ errorMsg NOTIFY errorMsgChanged)
+    Q_PROPERTY(bool isPlasmoidActive READ isPlasmoidActive NOTIFY plasmoidActiveChanged)
 
 public:
     SuperGfxCtl(QObject *parent, const KPluginMetaData &data, const QVariantList &args);
@@ -52,6 +53,8 @@ public:
 
     int realizing() const;
 
+    bool isPlasmoidActive() const;
+
 signals:
 
     void daemonOutdatedChanged();
@@ -71,6 +74,8 @@ signals:
     void pendingChanged();
 
     void errorMsgChanged();
+
+    void plasmoidActiveChanged();
 
 private:
 

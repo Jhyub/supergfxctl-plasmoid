@@ -18,6 +18,11 @@ PlasmoidItem {
     Plasmoid.icon: plasmoid.iconName
     switchWidth: Kirigami.Units.gridUnit * 10
     switchHeight: Kirigami.Units.gridUnit * 10
+    Binding {
+        target: plasmoid
+        property: "status"
+        value: plasmoid.isPlasmoidActive ? PlasmaCore.Types.ActiveStatus : PlasmaCore.Types.PassiveStatus
+    }
     toolTipSubText: i18n("Graphics mode: %1, dGPU power: %2", plasmoid.mode.name, plasmoid.power.name)
     compactRepresentation: MouseArea {
         property bool wasExpanded
