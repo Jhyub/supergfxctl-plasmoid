@@ -38,10 +38,7 @@ QString GfxPower::iconName() const {
             return {"supergfxctl-plasmoid-dgpu-active"};
         case SUSPENDED:
             return {"supergfxctl-plasmoid-dgpu-suspended"};
-        case ASUS_DISABLED:
-        case OFF:
-            return {"supergfxctl-plasmoid-dgpu-off"};
         default:
-            return {""};
+            return {"supergfxctl-plasmoid-dgpu-off"};
     }
 }

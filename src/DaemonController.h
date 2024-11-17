@@ -75,7 +75,7 @@ private:
 
     void fetchMode();
 
-    quint32 m_power = 0;
+    quint32 m_power = 5; // Set default to GfxPower::UNKNOWN
 
     void fetchPower();
 
