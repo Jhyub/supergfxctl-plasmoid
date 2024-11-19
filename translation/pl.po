@@ -109,6 +109,7 @@ msgstr "Niedostępna"
 msgid "Unsupported"
 msgstr "Nieobsługiwana"
 
+msgctxt "gpu power"
 msgid "Active"
 msgstr "Aktywna"
 
