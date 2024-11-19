@@ -20,7 +20,7 @@ Kirigami.FormLayout {
 
     Kirigami.Separator {
         Kirigami.FormData.isSection: true
-        Kirigami.FormData.label: "Plasmoid Status"
+        Kirigami.FormData.label: i18n("Plasmoid Status")
     }
 
     ComboBox {

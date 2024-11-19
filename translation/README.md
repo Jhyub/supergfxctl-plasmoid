@@ -1,9 +1,9 @@
 # Translation
 
-| Language | Status |
-|-------|---|
-| ko | ✅ |
-| pl | ✅ |
+| Language | Status     |
+|----------|------------|
+| ko       | ✅          |
+| pl       | Incomplete |
 
 ## Contributing
 

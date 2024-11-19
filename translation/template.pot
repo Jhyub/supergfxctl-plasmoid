@@ -28,6 +28,38 @@ msgstr ""
 msgid "Show unsupported modes"
 msgstr ""
 
+#: ../contents/ui/configGeneral.qml
+msgid "Plasmoid Status"
+msgstr ""
+
+#: ../contents/ui/configGeneral.qml
+msgid "Active"
+msgstr ""
+
+#: ../contents/ui/configGeneral.qml
+msgid "Passive"
+msgstr ""
+
+#: ../contents/ui/configGeneral.qml
+msgid "dGPU active on battery"
+msgstr ""
+
+#: ../contents/ui/configGeneral.qml
+msgid "dGPU inactive on battery"
+msgstr ""
+
+#: ../contents/ui/configGeneral.qml
+msgid "dGPU active on AC"
+msgstr ""
+
+#: ../contents/ui/configGeneral.qml
+msgid "dGPU inactive on AC"
+msgstr ""
+
+#: ../contents/ui/configGeneral.qml
+msgid "These options will work only when the plasmoid visibility is set to 'Shown when relevant'"
+msgstr ""
+
 #: ../contents/ui/main.qml
 msgid "Graphics mode: %1, dGPU power: %2"
 msgstr ""
