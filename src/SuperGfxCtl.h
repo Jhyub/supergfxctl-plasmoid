@@ -4,6 +4,7 @@
 #include <Plasma/Applet>
 #include <QDBusInterface>
 #include <QTimer>
+#include <Solid/Battery>
 #include "GfxAction.h"
 #include "GfxMode.h"
 #include "GfxPower.h"
@@ -22,7 +23,7 @@ Q_OBJECT
     Q_PROPERTY(bool isPending READ isPending NOTIFY pendingChanged)
     Q_PROPERTY(int realizing READ realizing NOTIFY realizingChanged)
     Q_PROPERTY(QString errorMsg READ errorMsg NOTIFY errorMsgChanged)
-    Q_PROPERTY(bool isPlasmoidActive READ isPlasmoidActive NOTIFY plasmoidActiveChanged)
+    Q_PROPERTY(bool isCharging READ isCharging NOTIFY chargingChanged)
 
 public:
     SuperGfxCtl(QObject *parent, const KPluginMetaData &data, const QVariantList &args);
@@ -53,7 +54,7 @@ public:
 
     int realizing() const;
 
-    bool isPlasmoidActive() const;
+    bool isCharging() const;
 
 signals:
 
@@ -75,7 +76,7 @@ signals:
 
     void errorMsgChanged();
 
-    void plasmoidActiveChanged();
+    void chargingChanged();
 
 private:
 
@@ -84,6 +85,8 @@ private:
     GfxModeCandidateList *previousList = nullptr;
 
     int m_realizing = -1;
+
+    const Solid::Battery *battery = nullptr;
 
 };
 

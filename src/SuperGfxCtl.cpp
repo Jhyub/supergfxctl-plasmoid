@@ -2,6 +2,8 @@
 #include "DaemonController.h"
 #include "GfxModeCandidate.h"
 #include <QtQml/QQmlEngine>
+#include <Solid/Device>
+#include <Solid/DeviceNotifier>
 
 SuperGfxCtl::SuperGfxCtl(QObject *parent, const KPluginMetaData &data, const QVariantList &args) : Plasma::Applet(parent, data, args) {
     auto &ctl = DaemonController::from();
@@ -17,6 +19,17 @@ SuperGfxCtl::SuperGfxCtl(QObject *parent, const KPluginMetaData &data, const QVa
     connect(&ctl, &DaemonController::pendingChanged, this, &SuperGfxCtl::pendingChanged);
     connect(&ctl, &DaemonController::errorMsgChanged, this, &SuperGfxCtl::errorMsgChanged);
     connect(&ctl, &DaemonController::setModeFinished, this, [this] { m_realizing = -1; emit realizingChanged(); });
+
+    auto notifier = Solid::DeviceNotifier::instance();
+    const auto devices = Solid::Device::listFromType(Solid::DeviceInterface::Battery, QString());
+    for (const Solid::Device &device: devices) {
+        auto batteryCandidate = device.as<Solid::Battery>();
+        if (batteryCandidate->type() == Solid::Battery::PrimaryBattery) {
+            battery = batteryCandidate;
+            break;
+        }
+    }
+    connect(battery, &Solid::Battery::chargeStateChanged, this, &SuperGfxCtl::chargingChanged);
 }
 
 bool SuperGfxCtl::isDaemonOutdated() const {
@@ -91,8 +104,9 @@ int SuperGfxCtl::realizing() const {
     return m_realizing;
 }
 
-bool SuperGfxCtl::isPlasmoidActive() const {
-    return true;
+bool SuperGfxCtl::isCharging() const {
+    if (battery == nullptr) return false;
+    return battery->chargeState() != Solid::Battery::Discharging;
 }
 
 K_PLUGIN_CLASS(SuperGfxCtl)

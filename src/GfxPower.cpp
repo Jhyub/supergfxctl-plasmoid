@@ -42,3 +42,13 @@ QString GfxPower::iconName() const {
             return {"supergfxctl-plasmoid-dgpu-off"};
     }
 }
+
+bool GfxPower::isActive() const {
+    switch (id) {
+        case ACTIVE:
+        case ASUS_MUX_DISCRETE:
+            return true;
+        default:
+            return false;
+    }
+}

@@ -6,5 +6,17 @@
         <entry name="showUnsupported" type="Bool">
             <default>true</default>
         </entry>
+        <entry name="statusActiveOnDischargeDGPUActive" type="Int">
+            <default>0</default>
+        </entry>
+        <entry name="statusActiveOnDischargeDGPUInactive" type="Int">
+            <default>0</default>
+        </entry>
+        <entry name="statusActiveOnChargeDGPUActive" type="Int">
+            <default>0</default>
+        </entry>
+        <entry name="statusActiveOnChargeDGPUInactive" type="Int">
+            <default>0</default>
+        </entry>
     </group>
 </kcfg>

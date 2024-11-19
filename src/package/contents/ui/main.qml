@@ -21,7 +21,24 @@ PlasmoidItem {
     Binding {
         target: plasmoid
         property: "status"
-        value: plasmoid.isPlasmoidActive ? PlasmaCore.Types.ActiveStatus : PlasmaCore.Types.PassiveStatus
+
+        function isPlasmoidActive() {
+            if (plasmoid.power.isActive) {
+                if (plasmoid.isCharging) {
+                    return plasmoid.configuration.statusActiveOnChargeDGPUActive === 0
+                } else {
+                    return plasmoid.configuration.statusActiveOnDischargeDGPUActive === 0
+                }
+            } else {
+                if (plasmoid.isCharging) {
+                    return plasmoid.configuration.statusActiveOnChargeDGPUInactive === 0
+                } else {
+                    return plasmoid.configuration.statusActiveOnDischargeDGPUInactive === 0
+                }
+            }
+        }
+
+        value: isPlasmoidActive() ? PlasmaCore.Types.ActiveStatus : PlasmaCore.Types.PassiveStatus
     }
     toolTipSubText: i18n("Graphics mode: %1, dGPU power: %2", plasmoid.mode.name, plasmoid.power.name)
     compactRepresentation: MouseArea {

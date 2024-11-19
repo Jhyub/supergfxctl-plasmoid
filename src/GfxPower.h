@@ -10,6 +10,7 @@ Q_OBJECT
     QML_UNCREATABLE("Is provided by backend")
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(QString iconName READ iconName CONSTANT)
+    Q_PROPERTY(bool isActive READ isActive CONSTANT)
 public:
     enum Id {
         ACTIVE, SUSPENDED, OFF, ASUS_DISABLED, ASUS_MUX_DISCRETE, UNKNOWN,
@@ -51,6 +52,8 @@ public:
     QString name() const;
 
     QString iconName() const;
+
+    bool isActive() const;
 
 private:
     explicit GfxPower(Id id) : id(id) {}
