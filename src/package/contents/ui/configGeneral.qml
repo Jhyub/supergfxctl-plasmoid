@@ -26,25 +26,25 @@ Kirigami.FormLayout {
     ComboBox {
         id: statusActiveOnDischargeDGPUActive
         Kirigami.FormData.label: i18n("dGPU active on battery:")
-        model: [i18n("Active"), i18n("Passive")]
+        model: [i18nc("config plasmoid display", "Active"), i18n("Passive")]
     }
 
     ComboBox {
         id: statusActiveOnDischargeDGPUInactive
         Kirigami.FormData.label: i18n("dGPU inactive on battery:")
-        model: [i18n("Active"), i18n("Passive")]
+        model: [i18nc("config plasmoid display", "Active"), i18n("Passive")]
     }
 
     ComboBox {
         id: statusActiveOnChargeDGPUActive
         Kirigami.FormData.label: i18n("dGPU active on AC:")
-        model: [i18n("Active"), i18n("Passive")]
+        model: [i18nc("config plasmoid display", "Active"), i18n("Passive")]
     }
 
     ComboBox {
         id: statusActiveOnChargeDGPUInactive
         Kirigami.FormData.label: i18n("dGPU inactive on AC:")
-        model: [i18n("Active"), i18n("Passive")]
+        model: [i18nc("config plasmoid display", "Active"), i18n("Passive")]
     }
 
     PlasmaComponents.Label {

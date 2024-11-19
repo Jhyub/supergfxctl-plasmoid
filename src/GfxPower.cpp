@@ -17,7 +17,7 @@ GfxPower &GfxPower::current() {
 QString GfxPower::name() const {
     switch (id) {
         case ACTIVE:
-            return i18n("Active");
+            return i18nc("gpu power", "Active");
         case SUSPENDED:
             return i18n("Suspended");
         case ASUS_DISABLED:

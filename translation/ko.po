@@ -33,6 +33,7 @@ msgid "Plasmoid Status"
 msgstr "Plasmoid 상태"
 
 #: ../contents/ui/configGeneral.qml
+msgctxt "config plasmoid display"
 msgid "Active"
 msgstr "활성"
 
@@ -143,6 +144,7 @@ msgstr "사용 불가능"
 msgid "Unsupported"
 msgstr "미지원"
 
+msgctxt "gpu power"
 msgid "Active"
 msgstr "활성"
 
