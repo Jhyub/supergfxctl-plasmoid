@@ -7,7 +7,7 @@ Built as a C++/QML Plasmoid
 
 - [x] Graphics mode switching
 - [x] dGPU power indication
-- [x] Dynamic plasmoid logo, tooltip
+- [x] Dynamic plasmoid logo, tooltip, status
 - [x] Filter available switches
 - [x] Display dbus error message
 - [x] Revert change
